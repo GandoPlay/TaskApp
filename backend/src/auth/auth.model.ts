@@ -1,18 +1,37 @@
 import * as mongoose from 'mongoose';
+enum typeTask {
+    NIGHT = 1,
+    CLEAN = 2,
+    AVTASH = 3
+}
+export const UserSchema = new mongoose.Schema({
+  username: { type: String, required: true },
+  password: { type: String, required: true },
+  rating: { type: Number, required: true },
 
-// ההסכמה של המוצר (איך רצוי שכל משתשמש יכניס מוצר)
-export const ProductSchema = new mongoose.Schema({
-  title: { type: String, required: true },
-  description: { type: String, required: true },
-  price: { type: Number, required: true },
 });
 
 
-// המודל של המוצר עליו משתשמשים בפעולות כמו find save delete
-// זה אמור להיות extends mongoose.Document אבל שעתיים ניסיתי ולא מוצא
-export interface Product {
+export const TaskSchema = new mongoose.Schema({
+    rating: { type: Number, required: true },
+    date: { type: Number, required: true },
+    type: { type: typeTask, required: true },
+
+  });
+
+
+
+export interface User {
   id: string;
-  title: string;
-  description: string;
-  price: number;
+  username: string;
+  password: string;
+  rating: number;
+  tasks: Task[]
+}
+export interface Task{
+    id: string;
+    rating: number;
+    date: number;
+    type: typeTask
+
 }
