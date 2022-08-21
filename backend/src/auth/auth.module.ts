@@ -10,4 +10,4 @@ import { AuthService } from './auth.service';
   providers: [AuthService],
   controllers: [AuthController]
 })
-export class ProductsModule {}
+export class AuthModule {}

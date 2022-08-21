@@ -21,14 +21,14 @@ export const TaskSchema = new mongoose.Schema({
 
 
 
-export interface User {
+export interface User extends Document{
   id: string;
   username: string;
   password: string;
   rating: number;
   tasks: Task[]
 }
-export interface Task{
+export interface Task extends Document{
     id: string;
     rating: number;
     date: number;
