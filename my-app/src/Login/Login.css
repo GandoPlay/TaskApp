@@ -6,32 +6,29 @@
   height: 969px;
   filter: brightness(70%);
   text-align: center;
-padding-top: 1%;
+  padding-top: 1%;
 }
 .divForInput {
-  
-  background-color: rgba(192, 192, 192, 0.651);
+  background-color: rgba(219, 219, 219, 0.651);
   padding: 40px;
   width: 50%;
   height: 350px;
   margin-left: 25%;
   justify-content: space-between;
   margin-top: 125px;
+  border-bottom-left-radius: 50%;
 }
 .input {
+  
   width: 50%;
   height: 70px;
-  border-radius: 30%;
-  font-size: x-large;
   margin-top: 10px;
-
-}.butoon{
-    margin-top: 50px;
+}
+.butoon {
+  margin-top: 50px;
 }
 
-
-@media screen and (max-width:650px){
-
+@media screen and (max-width: 650px) {
   .body {
     background-image: url("./images/screenshot.jpg");
     background-size: 100% 100%;
@@ -40,7 +37,6 @@ padding-top: 1%;
     height: 667px;
     filter: brightness(70%);
     text-align: center;
-  padding-top: 1%;
+    padding-top: 1%;
   }
-
 }
