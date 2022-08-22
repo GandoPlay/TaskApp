@@ -26,6 +26,7 @@ export interface User extends mongoose.Document{
   id: string;
   username: string;
   password: string;
+  hash: string;
   rating: number;
   tasks: Task[]
 }

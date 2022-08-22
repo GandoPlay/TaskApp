@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { ForbiddenException, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { User } from './auth.model';
@@ -13,12 +13,15 @@ export class AuthService {
       @InjectModel('User') private readonly userModel: Model<User>) {}
     async signUp(username: string, password: string){
       try{
+        
         const hash = await argon.hash(password)
         const user = new this.userModel({
           username,
           hash
         })
         const result = await user.save()
+        console.log('signup');
+        console.log(typeof result);
         return this.signToken(result.id, username)
       }
       catch(error){
@@ -26,8 +29,15 @@ export class AuthService {
       }
     }
     async login(username: string, password: string) {
-      const result = await this.userModel.find({$and: [{password: password}, {username: username}]})
-      return result;
+      const result = await this.userModel.find({username: username}).exec()
+      
+      console.log('login');
+      console.log( result);
+      
+      if(!result) throw new ForbiddenException('Credentials incorrect')
+      // const pwMatches = await argon.verify(result.hash, password)
+      //   if(!pwMatches) throw new ForbiddenException('Credentials incorrect')
+      //   return this.signToken(result.id, user.email)
       }
 
       async signToken(userId: string, username: string): Promise<{access_token: string}>{

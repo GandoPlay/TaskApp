@@ -10,9 +10,7 @@ export declare class AuthService {
     signUp(username: string, password: string): Promise<{
         access_token: string;
     }>;
-    login(username: string, password: string): Promise<(User & {
-        _id: import("mongoose").Types.ObjectId;
-    })[]>;
+    login(username: string, password: string): Promise<void>;
     signToken(userId: string, username: string): Promise<{
         access_token: string;
     }>;

@@ -33,6 +33,8 @@ let AuthService = class AuthService {
                 hash
             });
             const result = await user.save();
+            console.log('signup');
+            console.log(typeof result);
             return this.signToken(result.id, username);
         }
         catch (error) {
@@ -40,8 +42,11 @@ let AuthService = class AuthService {
         }
     }
     async login(username, password) {
-        const result = await this.userModel.find({ $and: [{ password: password }, { username: username }] });
-        return result;
+        const result = await this.userModel.find({ username: username }).exec();
+        console.log('login');
+        console.log(result);
+        if (!result)
+            throw new common_1.ForbiddenException('Credentials incorrect');
     }
     async signToken(userId, username) {
         const payload = {
