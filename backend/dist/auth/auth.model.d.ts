@@ -6,8 +6,9 @@ declare enum typeTask {
 }
 export declare const UserSchema: mongoose.Schema<any, mongoose.Model<any, any, any, any, any>, {}, {}, {}, {}, "type", {
     username: string;
-    password: string;
-    rating: number;
+    hash: string;
+    password?: string;
+    rating?: number;
 }>;
 export interface User extends mongoose.Document {
     id: string;

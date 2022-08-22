@@ -16,19 +16,52 @@ exports.AuthService = void 0;
 const common_1 = require("@nestjs/common");
 const mongoose_1 = require("@nestjs/mongoose");
 const mongoose_2 = require("mongoose");
+const argon = require("argon2");
+const jwt_1 = require("@nestjs/jwt");
+const config_1 = require("@nestjs/config");
 let AuthService = class AuthService {
-    constructor(userModel) {
+    constructor(jwt, config, userModel) {
+        this.jwt = jwt;
+        this.config = config;
         this.userModel = userModel;
+    }
+    async signUp(username, password) {
+        try {
+            const hash = await argon.hash(password);
+            const user = new this.userModel({
+                username,
+                hash
+            });
+            const result = await user.save();
+            return this.signToken(result.id, username);
+        }
+        catch (error) {
+            console.log(error);
+        }
     }
     async login(username, password) {
         const result = await this.userModel.find({ $and: [{ password: password }, { username: username }] });
         return result;
     }
+    async signToken(userId, username) {
+        const payload = {
+            sub: userId,
+            username,
+        };
+        const secret = this.config.get('JWT_SECRET');
+        const token = await this.jwt.signAsync(payload, { expiresIn: '15m',
+            secret: secret });
+        return {
+            access_token: token
+        };
+    }
 };
 AuthService = __decorate([
     (0, common_1.Injectable)(),
-    __param(0, (0, mongoose_1.InjectModel)('User')),
-    __metadata("design:paramtypes", [mongoose_2.Model])
+    __param(2, (0, mongoose_1.InjectModel)('User')),
+    __metadata("design:paramtypes", [jwt_1.JwtService,
+        config_1.ConfigService,
+        mongoose_2.Model])
 ], AuthService);
 exports.AuthService = AuthService;
 //# sourceMappingURL=auth.service.js.map

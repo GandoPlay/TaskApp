@@ -6,8 +6,9 @@ enum typeTask {
 }
 export const UserSchema = new mongoose.Schema({
   username: { type: String, required: true },
-  password: { type: String, required: true },
-  rating: { type: Number, required: true },
+  hash: { type: String, required: true },
+  password: { type: String, required: false },
+  rating: { type: Number, required: false },
 
 });
 
