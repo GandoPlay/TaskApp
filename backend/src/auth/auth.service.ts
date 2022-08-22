@@ -7,8 +7,9 @@ import { User } from './auth.model';
 export class AuthService {
     constructor(@InjectModel('User') private readonly userModel: Model<User>) {}
     async login(username: string, password: string) {
-      const result = this.userModel.findOne({username: username, password: password})
+      const result = await this.userModel.find({$and: [{password: password}, {username: username}]})
       console.log(result);
+      
       
       }
 }
