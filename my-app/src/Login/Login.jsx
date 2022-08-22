@@ -1,33 +1,26 @@
 import React from "react";
 import { Input, Button } from "@chakra-ui/react";
 import "./Login.css";
-import { useState } from "react";
-import { useHistory } from "react-router-dom";
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
+import axios from "axios";
 function Login() {
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
-  const history = useHistory();
-  useEffect(() => {
-    if (localStorage.getItem("user-info")) {
-      history.push("/login");
-    }
-  }, []);
-function login(){
 
-  console.log(name,password);
-  let item={name,password}
-  let resolt =await fetch("/*insert API*/",{
-    method:'POST',
-    headers:{
-      
-    },
-    body:JSON.stringify(item)
-  });
-  resolt=await resolt.json();
-  localStorage.setItem("",JSON.stringify(resolt))
-history.push("/login")
-}
+  const login = () => {
+    console.log({ name, password });
+    axios
+      .post("http://localhost:3001/auth/signup", {
+        username: name,
+        password: password,
+      })
+      .then((result) => {
+        console.log(result);
+      })
+      .catch((error) => {
+        console.error();
+      });
+  };
 
   return (
     <div className="body">
@@ -45,7 +38,9 @@ history.push("/login")
           onChange={(e) => setPassword(e.target.value)}
         />
         <div className="butoon">
-          <Button onClick={login} colorScheme="gray">Log in</Button>
+          <Button onClick={login} colorScheme="gray">
+            Log in
+          </Button>
         </div>
       </div>
     </div>
