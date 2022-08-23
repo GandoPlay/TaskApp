@@ -31,6 +31,9 @@ export class JwtStrategy extends PassportStrategy(
   }) {
     const result = await this.userModel.find({id: payload.sub}).exec();
     const user = result[0];
+    console.log('USER');
+    console.log(user);
+    
     delete user.hash;
     return user;
   }
