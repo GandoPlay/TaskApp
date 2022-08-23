@@ -8,8 +8,8 @@ import { JwtStrategy } from './strategy';
 
 @Module({
     // חיבור לאטלס לפי סיסמא זהות וip
-  imports: [JwtModule.register({}), MongooseModule.forFeature([{name: 'User', schema: authSchema}])],
-  providers: [AuthService],
-  controllers: [AuthController, JwtStrategy]
+  imports: [MongooseModule.forFeature([{name: 'User', schema: authSchema}]),JwtModule.register({}) ],
+  controllers: [AuthController],
+  providers: [AuthService,JwtStrategy]
 })
 export class AuthModule {}

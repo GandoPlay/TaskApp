@@ -18,9 +18,9 @@ let AuthModule = class AuthModule {
 };
 AuthModule = __decorate([
     (0, common_1.Module)({
-        imports: [jwt_1.JwtModule.register({}), mongoose_1.MongooseModule.forFeature([{ name: 'User', schema: auth_model_1.authSchema }])],
-        providers: [auth_service_1.AuthService],
-        controllers: [auth_controller_1.AuthController, strategy_1.JwtStrategy]
+        imports: [mongoose_1.MongooseModule.forFeature([{ name: 'User', schema: auth_model_1.authSchema }]), jwt_1.JwtModule.register({})],
+        controllers: [auth_controller_1.AuthController],
+        providers: [auth_service_1.AuthService, strategy_1.JwtStrategy]
     })
 ], AuthModule);
 exports.AuthModule = AuthModule;

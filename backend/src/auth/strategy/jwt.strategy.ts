@@ -5,7 +5,7 @@ import { PassportStrategy } from '@nestjs/passport';
 import { Model } from 'mongoose';
 import {
   ExtractJwt,
-  Strategy,
+  Strategy, 
 } from 'passport-jwt';
 import { User } from '../auth.model';
 
