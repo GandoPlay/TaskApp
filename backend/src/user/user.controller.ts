@@ -16,4 +16,9 @@ export class UserController {
   getMe(@GetUser() user: User) {
     return user;
   }
+
+  @Get('getUsers')
+  getUsers() {
+    return this.userService.getUsers();
+  }
 }
