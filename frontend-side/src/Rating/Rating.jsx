@@ -41,12 +41,13 @@ const FetchRatings = () => {
           {data?.data.map((user) => {
             return (
               <div className="list" key={user.id}>
-                <Tbody>
+                <Tbody >
                   <Tr>
                     <Td>{user.id}</Td>
                     <Td> {user.name} </Td>
                     <Td isNumeric> {user.score}</Td>
                   </Tr>
+                  <hr />
                 </Tbody>
               </div>
             );
