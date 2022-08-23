@@ -20,8 +20,6 @@ export class AuthService {
           hash
         })
         const result = await user.save()
-        console.log('signup');
-        console.log(typeof result);
         return this.signToken(result.id, username)
       }
       catch(error){
@@ -31,13 +29,12 @@ export class AuthService {
     async login(username: string, password: string) {
       const result = await this.userModel.find({username: username}).exec()
       
-      console.log('login');
-      console.log( result);
       
       if(!result) throw new ForbiddenException('Credentials incorrect')
-      // const pwMatches = await argon.verify(result.hash, password)
-      //   if(!pwMatches) throw new ForbiddenException('Credentials incorrect')
-      //   return this.signToken(result.id, user.email)
+      const data = result[0];
+      const pwMatches = await argon.verify(data.hash, password)
+        if(!pwMatches) throw new ForbiddenException('Credentials incorrect')
+        return this.signToken(data.id, data.username)
       }
 
       async signToken(userId: string, username: string): Promise<{access_token: string}>{
