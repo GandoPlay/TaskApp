@@ -1,41 +1,25 @@
 import React from "react";
 import "./Rating.css";
-import { useEffect, useState } from "react";
+import { useQuery } from 'react-query'
+import axios from 'axios'
 
-function Rating() {
-  const [data, setData] = useState([]);
+function FetchRatings {
+  const {isLoading, data} = useQuery('user-score',()=>{
+    return axios.get('http://localhost:3500/items')
+  })
 
-  useEffect(() => {
-    async function listRating() {
-      let url = "http://localhost:3500/items";
-      let reponse = await fetch(url);
-      let reponseJSON = await reponse.json();
-      setData(reponseJSON);
-    }
-    console.log(data);
-    listRating();
-  }, []);
-  if (!data) {
-    return (
-      <div>
-        <h1>loding...</h1>
-      </div>
-    );
+  if(isLoading){
+    return <h2>Loading</h2>
   }
-  const { sorldiersList } = data;
   return (
-    <div>
-      <h1>Rating</h1>
-
-      <ul className="post-list">
-        {sorldiersList.map(post => (
-          <li key={post.id}>
-            {post.name}-------{post.score}
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
+    <>
+    <h2>Our data</h2>
+    {data?.data.map((user) =>{
+      return <div key = {user.id}> {user.name} {user.score}</div>
+    })
+      
+    }
+    </>
+  )
 }
-
-export default Rating;
+export default FetchRatings;
