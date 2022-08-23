@@ -1,0 +1,18 @@
+.heder{
+    font-size: xx-large;
+    text-align: center;
+    margin-block-end: 70px;
+}.list{
+    text-align: center;
+}.plases{
+    display: flex;
+    background-color: yellow;
+    justify-content: space-around;
+    
+}.place1{
+font-size: 50px
+}.place2{
+    font-size:35px ;
+}.place3{
+    font-size: 25px;
+}
