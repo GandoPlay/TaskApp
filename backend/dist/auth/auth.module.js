@@ -13,13 +13,14 @@ const mongoose_1 = require("@nestjs/mongoose");
 const auth_controller_1 = require("./auth.controller");
 const auth_model_1 = require("./auth.model");
 const auth_service_1 = require("./auth.service");
+const strategy_1 = require("./strategy");
 let AuthModule = class AuthModule {
 };
 AuthModule = __decorate([
     (0, common_1.Module)({
-        imports: [jwt_1.JwtModule.register({}), mongoose_1.MongooseModule.forFeature([{ name: 'User', schema: auth_model_1.UserSchema }])],
+        imports: [jwt_1.JwtModule.register({}), mongoose_1.MongooseModule.forFeature([{ name: 'User', schema: auth_model_1.authSchema }])],
         providers: [auth_service_1.AuthService],
-        controllers: [auth_controller_1.AuthController]
+        controllers: [auth_controller_1.AuthController, strategy_1.JwtStrategy]
     })
 ], AuthModule);
 exports.AuthModule = AuthModule;

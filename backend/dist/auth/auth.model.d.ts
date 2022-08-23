@@ -1,19 +1,21 @@
 import * as mongoose from 'mongoose';
-declare enum typeTask {
-    NIGHT = 0,
-    CLEAN = 1,
-    AVTASH = 2
+declare enum Role {
+    AVTASH = "AVTASH",
+    CLEAN = "CLEAN",
+    NIGHT = "NIGHT"
 }
-export declare const UserSchema: mongoose.Schema<any, mongoose.Model<any, any, any, any, any>, {}, {}, {}, {}, "type", {
+export declare const authSchema: mongoose.Schema<any, mongoose.Model<any, any, any, any, any>, {}, {}, {}, {}, "type", {
     username: string;
     hash: string;
-    password?: string;
-    rating?: number;
+}>;
+export declare const TaskSchema: mongoose.Schema<any, mongoose.Model<any, any, any, any, any>, {}, {}, {}, {}, "type", {
+    type: string;
+    date: number;
+    rating: number;
 }>;
 export interface User extends mongoose.Document {
     id: string;
     username: string;
-    password: string;
     hash: string;
     rating: number;
     tasks: Task[];
@@ -22,6 +24,6 @@ export interface Task extends mongoose.Document {
     id: string;
     rating: number;
     date: number;
-    type: typeTask;
+    type: Role;
 }
 export {};

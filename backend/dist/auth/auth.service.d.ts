@@ -10,7 +10,9 @@ export declare class AuthService {
     signUp(username: string, password: string): Promise<{
         access_token: string;
     }>;
-    login(username: string, password: string): Promise<void>;
+    login(username: string, password: string): Promise<{
+        access_token: string;
+    }>;
     signToken(userId: string, username: string): Promise<{
         access_token: string;
     }>;
