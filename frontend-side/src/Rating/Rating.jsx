@@ -10,9 +10,14 @@ import {
   Box,
 } from "@chakra-ui/react";
 import NavBar from "../navBar/NavBar";
+ function sortById(data) {
+  return [...data].sort(function(a, b) {
+    return (a.id - b.id);
+});
+}
 const FetchRatings = () => {
   const { isLoading, data } = useQuery("user-score", () => {
-    return axios.get("http://localhost:3500/items");
+    return axios.get("http://localhost:3500/items?_sort=score&_order=desc");
   });
   //return this ahfter finish
   // if (isLoading) {
@@ -22,9 +27,15 @@ const FetchRatings = () => {
     <>
      <NavBar/>
       <div className="plases">
-        <p className="place2">מקום שני</p>
-        <p className="place1">מקום ראשון</p>
-        <p className="place3">מקום שלישי</p>
+        <p className="place2">מקום שני
+        <p>{data?.data[1].name}</p>
+        </p>
+        <p className="place1">מקום ראשון
+        <p>{data?.data[0].name}</p>
+        </p>
+        <p className="place3">מקום שלישי
+        <p>{data?.data[2].name}</p>
+        </p>
       </div>
       <TableContainer>
         <Table variant="striped" colorScheme="teal">
@@ -55,7 +66,7 @@ const FetchRatings = () => {
               </Box>
             </SimpleGrid>
           </Thead>
-          {data?.data.map((user) => {
+          {data?sortById(data.data).map((user) => {
             return (
               <div className="list" key={user.id}>
                 <Box
@@ -75,7 +86,7 @@ const FetchRatings = () => {
                 </Box>
               </div>
             );
-          })}
+          }):''}
         </Table>
       </TableContainer>
     </>
