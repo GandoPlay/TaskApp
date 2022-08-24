@@ -9,6 +9,7 @@ import {
   SimpleGrid,
   Box,
 } from "@chakra-ui/react";
+import NavBar from "../navBar/NavBar";
 const FetchRatings = () => {
   const { isLoading, data } = useQuery("user-score", () => {
     return axios.get("http://localhost:3500/items");
@@ -19,7 +20,7 @@ const FetchRatings = () => {
   // }
   return (
     <>
-     
+     <NavBar/>
       <div className="plases">
         <p className="place2">מקום שני</p>
         <p className="place1">מקום ראשון</p>

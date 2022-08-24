@@ -10,6 +10,7 @@ function App() {
   return (
     <BrowserRouter>
       <ChakraProvider>
+        
         <Routes>
           <Route path="/" element={<Login />} />
           <Route path="/rating" element={<FetchRatings />} />
