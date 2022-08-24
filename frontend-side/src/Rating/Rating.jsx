@@ -73,14 +73,6 @@ const FetchRatings = () => {
                     {user.score}
                   </p>
                 </Box>
-                {/* <Tbody>
-                  <Tr>
-                    <Td>{user.id}</Td>
-                    <Td> {user.name} </Td>
-                    <Td isNumeric> {user.score}</Td>
-                  </Tr>
-                  <hr />
-                </Tbody> */}
               </div>
             );
           })}
