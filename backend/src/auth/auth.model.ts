@@ -1,8 +1,8 @@
 import * as mongoose from 'mongoose';
 enum Role {
-  AVTASH = 'AVTASH',
-  CLEAN = 'CLEAN',
-  NIGHT = 'NIGHT'
+  AVTASH = 25,
+  CLEAN = 2,
+  NIGHT = 5
 } 
 
 export const authSchema = new mongoose.Schema({
@@ -13,7 +13,6 @@ export const authSchema = new mongoose.Schema({
 
 
 export const TaskSchema = new mongoose.Schema({
-    rating: { type: Number, required: true },
     date: { type: Number, required: true },
     type: { type: String, enum : Role, required: true },
 

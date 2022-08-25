@@ -1,8 +1,8 @@
 import * as mongoose from 'mongoose';
 declare enum Role {
-    AVTASH = "AVTASH",
-    CLEAN = "CLEAN",
-    NIGHT = "NIGHT"
+    AVTASH = 25,
+    CLEAN = 2,
+    NIGHT = 5
 }
 export declare const authSchema: mongoose.Schema<any, mongoose.Model<any, any, any, any, any>, {}, {}, {}, {}, "type", {
     username: string;
@@ -11,7 +11,6 @@ export declare const authSchema: mongoose.Schema<any, mongoose.Model<any, any, a
 export declare const TaskSchema: mongoose.Schema<any, mongoose.Model<any, any, any, any, any>, {}, {}, {}, {}, "type", {
     type: string;
     date: number;
-    rating: number;
 }>;
 export interface User extends mongoose.Document {
     id: string;

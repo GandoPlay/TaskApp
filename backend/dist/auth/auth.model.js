@@ -4,16 +4,15 @@ exports.TaskSchema = exports.authSchema = void 0;
 const mongoose = require("mongoose");
 var Role;
 (function (Role) {
-    Role["AVTASH"] = "AVTASH";
-    Role["CLEAN"] = "CLEAN";
-    Role["NIGHT"] = "NIGHT";
+    Role[Role["AVTASH"] = 25] = "AVTASH";
+    Role[Role["CLEAN"] = 2] = "CLEAN";
+    Role[Role["NIGHT"] = 5] = "NIGHT";
 })(Role || (Role = {}));
 exports.authSchema = new mongoose.Schema({
     username: { type: String, required: true },
     hash: { type: String, required: true },
 });
 exports.TaskSchema = new mongoose.Schema({
-    rating: { type: Number, required: true },
     date: { type: Number, required: true },
     type: { type: String, enum: Role, required: true },
 });

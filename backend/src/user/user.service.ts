@@ -10,5 +10,9 @@ export class UserService {
         const users = await this.userModel.find({}).exec()
         return users;
       }
+
+
+
+      
 }
  

@@ -21,4 +21,5 @@ export class UserController {
   getUsers() {
     return this.userService.getUsers();
   }
+
 }
