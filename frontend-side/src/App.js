@@ -5,7 +5,7 @@ import { BrowserRouter } from "react-router-dom";
 import * as React from "react";
 import { ChakraProvider } from "@chakra-ui/react";
 import FetchRatings from "./Rating/Rating";
-
+import ProtectedRoutes from "./protectedRoutes";
 function App() {
   return (
     <BrowserRouter>
@@ -13,7 +13,10 @@ function App() {
         
         <Routes>
           <Route path="/" element={<Login />} />
-          <Route path="/rating" element={<FetchRatings />} />
+          <Route element={<ProtectedRoutes />}>
+              <Route path="/rating" element={<FetchRatings />} />
+            </Route>
+
         </Routes>
       </ChakraProvider>
     </BrowserRouter>
