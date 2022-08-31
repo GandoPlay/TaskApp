@@ -14,34 +14,34 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AuthController = void 0;
 const common_1 = require("@nestjs/common");
+const UserCreate_dto_1 = require("../dto/User/UserCreate.dto");
+const UserLogin_dto_1 = require("../dto/User/UserLogin.dto");
 const auth_service_1 = require("./auth.service");
 let AuthController = class AuthController {
     constructor(authService) {
         this.authService = authService;
     }
-    async login(username, password) {
-        return this.authService.login(username, password);
+    async signup(userCreatedto) {
+        return this.authService.signUp(userCreatedto);
     }
-    async signup(username, password) {
-        return this.authService.signUp(username, password);
+    async login(userLoginDto) {
+        return this.authService.login(userLoginDto);
     }
 };
 __decorate([
-    (0, common_1.Post)('login'),
-    __param(0, (0, common_1.Body)('username')),
-    __param(1, (0, common_1.Body)('password')),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, String]),
-    __metadata("design:returntype", Promise)
-], AuthController.prototype, "login", null);
-__decorate([
     (0, common_1.Post)('signup'),
-    __param(0, (0, common_1.Body)('username')),
-    __param(1, (0, common_1.Body)('password')),
+    __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, String]),
+    __metadata("design:paramtypes", [UserCreate_dto_1.UserCreateDto]),
     __metadata("design:returntype", Promise)
 ], AuthController.prototype, "signup", null);
+__decorate([
+    (0, common_1.Post)('login'),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [UserLogin_dto_1.UserLoginDto]),
+    __metadata("design:returntype", Promise)
+], AuthController.prototype, "login", null);
 AuthController = __decorate([
     (0, common_1.Controller)('auth'),
     __metadata("design:paramtypes", [auth_service_1.AuthService])

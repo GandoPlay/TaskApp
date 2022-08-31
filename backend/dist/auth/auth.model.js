@@ -7,6 +7,7 @@ var Role;
     Role[Role["AVTASH"] = 25] = "AVTASH";
     Role[Role["CLEAN"] = 2] = "CLEAN";
     Role[Role["NIGHT"] = 5] = "NIGHT";
+    Role[Role["HANFZA"] = 10] = "HANFZA";
 })(Role || (Role = {}));
 exports.authSchema = new mongoose.Schema({
     username: { type: String, required: true },

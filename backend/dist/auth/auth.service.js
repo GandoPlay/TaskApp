@@ -25,26 +25,24 @@ let AuthService = class AuthService {
         this.config = config;
         this.userModel = userModel;
     }
-    async signUp(username, password) {
+    async signUp(userCreatedto) {
         try {
-            const hash = await argon.hash(password);
-            const user = new this.userModel({
-                username,
-                hash
-            });
-            const result = await user.save();
-            return this.signToken(result.id, username);
+            userCreatedto.hash = await argon.hash(userCreatedto.password);
+            delete userCreatedto.password;
+            const newUser = new this.userModel(userCreatedto);
+            const result = await newUser.save();
+            return this.signToken(result.id, result.username);
         }
         catch (error) {
             console.log(error);
         }
     }
-    async login(username, password) {
-        const result = await this.userModel.find({ username: username }).exec();
+    async login(userLoginDto) {
+        const result = await this.userModel.find({ username: userLoginDto.username }).exec();
         if (!result)
             throw new common_1.ForbiddenException('Credentials incorrect');
         const data = result[0];
-        const pwMatches = await argon.verify(data.hash, password);
+        const pwMatches = await argon.verify(data.hash, userLoginDto.password);
         if (!pwMatches)
             throw new common_1.ForbiddenException('Credentials incorrect');
         return this.signToken(data.id, data.username);
@@ -64,7 +62,7 @@ let AuthService = class AuthService {
 };
 AuthService = __decorate([
     (0, common_1.Injectable)(),
-    __param(2, (0, mongoose_1.InjectModel)('User')),
+    __param(2, (0, mongoose_1.InjectModel)('UserAuth')),
     __metadata("design:paramtypes", [jwt_1.JwtService,
         config_1.ConfigService,
         mongoose_2.Model])

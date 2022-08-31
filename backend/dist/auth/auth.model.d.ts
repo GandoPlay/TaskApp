@@ -2,7 +2,8 @@ import * as mongoose from 'mongoose';
 declare enum Role {
     AVTASH = 25,
     CLEAN = 2,
-    NIGHT = 5
+    NIGHT = 5,
+    HANFZA = 10
 }
 export declare const authSchema: mongoose.Schema<any, mongoose.Model<any, any, any, any, any>, {}, {}, {}, {}, "type", {
     username: string;

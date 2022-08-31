@@ -11,16 +11,16 @@ const common_1 = require("@nestjs/common");
 const jwt_1 = require("@nestjs/jwt");
 const mongoose_1 = require("@nestjs/mongoose");
 const auth_controller_1 = require("./auth.controller");
-const auth_model_1 = require("./auth.model");
 const auth_service_1 = require("./auth.service");
-const strategy_1 = require("./strategy");
+const User_schema_1 = require("../schemas/User.schema");
+const User_schema_2 = require("../schemas/User.schema");
 let AuthModule = class AuthModule {
 };
 AuthModule = __decorate([
     (0, common_1.Module)({
-        imports: [mongoose_1.MongooseModule.forFeature([{ name: 'User', schema: auth_model_1.authSchema }]), jwt_1.JwtModule.register({})],
+        imports: [mongoose_1.MongooseModule.forFeature([{ name: User_schema_1.UserAuth.name, schema: User_schema_2.UserAuthSchema }]), jwt_1.JwtModule.register({})],
         controllers: [auth_controller_1.AuthController],
-        providers: [auth_service_1.AuthService, strategy_1.JwtStrategy]
+        providers: [auth_service_1.AuthService]
     })
 ], AuthModule);
 exports.AuthModule = AuthModule;

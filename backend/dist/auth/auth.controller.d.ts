@@ -1,11 +1,13 @@
+import { UserCreateDto } from 'src/dto//User/UserCreate.dto';
+import { UserLoginDto } from 'src/dto/User/UserLogin.dto';
 import { AuthService } from './auth.service';
 export declare class AuthController {
     private readonly authService;
     constructor(authService: AuthService);
-    login(username: string, password: string): Promise<{
+    signup(userCreatedto: UserCreateDto): Promise<{
         access_token: string;
     }>;
-    signup(username: string, password: string): Promise<{
+    login(userLoginDto: UserLoginDto): Promise<{
         access_token: string;
     }>;
 }

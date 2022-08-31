@@ -1,18 +1,21 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
-import { Document } from "mongoose";
+import mongoose, { Document } from "mongoose";
 import { Role } from "../Task.enum";
+import { Task, TaskDocument } from "./Task.schema";
 
 
-export type EmployeeDocument = UserAuth & Document;
+export type UserDocument = UserAuth & Document;
 
 @Schema()
 export class UserAuth {
-    @Prop()
-    id: string
     @Prop({ required: true })
     username: string
-    @Prop({ required: true })
+    @Prop()
     hash: string
+    @Prop()
+    password: string
+    @Prop({ type:[{type: mongoose.Schema.Types.ObjectId, ref: 'Task' }]})
+    tasks: TaskDocument[]
 
 
 }
