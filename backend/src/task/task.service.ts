@@ -10,12 +10,24 @@ export class TaskService {
     async addTask(TaskCreatedto: TaskCreateDto): Promise<Task> {
       let newTask = new this.taskModel(TaskCreatedto);
       const result = await newTask.save();
+      //const temp = {...result};
       const populatedTask = await result.populate('owner');
-      const owner = populatedTask.owner;
-      owner.tasks.push(result);
-      await owner.save();
+      const ownerTask = populatedTask.owner;
+      ownerTask.tasks.push(result._id);
+      await ownerTask.save();
       return result;
   }
+
+  // async removeTask(TaskCreatedto: TaskCreateDto){
+  //  this.taskModel.findByIdAndDelete(TaskCreatedto.id,function(err,task){
+  //   if(err){
+  //     return err;
+  //   }
+  //   else{
+  //     return task
+  //   }
+  //  });
+//}
     // async addTask(date: number, type: String, user: User){
     //     try{
     //       const task = new this.taskModel({

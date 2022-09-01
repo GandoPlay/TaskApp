@@ -13,6 +13,11 @@ export class TaskController {
         async CreateTask(@Body()  taskCreateDto : TaskCreateDto ){
         return this.taskService.addTask(taskCreateDto)
         }
+
+        // @Post('RemoveTask')
+        // async removeTask(@Body()  taskCreateDto : TaskCreateDto ){
+        // return this.taskService.removeTask(taskCreateDto)
+        // }
         // @Post('addTask')
         // async addTask(@GetUser() Wuser: User, 
         // @Body ('date') date:number,

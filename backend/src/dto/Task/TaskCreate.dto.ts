@@ -5,8 +5,9 @@ export class TaskCreateDto{
     id: string
     @IsNotEmpty()
     date: number
-    @IsIn(Object.values(Role))
-    type: Role
+    // @IsIn(Object.values(Role))
+    // type: Role
+    type: number
     @IsNotEmpty()
     owner: string
 
