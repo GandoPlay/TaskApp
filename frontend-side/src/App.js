@@ -6,17 +6,21 @@ import * as React from "react";
 import { ChakraProvider } from "@chakra-ui/react";
 import FetchRatings from "./Rating/Rating";
 import ProtectedRoutes from "./protectedRoutes";
+import DateTable from "./DateTable/DateTable";
+//for date
+
+
+
 function App() {
   return (
     <BrowserRouter>
       <ChakraProvider>
-        
         <Routes>
           <Route path="/" element={<Login />} />
           <Route element={<ProtectedRoutes />}>
-              <Route path="/rating" element={<FetchRatings />} />
-            </Route>
-
+            <Route path="/rating" element={<FetchRatings />} />
+            <Route path="/dateTable" element={<DateTable />} />
+          </Route>
         </Routes>
       </ChakraProvider>
     </BrowserRouter>
