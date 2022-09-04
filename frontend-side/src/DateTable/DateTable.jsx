@@ -1,14 +1,13 @@
 import React from "react";
-import { Calendar } from "react-big-calendar";
-
-import { calendar, dateFnsLocalizer } from "react-big-calendar";
+import "./DateTable.css";
+import { Calendar, dateFnsLocalizer } from "react-big-calendar";
 import format from "date-fns/format";
 import parse from "date-fns/parse";
 import startOfWeek from "date-fns/startOfWeek";
 import getDay from "date-fns/getDay";
 import "react-big-calendar/lib/css/react-big-calendar.css";
-import "./DateTable.css";
-// import locales from "date-fns";
+import { useState } from "react";
+import DatePicker from "react-datepicker";
 const locales = {
   "en-US": require("date-fns/locale/en-US"),
 };
@@ -17,40 +16,42 @@ const localizer = dateFnsLocalizer({
   parse,
   startOfWeek,
   getDay,
-  locales
+  locales,
 });
 
 const events = [
   {
-    titel: "neriya",
+    title: "neriya",
     allDay: true,
     start: new Date(2022, 8, 6),
     end: new Date(2022, 8, 10),
   },
   {
-    titel: "raz",
+    title: "raz",
     start: new Date(2022, 8, 12),
     end: new Date(2022, 8, 15),
   },
   {
-    titel: "ben",
+    title: "ben",
     start: new Date(2022, 8, 20),
     end: new Date(2022, 8, 23),
   },
 ];
 
 function DateTable() {
+  const [newEvent, setNewEvent] = useState({ title: "", start: "", end: "" });
+  const [allEvent, setAllEvent] = useState(events);
+
   return (
     <div className="">
       <div className="date">
-      
         <Calendar
           className="calendardate"
           localizer={localizer}
-          events={events}
+          events={allEvent}
           startAccessor="start"
           endAccessor="end"
-          style={{ height:500, margin: "50px" }}
+          style={{ height: 500, margin: "50px" }}
         />
       </div>
       <div className="buttons">
