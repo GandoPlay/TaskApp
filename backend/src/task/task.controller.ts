@@ -4,7 +4,7 @@ import { JwtGuard } from 'src/auth/guard';
 import { Role } from 'src/Task.enum';
 import { TaskService } from './task.service';
 import {TaskCreateDto} from 'src/dto/Task/TaskCreate.dto'
-// @UseGuards(JwtGuard)
+@UseGuards(JwtGuard)
 @Controller('task')
 export class TaskController {
     constructor(private readonly taskService: TaskService){}    

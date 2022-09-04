@@ -30,10 +30,8 @@ export class JwtStrategy extends PassportStrategy(
     sub: number;
     username: string;
   }) {
-    const result = await this.userModel.find({id: payload.sub}).exec();
-    const user = result[0];
-
-    
+    const result = await this.userModel.findById(payload.sub)
+    const user = result;
     delete user.hash;
     return user;
   }

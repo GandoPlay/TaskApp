@@ -13,7 +13,8 @@ export class UserService {
 
     async getTasks(user) {
       console.log(user)
-      return await user.populate('tasks').tasks
+      const userPopulated = await user.populate('tasks')
+      return userPopulated.tasks
     }
 
 
