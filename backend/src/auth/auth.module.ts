@@ -10,7 +10,6 @@ import {UserAuthSchema} from '../schemas/User.schema'
     // חיבור לאטלס לפי סיסמא זהות וip
   imports: [MongooseModule.forFeature([{name: UserAuth.name, schema: UserAuthSchema}]),JwtModule.register({}) ],
   controllers: [AuthController],
- // providers: [AuthService,JwtStrategy]
- providers: [AuthService]
+  providers: [AuthService,JwtStrategy],
 })
 export class AuthModule {}

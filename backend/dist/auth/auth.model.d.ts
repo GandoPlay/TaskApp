@@ -10,8 +10,8 @@ export declare const authSchema: mongoose.Schema<any, mongoose.Model<any, any, a
     hash: string;
 }>;
 export declare const TaskSchema: mongoose.Schema<any, mongoose.Model<any, any, any, any, any>, {}, {}, {}, {}, "type", {
-    type: string;
     date: number;
+    type: string;
 }>;
 export interface User extends mongoose.Document {
     id: string;

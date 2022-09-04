@@ -7,7 +7,8 @@ import {
   ExtractJwt,
   Strategy, 
 } from 'passport-jwt';
-import { User } from '../auth.model';
+import { UserDocument } from 'src/schemas/User.schema';
+
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(
@@ -16,7 +17,7 @@ export class JwtStrategy extends PassportStrategy(
 ) {
   constructor(
     config: ConfigService,
-      @InjectModel('User') private readonly userModel: Model<User>) 
+      @InjectModel('UserAuth') private readonly userModel: Model<UserDocument>) 
    {
     super({
       jwtFromRequest:
@@ -31,8 +32,7 @@ export class JwtStrategy extends PassportStrategy(
   }) {
     const result = await this.userModel.find({id: payload.sub}).exec();
     const user = result[0];
-    console.log('USER');
-    console.log(user);
+
     
     delete user.hash;
     return user;

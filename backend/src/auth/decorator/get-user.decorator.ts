@@ -14,6 +14,10 @@ export const GetUser = createParamDecorator(
     if (data) {
       return request.user[data];
     }
+    console.log('HERE');
+    console.log(request.user);
+    
+    
     return request.user;
   },
 );

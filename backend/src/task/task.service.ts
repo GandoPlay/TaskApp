@@ -24,14 +24,8 @@ export class TaskService {
    const task = await this.taskModel.findById(TaskCreatedto.id);
    const populatedTask = await task.populate('owner');
    const ownerTask = populatedTask.owner;
-   
-    console.log(ownerTask.tasks[0]._id.toString());
-    console.log(TaskCreatedto.id);
-    console.log((ownerTask.tasks[0]._id.toString() === TaskCreatedto.id))
-
-
-
-   ownerTask.tasks.filter(t=>{ return t._id.toString() !== TaskCreatedto.id});
+   ownerTask.tasks = ownerTask.tasks.filter(t=>{ 
+   return t._id.toString() !== TaskCreatedto.id});
    await ownerTask.save();
    
   //  this.taskModel.deleteOne({id: TaskCreatedto.id});
