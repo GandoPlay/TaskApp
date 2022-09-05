@@ -27,9 +27,4 @@ export class UserController {
     return this.userService.getTasks(user)
   }
 
-  @Get('refresh')
-  refresh(@GetUser() user: UserDocument) {
-    return this.userService.refreshTokens(user)
-  }
-
 }

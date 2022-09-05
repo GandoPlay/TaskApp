@@ -7,14 +7,16 @@ import {TaskCreateDto} from 'src/dto/Task/TaskCreate.dto'
 export class TaskService {
     constructor(@InjectModel('Task') private readonly taskModel: Model<TaskDocument>){}
 
-    async addTask(TaskCreatedto: TaskCreateDto): Promise<Task> {
+    async addTask(TaskCreatedto: TaskCreateDto, owner): Promise<Task> {
       let newTask = new this.taskModel(TaskCreatedto);
       const result = await newTask.save();
       //const temp = {...result};
-      const populatedTask = await result.populate('owner');
-      const ownerTask = populatedTask.owner;
-      ownerTask.tasks.push(result._id);
-      await ownerTask.save();
+      owner.tasks.push(result._id)
+      owner.save()
+      // const populatedTask = await result.populate('owner');
+      // const ownerTask = populatedTask.owner;
+      // ownerTask.tasks.push(result._id);
+      // await ownerTask.save();
       return result;
   }
 

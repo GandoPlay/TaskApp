@@ -17,6 +17,7 @@ const common_1 = require("@nestjs/common");
 const UserCreate_dto_1 = require("../dto/User/UserCreate.dto");
 const UserLogin_dto_1 = require("../dto/User/UserLogin.dto");
 const auth_service_1 = require("./auth.service");
+const decorator_1 = require("./decorator");
 let AuthController = class AuthController {
     constructor(authService) {
         this.authService = authService;
@@ -26,6 +27,9 @@ let AuthController = class AuthController {
     }
     async login(userLoginDto) {
         return this.authService.login(userLoginDto);
+    }
+    refresh(user) {
+        return this.authService.refreshTokens(user);
     }
 };
 __decorate([
@@ -42,6 +46,13 @@ __decorate([
     __metadata("design:paramtypes", [UserLogin_dto_1.UserLoginDto]),
     __metadata("design:returntype", Promise)
 ], AuthController.prototype, "login", null);
+__decorate([
+    (0, common_1.Post)('refresh'),
+    __param(0, (0, decorator_1.GetUser)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", void 0)
+], AuthController.prototype, "refresh", null);
 AuthController = __decorate([
     (0, common_1.Controller)('auth'),
     __metadata("design:paramtypes", [auth_service_1.AuthService])

@@ -4,13 +4,14 @@ import { JwtGuard } from 'src/auth/guard';
 import { Role } from 'src/Task.enum';
 import { TaskService } from './task.service';
 import {TaskCreateDto} from 'src/dto/Task/TaskCreate.dto'
+import { UserDocument } from 'src/schemas/User.schema';
 @UseGuards(JwtGuard)
 @Controller('task')
 export class TaskController {
     constructor(private readonly taskService: TaskService){}    
         @Post('addTask')
-        async CreateTask(@Body()  taskCreateDto : TaskCreateDto ){
-        return this.taskService.addTask(taskCreateDto)
+        async CreateTask(@Body()  taskCreateDto : TaskCreateDto, @GetUser()  user: UserDocument ){
+        return this.taskService.addTask(taskCreateDto, user)
         }
 
 

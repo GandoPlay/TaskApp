@@ -47,6 +47,10 @@ let AuthService = class AuthService {
             throw new common_1.ForbiddenException('Credentials incorrect');
         return this.signToken(data.id, data.username);
     }
+    async refreshTokens(user) {
+        const tokens = this.signToken(user.id, user.username);
+        return tokens;
+    }
     async signToken(userId, username) {
         const payload = {
             sub: userId,
