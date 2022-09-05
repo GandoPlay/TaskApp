@@ -28,7 +28,7 @@ const FetchRatings = () => {
      <NavBar/>
       <div className="plases">
         <p className="place2">מקום שני
-        <p>{data?.data[1].name}</p>
+        {data?.data[1].name}
         </p>
         <p className="place1">מקום ראשון
         <p>{data?.data[0].name}</p>

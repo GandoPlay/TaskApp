@@ -1,24 +1,14 @@
 import React from "react";
 import "./DateTable.css";
-import { Calendar, dateFnsLocalizer } from "react-big-calendar";
-import format from "date-fns/format";
-import parse from "date-fns/parse";
-import startOfWeek from "date-fns/startOfWeek";
-import getDay from "date-fns/getDay";
+import "react-datepicker/dist/react-datepicker.css";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import { useState } from "react";
 import DatePicker from "react-datepicker";
-const locales = {
-  "en-US": require("date-fns/locale/en-US"),
-};
-const localizer = dateFnsLocalizer({
-  format,
-  parse,
-  startOfWeek,
-  getDay,
-  locales,
-});
+import { Calendar, momentLocalizer } from "react-big-calendar";
+import moment from "moment";
+import start from "moment";
 
+const localizer = momentLocalizer(moment);
 const events = [
   {
     title: "neriya",
@@ -42,11 +32,16 @@ function DateTable() {
   const [newEvent, setNewEvent] = useState({ title: "", start: "", end: "" });
   const [allEvent, setAllEvent] = useState(events);
 
+  const AddEvent = () => {
+    setAllEvent([...allEvent, newEvent]);
+  };
+
   return (
     <div className="">
       <div className="date">
         <Calendar
           className="calendardate"
+          views={["month"]}
           localizer={localizer}
           events={allEvent}
           startAccessor="start"
@@ -55,16 +50,37 @@ function DateTable() {
         />
       </div>
       <div className="buttons">
-        <input type="date" name="time" id="time" />
-
-        <select name="task" id="task">
+        <input
+          type="text"
+          name="addTitle"
+          id="addTitle"
+          placeholder="Add User"
+          value={newEvent.title}
+          onChange={(e) => setNewEvent({ ...newEvent, title: e.target.value })}
+        />
+        <DatePicker
+          placeholderText="Start Date"
+          style={{ marginRight: "10px" }}
+          selected={newEvent.start}
+          onChange={(start) => setNewEvent({ ...newEvent, start })}
+        />
+        <DatePicker
+          placeholderText="end Date"
+          selected={newEvent.end}
+          onChange={(end) => setNewEvent({ ...newEvent, end })}
+        />
+        <button style={{ marginTop: "10px" }} onClick={AddEvent}>
+          {" "}
+          Add Event
+        </button>
+        {/* <select name="task" id="task">
           <option value="1">אבט"ש</option>
           <option value="2">שמירה</option>
           <option value="3">מחסן</option>
           <option value="4">אריזת מזון</option>
           <option value="5">הנפצה</option>
           <option value="6">אחר</option>
-        </select>
+        </select> */}
       </div>
     </div>
   );
