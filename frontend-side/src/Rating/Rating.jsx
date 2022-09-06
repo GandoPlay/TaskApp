@@ -8,12 +8,13 @@ import {
   TableContainer,
   SimpleGrid,
   Box,
+  Text,
 } from "@chakra-ui/react";
 import NavBar from "../navBar/NavBar";
- function sortById(data) {
-  return [...data].sort(function(a, b) {
-    return (a.id - b.id);
-});
+function sortById(data) {
+  return [...data].sort(function (a, b) {
+    return a.id - b.id;
+  });
 }
 const FetchRatings = () => {
   const { isLoading, data } = useQuery("user-score", () => {
@@ -25,18 +26,28 @@ const FetchRatings = () => {
   // }
   return (
     <>
-     <NavBar/>
-      <div className="plases">
-        <p className="place2">מקום שני
-        {data?.data[1].name}
-        </p>
-        <p className="place1">מקום ראשון
-        <p>{data?.data[0].name}</p>
-        </p>
-        <p className="place3">מקום שלישי
-        <p>{data?.data[2].name}</p>
-        </p>
-      </div>
+      <NavBar />
+      <Box
+        bg=" rgba(192, 192, 192, 0.39)"
+        display="flex"
+        textAlign="center"
+        width="100%"
+        height="150px"
+      >
+        <Text width="30%" fontSize="250%" >
+          מקום שני
+          
+          <Text>{data?.data[1].name}</Text>
+        </Text>
+        <Text width="40%" height="100%"  fontSize="320%">
+          מקום ראשון
+          <Text>{data?.data[0].name}</Text>
+        </Text>
+        <Text width="30%" fontSize="150%">
+          מקום שלישי
+          <Text>{data?.data[2].name}</Text>
+        </Text>
+      </Box>
       <TableContainer>
         <Table variant="striped" colorScheme="teal">
           <Thead boxShadow="lg" p="6" rounded="md" bg="white">
@@ -66,27 +77,29 @@ const FetchRatings = () => {
               </Box>
             </SimpleGrid>
           </Thead>
-          {data?sortById(data.data).map((user) => {
-            return (
-              <div className="list" key={user.id}>
-                <Box
-                  className="users"
-                  boxShadow="lg"
-                  p="6"
-                  rounded="md"
-                  justify-content="space-around"
-                  display="flex"
-                >
-                  <p>{user.id}</p>
-                  <p className="userName"> {user.name} </p>
-                  <p className="userScore" isNumeric>
-                    {" "}
-                    {user.score}
-                  </p>
-                </Box>
-              </div>
-            );
-          }):''}
+          {data
+            ? sortById(data.data).map((user) => {
+                return (
+                  <div className="list" key={user.id}>
+                    <Box
+                      className="users"
+                      boxShadow="lg"
+                      p="6"
+                      rounded="md"
+                      justify-content="space-around"
+                      display="flex"
+                    >
+                      <Text>{user.id}</Text>
+                      <Text className="userName"> {user.name} </Text>
+                      <Text className="userScore" isNumeric>
+                        {" "}
+                        {user.score}
+                      </Text>
+                    </Box>
+                  </div>
+                );
+              })
+            : ""}
         </Table>
       </TableContainer>
     </>

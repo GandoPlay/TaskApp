@@ -7,7 +7,7 @@ import DatePicker from "react-datepicker";
 import { Calendar, momentLocalizer } from "react-big-calendar";
 import moment from "moment";
 import start from "moment";
-import { Input, Button, Select, Box, Center,Flex } from "@chakra-ui/react";
+import { Input, Button, Select, Box, Flex } from "@chakra-ui/react";
 import { getDate } from "date-fns";
 
 const localizer = momentLocalizer(moment);
@@ -47,8 +47,13 @@ function DateTable() {
         events={allEvent}
         startAccessor="start"
         endAccessor="end"
+        controls={['calendar']}
+        select="range"
+        touchUi={true}
         style={{ height: 500, margin: "50px" }}
-      />
+
+      />    
+      
       <Flex>
         <Input
           placeholder="Add User"
@@ -61,7 +66,6 @@ function DateTable() {
           width={"10%"}
         />
 
-       
         {/* <DatePicker
           placeholderText="end Date"
           selected={newEvent.end}
@@ -81,13 +85,12 @@ function DateTable() {
         </Select>
         <DatePicker
           placeholderText="Start Date"
-          // selectsRange={true}
-          // Date={getDate(Date +7)}
+          selectsRange={true}
+          Date={new Date().getDate() + 7}
           selected={newEvent.start}
           onChange={(start) => setNewEvent({ ...newEvent, start })}
-          style={{width:"200px", height:"50px"}}
+          style={{ width: "200px", height: "50px" }}
         />
-      
       </Flex>
     </Box>
   );

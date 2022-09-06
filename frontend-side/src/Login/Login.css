@@ -1,4 +1,4 @@
-.body {
+/* .body {
   background-image: url("./images/screenshot.jpg");
   background-size: 100% 100%;
   background-repeat: no-repeat;
@@ -7,8 +7,9 @@
   filter: brightness(70%);
   text-align: center;
   padding-top: 1%;
-}
-.divForInput {
+} */
+
+/* .divForInput {
   background-color: rgba(219, 219, 219, 0.651);
   padding: 40px;
   width: 50%;
@@ -16,19 +17,20 @@
   margin-left: 25%;
   justify-content: space-between;
   margin-top: 125px;
-  /* border-bottom-left-radius: 50%; */
-}
-.input {
+ 
+} */
+
+/* .input {
   
   width: 50%;
   height: 70px;
   margin-top: 10px;
-}
-.butoon {
+} */
+/* .butoon {
   margin-top: 50px;
-}
+} */
 
-@media screen and (max-width: 650px) {
+/* @media screen and (max-width: 650px) {
   .body {
     background-image: url("./images/screenshot.jpg");
     background-size: 100% 100%;
@@ -39,4 +41,4 @@
     text-align: center;
     padding-top: 1%;
   }
-}
+} */
