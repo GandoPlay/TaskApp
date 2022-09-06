@@ -11,7 +11,4 @@ export class TaskCreateDto{
     type: Role
     @IsNotEmpty()
     owner: string
-
-
-    
 }

@@ -3,6 +3,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import {Task, TaskDocument} from '../schemas/Task.schema'
 import {TaskCreateDto} from 'src/dto/Task/TaskCreate.dto'
+import { Rank, Role } from 'src/Task.enum';
 @Injectable()
 export class TaskService {
     constructor(@InjectModel('Task') private readonly taskModel: Model<TaskDocument>){}
@@ -10,13 +11,22 @@ export class TaskService {
     async addTask(TaskCreatedto: TaskCreateDto, owner): Promise<Task> {
       let newTask = new this.taskModel(TaskCreatedto);
       const result = await newTask.save();
-      //const temp = {...result};
+      switch(owner.type){
+        case Rank.NOTHING:
+          await owner.updateOne({type: Rank.YOUNG})
+          break
+        case Rank.YOUNG:
+          await owner.updateOne({type: Rank.MID})
+          break
+        case Rank.MID:
+          await owner.updateOne({type: Rank.LARGE})
+          break
+        case Rank.LARGE:
+          await owner.updateOne({type: Rank.HUGE})
+          break
+      }
       owner.tasks.push(result._id)
       owner.save()
-      // const populatedTask = await result.populate('owner');
-      // const ownerTask = populatedTask.owner;
-      // ownerTask.tasks.push(result._id);
-      // await ownerTask.save();
       return result;
   }
 
@@ -26,32 +36,22 @@ export class TaskService {
    const task = await this.taskModel.findById(TaskCreatedto.id);
    const populatedTask = await task.populate('owner');
    const ownerTask = populatedTask.owner;
+   switch(ownerTask.type){
+    case  Rank.YOUNG:
+      await ownerTask.update({type: Rank.NOTHING})
+      break
+    case Rank.MID:
+      await ownerTask.update({type: Rank.YOUNG})
+      break
+    case Rank.LARGE:
+      await ownerTask.update({type: Rank.MID})
+      break
+    case Rank.HUGE:
+      await ownerTask.update({type: Rank.LARGE})
+      break
+  }
    ownerTask.tasks = ownerTask.tasks.filter(t=>{ 
    return t._id.toString() !== TaskCreatedto.id});
    await ownerTask.save();
-   
-  //  this.taskModel.deleteOne({id: TaskCreatedto.id});
-}
-
-
-    // async addTask(date: number, type: String, user: User){
-    //     try{
-    //       const task = new this.taskModel({
-    //         date,
-    //         type
-    //       })
-    //       user.tasks.push(task)
-    //       await task.save()
-    //       await user.save()
-    //       return task
-    //     }
-    //     catch(error){
-    //       console.log(error)
-    //     }
-    //   }
-
-    //   async removeTask(date: number, type: String, user: User){
-    //     const tasks = await user.populate('tasks')
-    //     await tasks._id
-    //   }
+   }
 }
