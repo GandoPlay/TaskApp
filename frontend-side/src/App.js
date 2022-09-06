@@ -7,7 +7,6 @@ import { ChakraProvider } from "@chakra-ui/react";
 import FetchRatings from "./Rating/Rating";
 import ProtectedRoutes from "./protectedRoutes";
 import DateTable from "./DateTable/DateTable";
-//for date
 
 
 

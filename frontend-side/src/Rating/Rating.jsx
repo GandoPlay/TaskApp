@@ -10,6 +10,14 @@ import {
   Box,
   Text,
 } from "@chakra-ui/react";
+
+import {
+  List,
+  ListItem,
+  ListIcon,
+  OrderedList,
+  UnorderedList,
+} from '@chakra-ui/react'
 import NavBar from "../navBar/NavBar";
 function sortById(data) {
   return [...data].sort(function (a, b) {
@@ -35,19 +43,23 @@ const FetchRatings = () => {
         height="150px"
       >
         <Text width="30%" fontSize="250%" >
-          מקום שני
+           מקום שני
           
-          <Text>{data?.data[1].name}</Text>
+          {' '+data?.data[1].name}
         </Text>
         <Text width="40%" height="100%"  fontSize="320%">
           מקום ראשון
-          <Text>{data?.data[0].name}</Text>
+          {' '+data?.data[0].name}
         </Text>
         <Text width="30%" fontSize="150%">
-          מקום שלישי
-          <Text>{data?.data[2].name}</Text>
+           מקום שלישי
+        {'\n'+data?.data[2].name}
         </Text>
       </Box>
+
+
+
+      
       <TableContainer>
         <Table variant="striped" colorScheme="teal">
           <Thead boxShadow="lg" p="6" rounded="md" bg="white">
@@ -77,6 +89,24 @@ const FetchRatings = () => {
               </Box>
             </SimpleGrid>
           </Thead>
+
+
+
+          {/* <OrderedList>
+            {data?sortById(data.data).map((user)=>{
+              return(
+                <ListItem 
+                boxShadow="lg"
+                p="6"
+                rounded="md"
+                justify-content="space-around"
+                display="flex"
+                >{user.id}
+                </ListItem>
+               */}
+              )
+            {/* }):""} */}
+          {/* </OrderedList> */}
           {data
             ? sortById(data.data).map((user) => {
                 return (
@@ -91,7 +121,7 @@ const FetchRatings = () => {
                     >
                       <Text>{user.id}</Text>
                       <Text className="userName"> {user.name} </Text>
-                      <Text className="userScore" isNumeric>
+                      <Text className="userScore">
                         {" "}
                         {user.score}
                       </Text>
