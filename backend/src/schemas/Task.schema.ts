@@ -13,7 +13,7 @@ export class Task {
 
     @Prop({ required: true })
     date: Number
-    @Prop({ required: true })
+    @Prop({ type: String, enum: Role})
     type: Role
 
     @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'UserAuth' })
