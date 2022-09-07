@@ -1,5 +1,4 @@
 import React from "react";
-import "./Rating.css";
 import { useQuery } from "react-query";
 import axios from "axios";
 import {
@@ -9,6 +8,7 @@ import {
   SimpleGrid,
   Box,
   Text,
+  Center,
 } from "@chakra-ui/react";
 
 import {
@@ -17,7 +17,7 @@ import {
   ListIcon,
   OrderedList,
   UnorderedList,
-} from '@chakra-ui/react'
+} from "@chakra-ui/react";
 import NavBar from "../navBar/NavBar";
 function sortById(data) {
   return [...data].sort(function (a, b) {
@@ -28,10 +28,10 @@ const FetchRatings = () => {
   const { isLoading, data } = useQuery("user-score", () => {
     return axios.get("http://localhost:3500/items?_sort=score&_order=desc");
   });
-  //return this ahfter finish
-  // if (isLoading) {
-  //   return <h2>Loading</h2>;
-  // }
+
+  if (isLoading) {
+    return <Text textAlign="center" fontSize="400%" mt="25%">Loading</Text>;
+  }
   return (
     <>
       <NavBar />
@@ -41,96 +41,64 @@ const FetchRatings = () => {
         textAlign="center"
         width="100%"
         height="150px"
+        justifyContent="space-around"
       >
-        <Text width="30%" fontSize="250%" >
-           מקום שני
-          
-          {' '+data?.data[1].name}
+        <Text width="20%" fontSize="250%" >
+          מקום שני
+          {" " + data?.data[1].name}
         </Text>
-        <Text width="40%" height="100%"  fontSize="320%">
+        <Text width="30%" height="100%" fontSize="320%" >
           מקום ראשון
-          {' '+data?.data[0].name}
+          {" " + data?.data[0].name}
         </Text>
-        <Text width="30%" fontSize="150%">
-           מקום שלישי
-        {'\n'+data?.data[2].name}
+        <Text width="15%" fontSize="150%">
+          מקום שלישי
+          {"\n" + data?.data[2].name}
         </Text>
       </Box>
 
-
-
-      
       <TableContainer>
-        <Table variant="striped" colorScheme="teal">
-          <Thead boxShadow="lg" p="6" rounded="md" bg="white">
-            <SimpleGrid
-              bg="gray.50"
-              columns={{ sm: 2, md: 4 }}
-              spacing="8"
-              p="7"
-              textAlign="center"
-              rounded="lg"
-              color="gray.400"
-              display="flax"
+        {/* <Table variant="striped" colorScheme="teal"> */}
+          <Center boxShadow="lg" bg="white" width="100%">
+            <Text
+              fontSize="170%"
+              display="inline"
+              p="5%"
+              width="25%"
+              textAlign="start"
             >
-              <Box
-                boxShadow="dark-lg"
-                p="6"
-                rounded="md"
-                justify-content="space-around"
-              >
-                <p className="nav-bar" id="name">
-                  {" "}
-                  name
-                </p>
-                <p className="nav-bar" id="score">
-                  score
-                </p>
-              </Box>
-            </SimpleGrid>
-          </Thead>
+              name
+            </Text>
+            <Text fontSize="170%" display="inline" p="5%" width="30%">
+              score
+            </Text>
+          </Center>
 
-
-
-          {/* <OrderedList>
-            {data?sortById(data.data).map((user)=>{
-              return(
-                <ListItem 
-                boxShadow="lg"
-                p="6"
-                rounded="md"
-                justify-content="space-around"
-                display="flex"
-                >{user.id}
-                </ListItem>
-               */}
-              )
-            {/* }):""} */}
-          {/* </OrderedList> */}
           {data
             ? sortById(data.data).map((user) => {
                 return (
-                  <div className="list" key={user.id}>
+                  <Center
+                    key={user.id}
+                    boxShadow="lg"
+                    justifyContent="space-around"
+                  >
                     <Box
-                      className="users"
                       boxShadow="lg"
                       p="6"
                       rounded="md"
-                      justify-content="space-around"
+                      justify-content="center"
                       display="flex"
+                      width="100%"
                     >
-                      <Text>{user.id}</Text>
-                      <Text className="userName"> {user.name} </Text>
-                      <Text className="userScore">
-                        {" "}
-                        {user.score}
-                      </Text>
+                      <Text width="25%">{user.id}</Text>
+                      <Text width="30%"> {user.name} </Text>
+                      <Text> {user.score}</Text>
                     </Box>
-                  </div>
+                  </Center>
                 );
               })
             : ""}
-        </Table>
+        {/* </Table> */}
       </TableContainer>
     </>
   );
