@@ -1,4 +1,4 @@
-import { Body, Controller, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
 import { GetUser } from 'src/auth/decorator';
 import { JwtGuard } from 'src/auth/guard';
 import { Role } from 'src/Task.enum';
@@ -19,6 +19,11 @@ export class TaskController {
         @Post('RemoveTask')
         async removeTask(@Body()  taskCreateDto : TaskCreateDto ){
         return this.taskService.removeTask(taskCreateDto)
+        }
+
+        @Get('totalTask')
+        totalTask(@GetUser() user: UserDocument){
+           return this.taskService.totalTasks(user)
         }
         // @Post('addTask')
         // async addTask(@GetUser() Wuser: User, 

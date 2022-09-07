@@ -26,10 +26,4 @@ export class UserController {
   getTasks(@GetUser() user: UserDocument) {
     return this.userService.getTasks(user)
   }
-
-  @Get('totalTask')
-  totalTask(@GetUser() user: UserDocument){
-    return this.userService.totalTasks(user)
-  }
-
 }

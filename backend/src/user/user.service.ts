@@ -18,26 +18,5 @@ export class UserService {
       return userPopulated.tasks
     }
 
-    async totalTasks(user) {
-      let total = 0
-      const userPopulated = await user.populate('tasks')
-      for(let i = 0; i<userPopulated.tasks.length; i++){
-        switch(userPopulated.tasks[i].type){
-          case Role.AVTASH:
-            total += 25
-            break
-          case Role.CLEAN:
-            total += 2
-            break
-          case Role.NIGHT:
-            total += 10
-            break
-          case Role.HANFZA:
-            total += 5
-            break
-        }
-      }
-      return total
-      }
 }
  

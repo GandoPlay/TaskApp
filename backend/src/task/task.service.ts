@@ -11,20 +11,6 @@ export class TaskService {
     async addTask(TaskCreatedto: TaskCreateDto, owner): Promise<Task> {
       let newTask = new this.taskModel(TaskCreatedto);
       const result = await newTask.save();
-      switch(owner.type){
-        case Rank.NOTHING:
-          await owner.updateOne({type: Rank.YOUNG})
-          break
-        case Rank.YOUNG:
-          await owner.updateOne({type: Rank.MID})
-          break
-        case Rank.MID:
-          await owner.updateOne({type: Rank.LARGE})
-          break
-        case Rank.LARGE:
-          await owner.updateOne({type: Rank.HUGE})
-          break
-      }
       owner.tasks.push(result._id)
       owner.save()
       return result;
@@ -36,22 +22,55 @@ export class TaskService {
    const task = await this.taskModel.findById(TaskCreatedto.id);
    const populatedTask = await task.populate('owner');
    const ownerTask = populatedTask.owner;
-   switch(ownerTask.type){
-    case  Rank.YOUNG:
-      await ownerTask.update({type: Rank.NOTHING})
-      break
-    case Rank.MID:
-      await ownerTask.update({type: Rank.YOUNG})
-      break
-    case Rank.LARGE:
-      await ownerTask.update({type: Rank.MID})
-      break
-    case Rank.HUGE:
-      await ownerTask.update({type: Rank.LARGE})
-      break
-  }
    ownerTask.tasks = ownerTask.tasks.filter(t=>{ 
    return t._id.toString() !== TaskCreatedto.id});
    await ownerTask.save();
    }
+
+   async totalTasks(user) {
+    let total = 0
+    const userPopulated = await user.populate('tasks')
+    for(let i = 0; i<userPopulated.tasks.length; i++){
+      switch(userPopulated.tasks[i].type){
+        case Role.AVTASH:
+          total += 25
+          break
+        case Role.CLEAN:
+          total += 2
+          break
+        case Role.NIGHT:
+          total += 10
+          break
+        case Role.HANFZA:
+          total += 5
+          break
+      }
+    }
+    user.updateOne({type: Rank.MID})
+    console.log(user)
+    return total
+    }
+
+    async taskCalc(user) {
+      const total = await this.totalTasks(user)
+      user.updateOne({type: Rank.MID})
+      console.log(user)
+      switch(true){
+        case total == 0:
+          user.updateOne({type: Rank.NOTHING})
+          break
+        case total >= 5:
+          user.updateOne({type: Rank.YOUNG})
+          break
+        case total >= 10:
+          user.updateOne({type: Rank.MID})
+          break
+        case total >= 20:
+          user.updateOne({type: Rank.LARGE})
+          break
+        case total >= 25:
+          user.updateOne({type: Rank.HUGE})
+          break
+      } 
+    }
 }
