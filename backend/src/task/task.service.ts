@@ -12,7 +12,8 @@ export class TaskService {
       let newTask = new this.taskModel(TaskCreatedto);
       const result = await newTask.save();
       owner.tasks.push(result._id)
-      owner.save()
+      await this.taskCalc(owner)
+      await owner.save()
       return result;
   }
 
@@ -46,30 +47,26 @@ export class TaskService {
           break
       }
     }
-    user.updateOne({type: Rank.MID})
-    console.log(user)
     return total
     }
 
     async taskCalc(user) {
       const total = await this.totalTasks(user)
-      user.updateOne({type: Rank.MID})
-      console.log(user)
       switch(true){
         case total == 0:
-          user.updateOne({type: Rank.NOTHING})
+          await user.updateOne({type: Rank.NOTHING})
           break
-        case total >= 5:
-          user.updateOne({type: Rank.YOUNG})
+        case total <= 5:
+          await user.updateOne({type: Rank.YOUNG})
           break
-        case total >= 10:
-          user.updateOne({type: Rank.MID})
+        case total <= 10:
+          await user.updateOne({type: Rank.MID})
           break
-        case total >= 20:
-          user.updateOne({type: Rank.LARGE})
+        case total <= 20:
+          await user.updateOne({type: Rank.LARGE})
           break
         case total >= 25:
-          user.updateOne({type: Rank.HUGE})
+          await user.updateOne({type: Rank.HUGE})
           break
       } 
     }
