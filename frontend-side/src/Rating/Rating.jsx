@@ -29,9 +29,9 @@ const FetchRatings = () => {
     return axios.get("http://localhost:3500/items?_sort=score&_order=desc");
   });
 
-  if (isLoading) {
-    return <Text textAlign="center" fontSize="400%" mt="25%">Loading</Text>;
-  }
+  // if (isLoading) {
+  //   return <Text textAlign="center" fontSize="400%" mt="25%">Loading</Text>;
+  // }
   return (
     <>
       <NavBar />
