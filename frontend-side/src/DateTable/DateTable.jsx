@@ -38,7 +38,7 @@ function DateTable() {
   const [range, setRange] = useState([
     {
       startDate: new Date(),
-      endDate: addDays(new Date(), 7),
+      endDate: addDays(new Date(), 6),
       key: "selection",
     },
   ]);
@@ -60,7 +60,7 @@ function DateTable() {
   };
   const hideOnClickOutside = (e) => {
     // console.log(refOne.current);
-    console.log(e.target);
+    console.log((e.target += 7));
   };
   return (
     <Box>
@@ -121,8 +121,12 @@ function DateTable() {
          {console.log(startDate)} */}
 
         <Input
-          width="23%"
-          value={`  ${format(range[0].startDate, "MM/dd/yyyy")}to ${format(range[0].endDate,"MM/dd/yyyy")} `}
+          width="25%"
+          //לסדר את הלוח שנה שיקבל רק 7 ימים ולא מלא
+          value={`  ${format(range[0].startDate, "MM/dd/yyyy")}to ${format(
+            range[0].startDate,
+            `MM/dd/yyyy`
+          )} `}
           readOnly
           className="inputBox"
           onClick={() => setOpen((open) => !open)}
