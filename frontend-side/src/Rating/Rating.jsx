@@ -62,7 +62,7 @@ const FetchRatings = () => {
       </Box>
 
       <TableContainer>
-        <Table variant="striped" colorScheme="teal">
+        {/* <Table variant="striped" colorScheme="teal"> */}
           <Center boxShadow="lg" bg="white" width="100%">
             <Text
               fontSize="170%"
@@ -102,7 +102,7 @@ const FetchRatings = () => {
                 );
               })
             : ""}
-        </Table>
+        {/* </Table> */}
       </TableContainer>
     </>
   );
