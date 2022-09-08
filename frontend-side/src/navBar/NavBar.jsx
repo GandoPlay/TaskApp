@@ -5,20 +5,6 @@ import { Container, Box, Text, Flex } from "@chakra-ui/react";
 function NavBar() {
   return (
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     <NavBar bg="black" width="100%" height="70px">
       <Box>
         <Link to="/rating">date</Link>

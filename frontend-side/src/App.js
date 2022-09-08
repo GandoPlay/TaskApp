@@ -4,7 +4,7 @@ import Login from "./Login/Login";
 import { BrowserRouter } from "react-router-dom";
 import * as React from "react";
 import { ChakraProvider } from "@chakra-ui/react";
-import FetchRatings from "./Rating/Rating";
+import FetchRatings, { Rating } from "./Rating/Rating";
 import ProtectedRoutes from "./protectedRoutes";
 import DateTable from "./DateTable/DateTable";
 
@@ -16,10 +16,10 @@ function App() {
       <ChakraProvider>
         <Routes>
           <Route path="/" element={<Login />} />
-          <Route element={<ProtectedRoutes />}>
-            <Route path="/rating" element={<FetchRatings />} />
+          {/* <Route element={<ProtectedRoutes />}> */}
+            <Route path="/rating" element={<Rating />} />
             <Route path="/dateTable" element={<DateTable />} />
-          </Route>
+          {/* </Route> */}
         </Routes>
       </ChakraProvider>
     </BrowserRouter>
