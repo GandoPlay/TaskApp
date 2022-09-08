@@ -1,9 +1,10 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Post, UseGuards } from '@nestjs/common';
 import { UserCreateDto } from 'src/dto//User/UserCreate.dto';
 import { UserLoginDto } from 'src/dto/User/UserLogin.dto';
 import { UserDocument } from 'src/schemas/User.schema';
 import { AuthService } from './auth.service';
 import { GetUser } from './decorator';
+import { JwtGuard } from './guard';
 
 @Controller('auth')
 export class AuthController {
@@ -19,10 +20,12 @@ export class AuthController {
         return this.authService.login(userLoginDto);
     }
 
+    @UseGuards(JwtGuard)
     @Post('refresh')
     refresh(@GetUser() user: UserDocument) {
     return this.authService.refreshTokens(user)
-  }
+    }
+}
 
     // @Post('login')
     // async login(
@@ -37,4 +40,4 @@ export class AuthController {
     // @Body ('password') password:string,){
     //     return this.authService.signUp(username, password)
     // }
-}
+

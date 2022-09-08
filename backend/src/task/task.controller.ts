@@ -5,6 +5,7 @@ import { Role } from 'src/Task.enum';
 import { TaskService } from './task.service';
 import {TaskCreateDto} from 'src/dto/Task/TaskCreate.dto'
 import { UserDocument } from 'src/schemas/User.schema';
+import { TaskDeleteDto } from 'src/dto/Task/TaskDelete.dto';
 @UseGuards(JwtGuard)
 @Controller('task')
 export class TaskController {
@@ -17,14 +18,10 @@ export class TaskController {
 
 
         @Post('RemoveTask')
-        async removeTask(@Body()  taskCreateDto : TaskCreateDto ){
-        return this.taskService.removeTask(taskCreateDto)
+        async removeTask(@Body()  TaskDeleteDto: TaskDeleteDto){
+        return this.taskService.removeTask(TaskDeleteDto)
         }
 
-        @Get('totalTask')
-        totalTask(@GetUser() user: UserDocument){
-           return this.taskService.totalTasks(user)
-        }
         // @Post('addTask')
         // async addTask(@GetUser() Wuser: User, 
         // @Body ('date') date:number,

@@ -3,55 +3,38 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import {Task, TaskDocument} from '../schemas/Task.schema'
 import {TaskCreateDto} from 'src/dto/Task/TaskCreate.dto'
-import { Rank, Role } from 'src/Task.enum';
+import { Rank, Role, taskDictionary } from 'src/Task.enum';
+import { TaskDeleteDto } from 'src/dto/Task/TaskDelete.dto';
 @Injectable()
 export class TaskService {
     constructor(@InjectModel('Task') private readonly taskModel: Model<TaskDocument>){}
 
-    async addTask(TaskCreatedto: TaskCreateDto, owner): Promise<Task> {
+    async addTask(TaskCreatedto: TaskCreateDto, owner): Promise<Task> {// 
+      TaskCreatedto.owner = owner._id
       let newTask = new this.taskModel(TaskCreatedto);
       const result = await newTask.save();
       owner.tasks.push(result._id)
       await this.taskCalc(owner)
+      const type = newTask.type
+      const score = owner.score + taskDictionary[type]
+      await owner.updateOne({score: score})
       await owner.save()
       return result;
   }
 
 
 
-  async removeTask(TaskCreatedto: TaskCreateDto){
-   const task = await this.taskModel.findById(TaskCreatedto.id);
+  async removeTask(TaskDeleteDto: TaskDeleteDto){
+   const task = await this.taskModel.findById(TaskDeleteDto.id);
    const populatedTask = await task.populate('owner');
    const ownerTask = populatedTask.owner;
    ownerTask.tasks = ownerTask.tasks.filter(t=>{ 
-   return t._id.toString() !== TaskCreatedto.id});
+   return t._id.toString() !== TaskDeleteDto.id});
    await ownerTask.save();
    }
 
-   async totalTasks(user) {
-    let total = 0
-    const userPopulated = await user.populate('tasks')
-    for(let i = 0; i<userPopulated.tasks.length; i++){
-      switch(userPopulated.tasks[i].type){
-        case Role.AVTASH:
-          total += 25
-          break
-        case Role.CLEAN:
-          total += 2
-          break
-        case Role.NIGHT:
-          total += 10
-          break
-        case Role.HANFZA:
-          total += 5
-          break
-      }
-    }
-    return total
-    }
-
     async taskCalc(user) {
-      const total = await this.totalTasks(user)
+      const total = user.score
       switch(true){
         case total == 0:
           await user.updateOne({type: Rank.NOTHING})

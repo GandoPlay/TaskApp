@@ -7,4 +7,5 @@ export class UserCreateDto{
     password: string
     hash: string
     tasks: Task[]
+    score: Number
 }

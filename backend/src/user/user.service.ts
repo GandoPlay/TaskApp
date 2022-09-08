@@ -10,6 +10,8 @@ export class UserService {
 
     async getUsers() {
         const users = await this.userModel.find({}).exec()
+        console.log({users});
+        
         return users;
       }
 
@@ -17,6 +19,7 @@ export class UserService {
       const userPopulated = await user.populate('tasks')
       return userPopulated.tasks
     }
+
 
 }
  

@@ -16,6 +16,8 @@ export class UserAuth {
     password: string
     @Prop({ type: String, enum: Rank, default: Rank.NOTHING})
     type: Rank
+    @Prop({default: 0})
+    score: Number
     @Prop({ type:[{type: mongoose.Schema.Types.ObjectId, ref: 'Task' }]})
     tasks: TaskDocument[]
 

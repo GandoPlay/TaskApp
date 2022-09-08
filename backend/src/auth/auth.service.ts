@@ -39,6 +39,7 @@ export class AuthService {
       return this.signToken(data.id, data.username)
     }
 
+
     // async signUp(username: string, password: string){
     //   try{
         
@@ -67,7 +68,7 @@ export class AuthService {
     //   }
 
     async refreshTokens(user): Promise<{access_token: string}> {
-      const tokens = this.signToken(user.id, user.username)
+      const tokens = this.signToken(user._id, user.username)
       return tokens;
     }
 

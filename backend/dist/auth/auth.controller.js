@@ -18,6 +18,7 @@ const UserCreate_dto_1 = require("../dto/User/UserCreate.dto");
 const UserLogin_dto_1 = require("../dto/User/UserLogin.dto");
 const auth_service_1 = require("./auth.service");
 const decorator_1 = require("./decorator");
+const guard_1 = require("./guard");
 let AuthController = class AuthController {
     constructor(authService) {
         this.authService = authService;
@@ -47,6 +48,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], AuthController.prototype, "login", null);
 __decorate([
+    (0, common_1.UseGuards)(guard_1.JwtGuard),
     (0, common_1.Post)('refresh'),
     __param(0, (0, decorator_1.GetUser)()),
     __metadata("design:type", Function),

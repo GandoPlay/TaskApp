@@ -48,7 +48,7 @@ let AuthService = class AuthService {
         return this.signToken(data.id, data.username);
     }
     async refreshTokens(user) {
-        const tokens = this.signToken(user.id, user.username);
+        const tokens = this.signToken(user._id, user.username);
         return tokens;
     }
     async signToken(userId, username) {
