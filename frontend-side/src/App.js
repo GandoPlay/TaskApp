@@ -16,10 +16,10 @@ function App() {
       <ChakraProvider>
         <Routes>
           <Route path="/" element={<Login />} />
-          {/* <Route element={<ProtectedRoutes />}> */}
-            <Route path="/rating" element={<Rating />} />
+          <Route element={<ProtectedRoutes />}>
+            <Route path="/rating" element={<FetchRatings />} />
             <Route path="/dateTable" element={<DateTable />} />
-          {/* </Route> */}
+          </Route>
         </Routes>
       </ChakraProvider>
     </BrowserRouter>
