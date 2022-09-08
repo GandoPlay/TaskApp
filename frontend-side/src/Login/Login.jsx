@@ -17,12 +17,11 @@ import axios from "axios";
 import { useQuery, useMutation } from "react-query";
 import { useForm } from "react-hook-form";
 import NavBar from "../navBar/NavBar";
-import { request } from "../api/axios";
+import { request, SignUpUserName } from "../api/axios";
 import { useUsersData } from "../api/fetchAxios";
 
 function Login() {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+
 
   const {
     handleSubmit,
@@ -32,7 +31,7 @@ function Login() {
 
   const navigate = useNavigate();
 
-  const { isLoading, isError, error, mutate } = useMutation(loginUserName);
+  const { isLoading, isError, error, mutate } = useMutation(SignUpUserName);
   
 
 
@@ -61,30 +60,6 @@ function Login() {
 
 
 
-  async function loginUserName(user) {
-    const response = await axios.post(
-      "http://172.20.10.8:3001/auth/signup",
-      user
-    );
-      console.log(response.data);
-
-
-    
-    // setToken(response.data)
-    // navigate("/rating");
-    // console.log(response.data);
-  }
-
-  
-
-
-
-  // const login = () => {
-  //   mutate({
-  //     username: username,
-  //     password: password,
-  //   });
-  // };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -120,7 +95,6 @@ function Login() {
                     message: "Minimum length should be 4",
                   },
                 })}
-                // onChange={(e) => setUsername(e.target.value)}
                 height="100%"
                 width="80%"
                 mt="3%"
