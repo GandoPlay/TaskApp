@@ -17,6 +17,8 @@ import axios from "axios";
 import { useQuery, useMutation } from "react-query";
 import { useForm } from "react-hook-form";
 import NavBar from "../navBar/NavBar";
+import { request } from "../api/axios";
+import { useUsersData } from "../api/fetchAxios";
 
 function Login() {
   const [username, setUsername] = useState("");
@@ -31,6 +33,23 @@ function Login() {
   const navigate = useNavigate();
 
   const { isLoading, isError, error, mutate } = useMutation(loginUserName);
+  
+
+
+  const onSuccess = data => {
+    console.log({ data })
+  }
+
+  const onError = error => {
+    console.log({ error })
+  }
+
+  const { data } = useUsersData(
+    onSuccess,
+    onError
+  )
+  console.log(data);
+
 
   function onSubmit(values) {
     mutate({
@@ -39,17 +58,26 @@ function Login() {
     });
   }
 
-  async function loginUserName(user) {
-    console.log(user);
 
+
+
+  async function loginUserName(user) {
     const response = await axios.post(
       "http://172.20.10.8:3001/auth/signup",
       user
     );
+      console.log(response.data);
+
+
+    
     // setToken(response.data)
-    navigate("/rating");
-    console.log(response.data);
+    // navigate("/rating");
+    // console.log(response.data);
   }
+
+  
+
+
 
   // const login = () => {
   //   mutate({
