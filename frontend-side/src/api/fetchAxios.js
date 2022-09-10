@@ -1,7 +1,7 @@
 import { useQuery } from "react-query"
-import { request } from "./axios"
+import { requestWithAuthorization } from "./axios"
 const fetchUsers = () => {
-    return request({ url: 'http://172.20.10.8:3001/users/getUsers' })
+    return requestWithAuthorization({ url: 'http://localhost:3001/users/getUsers' })
 }
 
 export const useUsersData = (onSuccess, onError) => {

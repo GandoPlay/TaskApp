@@ -1,9 +1,16 @@
 import axios from 'axios'
+import jwt_decode from "jwt-decode";
+import dayjs from 'dayjs'
 
-const client = axios.create({baseURL: "http://172.20.10.8:3001"})
 
-export const requestUsers = ({...options}) =>{
-    client.defaults.headers.common.Authorization = `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2MzE5ZTg1NzYyMDM2YzVmZDE3Mzc0ZTUiLCJ1c2VybmFtZSI6ImVyZ2VyZHJnIiwiaWF0IjoxNjYyNjQyMjYzLCJleHAiOjE2NjI2NDMxNjN9.hDHBBMqHy8K0l605cCENoQfyvnBxChi6phJ_8YfpiEo`
+const client = axios.create({baseURL: "http:localhost:3001"})
+
+export const requestWithAuthorization = ({...options}) =>{
+  let authTokens = localStorage.getItem('authTokens') ? JSON.parse(localStorage.getItem('authTokens')) : null
+
+  const userData = jwt_decode(authTokens.access_token)
+  const isExpired = dayjs.unix(userData.exp).diff(dayjs()) < 1;
+    client.defaults.headers.common.Authorization = `Bearer ${authTokens.access_token}`
     const onSuccess = (response) => response
     const onError = (error) => {
         return error
@@ -16,8 +23,13 @@ export const requestUsers = ({...options}) =>{
 
 export async function SignUpUserName(user) {
     const response = await axios.post(
-      "http://172.20.10.8:3001/auth/signup",
+      "http://localhost:3001/auth/signup",
       user
     );
+    console.log(response.data);
+    localStorage.setItem('authTokens', JSON.stringify(response.data))
+
+
+    
     return response.data
   }
