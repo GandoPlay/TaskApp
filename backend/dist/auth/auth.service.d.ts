@@ -11,14 +11,23 @@ export declare class AuthService {
     constructor(jwt: JwtService, config: ConfigService, userModel: Model<UserDocument>);
     signUp(userCreatedto: UserCreateDto): Promise<{
         access_token: string;
+        refresh_token: string;
     }>;
     login(userLoginDto: UserLoginDto): Promise<{
         access_token: string;
+        refresh_token: string;
     }>;
     refreshTokens(user: any): Promise<{
         access_token: string;
     }>;
-    signToken(userId: string, username: string): Promise<{
+    generateAccessToken(userId: string, username: string): Promise<{
         access_token: string;
+    }>;
+    generateRefreshToken(userId: string, username: string): Promise<{
+        refresh_token: string;
+    }>;
+    generateTokens(userId: string, username: string): Promise<{
+        access_token: string;
+        refresh_token: string;
     }>;
 }

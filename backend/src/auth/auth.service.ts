@@ -14,14 +14,14 @@ export class AuthService {
       @InjectModel('UserAuth') private readonly userModel: Model<UserDocument>) {}
 
 
-    async signUp(userCreatedto: UserCreateDto): Promise<{access_token: string}> {
+    async signUp(userCreatedto: UserCreateDto): Promise<{access_token: string,refresh_token:string}> {
       try{
         userCreatedto.hash = await argon.hash(userCreatedto.password);
         delete userCreatedto.password
 
       const newUser = new this.userModel(userCreatedto);
       const result = await newUser.save();
-      return this.signToken(result.id, result.username)
+      return this.generateTokens(result.id, result.username)
 
       }
       catch(error){
@@ -36,7 +36,7 @@ export class AuthService {
     const data = result[0];
     const pwMatches = await argon.verify(data.hash,userLoginDto.password)
       if(!pwMatches) throw new ForbiddenException('Credentials incorrect')
-      return this.signToken(data.id, data.username)
+      return this.generateTokens(data.id, data.username)
     }
 
 
@@ -68,21 +68,48 @@ export class AuthService {
     //   }
 
     async refreshTokens(user): Promise<{access_token: string}> {
-      const tokens = this.signToken(user._id, user.username)
+      const tokens = this.generateAccessToken(user._id, user.username)
       return tokens;
     }
 
-      async signToken(userId: string, username: string): Promise<{access_token: string}>{
+
+
+      async generateAccessToken(userId: string, username: string): Promise<{access_token: string}>{
         const payload = {
-            sub: userId, 
-            username, 
-        }
-        
-        const secret = this.config.get('JWT_SECRET')
-        const token = await this.jwt.signAsync(payload, {expiresIn: '15m',
-        secret: secret})
+          sub: userId, 
+          username, 
+      }
+      const accsesSecret = this.config.get('JWT_SECRET')
+      const accessToken = await this.jwt.signAsync(payload, {expiresIn: '15m',
+      secret: accsesSecret})
+      return {
+        access_token: accessToken
+      }
+
+      }
+
+
+
+      async generateRefreshToken(userId: string, username: string): Promise<{refresh_token: string}>{
+        const payload = {
+          sub: userId, 
+          username, 
+      }
+
+      const refreshSecret = this.config.get('REF_SECRET')
+      const refreshToken = await this.jwt.signAsync(payload, {expiresIn: '1d',
+      secret: refreshSecret})
+      return {refresh_token: refreshToken}
+      }
+
+
+      async generateTokens(userId: string, username: string): Promise<{access_token: string,refresh_token:string}>{
+        const accessToken = (await this.generateAccessToken(userId, username)).access_token;
+        const refreshToken = (await this.generateRefreshToken(userId, username)).refresh_token;
+
         return {
-            access_token: token
+            access_token: accessToken,
+            refresh_token: refreshToken
         }
     }
 }

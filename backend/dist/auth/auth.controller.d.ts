@@ -7,9 +7,11 @@ export declare class AuthController {
     constructor(authService: AuthService);
     signup(userCreatedto: UserCreateDto): Promise<{
         access_token: string;
+        refresh_token: string;
     }>;
     login(userLoginDto: UserLoginDto): Promise<{
         access_token: string;
+        refresh_token: string;
     }>;
     refresh(user: UserDocument): Promise<{
         access_token: string;
