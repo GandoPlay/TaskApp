@@ -55,6 +55,8 @@ function Login() {
       username: values.Username,
       password: values.Password,
     });
+    navigate('/rating')
+
   }
 
 

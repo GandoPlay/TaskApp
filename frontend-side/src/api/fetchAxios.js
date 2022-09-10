@@ -7,7 +7,6 @@ const fetchUsers = () => {
 export const useUsersData = (onSuccess, onError) => {
     return useQuery('users', fetchUsers,{
         select: (response) =>{
-            console.log(response);
             return response.data
         }
     })
