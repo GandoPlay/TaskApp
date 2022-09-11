@@ -7,48 +7,55 @@ const baseURL = 'http://localhost:3001'
 const client = axios.create({baseURL: "http:localhost:3001"})
 
 export const requestWithAccessTokenAuthorization = ({...options}) =>{
-    refreshTokenRequest()
-    let authTokens = localStorage.getItem('authTokens') ? JSON.parse(localStorage.getItem('authTokens')) : null
-    client.defaults.headers.common.Authorization = `Bearer ${authTokens.access_token}`
-
+    let access_token = JSON.parse(localStorage.getItem('accessToken'))
+    console.log('access token json' , access_token);
+    console.log('access token ' , localStorage.getItem('accessToken'));
+    client.defaults.headers.common.Authorization = `Bearer ${access_token}`
+    // if(access_token==="undefined"){
+    //   const response = requestWithRefreshTokenAuthorization({ url: 'http://localhost:3001/auth/refresh' })
+    //   localStorage.setItem('accessToken', JSON.stringify(response.data))
+    // }
     const onSuccess = (response) => response
     const onError = (error) => {
-        return error
+     requestWithRefreshTokenAuthorization({ url: 'http://localhost:3001/auth/refresh' })
+
+
     }
     return client(options).then(onSuccess).catch(onError)
 }
 
 export const requestWithRefreshTokenAuthorization = ({...options}) =>{
-  refreshTokenRequest()
-  let authTokens = localStorage.getItem('authTokens') ? JSON.parse(localStorage.getItem('authTokens')) : null
-  client.defaults.headers.common.Authorization = `Bearer ${authTokens.refresh_token}`
+  let refresh_token = JSON.parse(localStorage.getItem('refreshToken'))
+  console.log(refresh_token);
+  client.defaults.headers.common.Authorization = `Bearer ${refresh_token}`
 
-  const onSuccess = (response) => response
+  const onSuccess = (response) => {
+    localStorage.setItem('accessToken', JSON.stringify(response.data.access_token))
+
+  }
   const onError = (error) => {
+      console.log(`i tried with ${refresh_token}`);
       return error
   }
   return client(options).then(onSuccess).catch(onError)
 }
 
-export async function refreshTokenRequest(){
-  let authTokens = localStorage.getItem('authTokens') ? JSON.parse(localStorage.getItem('authTokens')) : null
-  const userData = jwt_decode(authTokens.access_token)
-  const isExpired = dayjs.unix(userData.exp).diff(dayjs()) < 1;
-  if(isExpired){
-    const response = requestWithRefreshTokenAuthorization({ url: 'http://localhost:3001/auth/refresh' })
-    localStorage.setItem('authTokens', JSON.stringify(response.data))
-  }
+// export async function refreshTokenRequest(){
 
 
-}
+//   }
+
+
 
 export async function SignUpUserName(user) {
     const response = await axios.post(
       "http://localhost:3001/auth/signup",
       user
     );
-    console.log(response.data);
-    localStorage.setItem('authTokens', JSON.stringify(response.data))
+    console.log(response.data.access_token);
+    console.log(response.data.refresh_token);
+    localStorage.setItem('accessToken', JSON.stringify(response.data.access_token))
+    localStorage.setItem('refreshToken', JSON.stringify(response.data.refresh_token))
 
 
     

@@ -7,7 +7,7 @@ const fetchUsers = () => {
 export const useUsersData = () => {
     return useQuery('users', fetchUsers,{
         select: (response) =>{
-            return response.data
+            return response.data?JSON.parse(JSON.stringify(response.data)): null
         }
     })
 }

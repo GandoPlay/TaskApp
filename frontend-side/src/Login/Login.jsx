@@ -35,19 +35,9 @@ function Login() {
   
 
 
-  const onSuccess = data => {
-    console.log({ data })
-  }
 
-  const onError = error => {
-    console.log({ error })
-  }
 
-  const { data } = useUsersData(
-    onSuccess,
-    onError
-  )
-  console.log(data);
+ 
 
 
   function onSubmit(values) {
@@ -55,7 +45,7 @@ function Login() {
       username: values.Username,
       password: values.Password,
     });
-    navigate('/rating')
+         navigate('/rating')
 
   }
 

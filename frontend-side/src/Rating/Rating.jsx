@@ -26,14 +26,9 @@ function sortById(data) {
   });
 }
 const FetchRatings = () => {
-  const {isLoading, data } = useUsersData(
+  const {isLoading, data } = useUsersData()
 
-    )
-  // const { isLoading, data } = useQuery("user-score", () => {
-  //   return axios.get("http://localhost:3500/items?_sort=score&_order=desc");
-  // });
-
-  if (isLoading) {
+  if (isLoading || !data) {
     return (
       <Text textAlign="center" fontSize="400%" mt="25%">
         Loading
@@ -53,20 +48,19 @@ const FetchRatings = () => {
       >
         <Text width="20%" fontSize="250%">
           מקום שני
-          {" " + data?.data[1].username}
+          {" " + data?data[data.length-2].username:''}
         </Text>
         <Text width="30%" height="100%" fontSize="320%">
           מקום ראשון
-          {" " + data?.data[0].username}
+          {" " + data?data[data.length-1].username:''}
         </Text>
         <Text width="15%" fontSize="150%">
           מקום שלישי
-          {"\n" + data?.data[2].username}
+          {"\n" + data?data[data.length-3].username:''}
         </Text>
       </Box>
 
       <TableContainer>
-        <Table variant="striped" colorScheme="teal">
           <Center boxShadow="lg" bg="white" width="100%">
             <Text
               fontSize="170%"
@@ -83,10 +77,10 @@ const FetchRatings = () => {
           </Center>
 
           {data
-            ? sortById(data.data).map((user) => {
+            ? data.map((user, index) => {
                 return (
                   <Center
-                    key={user.id}
+                    key={index}
                     boxShadow="lg"
                     justifyContent="space-around"
                   >
@@ -99,14 +93,13 @@ const FetchRatings = () => {
                       width="100%"
                     >
                       <Text width="25%">{user.id}</Text>
-                      <Text width="30%"> {user.name} </Text>
+                      <Text width="30%"> {user.username} </Text>
                       <Text> {user.score}</Text>
                     </Box>
                   </Center>
                 );
               })
             : ""}
-        </Table>
       </TableContainer>
     </>
   );
