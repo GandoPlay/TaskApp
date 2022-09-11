@@ -7,6 +7,7 @@ import { ChakraProvider } from "@chakra-ui/react";
 import FetchRatings, { Rating } from "./Rating/Rating";
 import ProtectedRoutes from "./protectedRoutes";
 import DateTable from "./DateTable/DateTable";
+import NavBar from "./navBar/NavBar";
 
 
 
@@ -14,6 +15,7 @@ function App() {
   return (
     <BrowserRouter>
       <ChakraProvider>
+        <NavBar/>
         <Routes>
           <Route path="/" element={<Login />} />
           <Route element={<ProtectedRoutes />}>

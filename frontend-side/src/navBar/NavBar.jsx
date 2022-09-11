@@ -1,22 +1,32 @@
 import React from "react";
 import "./NavBar.css";
 import { Link } from "react-router-dom";
-import { Container, Box, Text, Flex } from "@chakra-ui/react";
+import { Container, Box, Text, Flex, Image, Center } from "@chakra-ui/react";
 function NavBar() {
   return (
+    <Box bg="black" width="100%" height="70px">
 
-    <NavBar bg="black" width="100%" height="70px">
-      <Box>
+      
+<Image
+        id="logoRight"
+        src={require("./logoHilAyabasha.png")}
+        alt="logo"
+        width="5%"
+        height="100%"
+      />
+      <Center
+        color="white"
+        justifyContent="space-around"
+        width="40%"
+        bg="yellow"
+      >
         <Link to="/rating">date</Link>
-        <Text color="white" >
-        
-          <Link to="/rating"> Rating</Link>
-        </Text>
-      </Box>
-      <img id="logoRight" src={require("./logoHilAyabasha.png")} alt="logo" />
+        <Link to="/rating"> Rating</Link>
+      </Center>
 
-      <img id="logoLeft" src={require("./logoHatal.png")} alt="logo" />
-    </NavBar>
+
+      <Image id="logoLeft" src={require("./logoHatal.png")} alt="logo" />
+    </Box>
   );
 }
 
