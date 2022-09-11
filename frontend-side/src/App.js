@@ -8,19 +8,20 @@ import FetchRatings, { Rating } from "./Rating/Rating";
 import ProtectedRoutes from "./protectedRoutes";
 import DateTable from "./DateTable/DateTable";
 import NavBar from "./navBar/NavBar";
-
+import NoneName from "./FoldersProject/noneName";
 
 
 function App() {
   return (
     <BrowserRouter>
       <ChakraProvider>
-        <NavBar/>
+        {/* <NavBar/> */}
         <Routes>
           <Route path="/" element={<Login />} />
           <Route element={<ProtectedRoutes />}>
             <Route path="/rating" element={<FetchRatings />} />
             <Route path="/dateTable" element={<DateTable />} />
+            <Route path="/nonename" element={<NoneName />} />
           </Route>
         </Routes>
       </ChakraProvider>

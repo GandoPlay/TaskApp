@@ -1,17 +1,19 @@
 import React from "react";
 import "react-datepicker/dist/react-datepicker.css";
 import "react-big-calendar/lib/css/react-big-calendar.css";
-import { useState, useEffect, useRef } from "react";
-import DatePicker from "react-datepicker";
+import { useState } from "react";
 import { Calendar, momentLocalizer } from "react-big-calendar";
 import moment from "moment";
 import { Input, Button, Select, Box, Flex, border } from "@chakra-ui/react";
-import format from "date-fns/format";
+
 import { DateRange } from "react-date-range";
-import { addDays } from "date-fns";
-import "react-date-range/dist/styles.css";
-import "react-date-range/dist/theme/default.css";
+import { DayPicker } from "react-day-picker";
+import { format } from "date-fns";
+// import { addDays } from "date-fns";
+// import "react-date-range/dist/styles.css";
+// import "react-date-range/dist/theme/default.css";
 const localizer = momentLocalizer(moment);
+
 const events = [
   {
     title: "neriya",
@@ -32,36 +34,50 @@ const events = [
 ];
 
 function DateTable() {
-  const [newEvent, setNewEvent] = useState({ title: "", start: "", end: "" });
   const [allEvent, setAllEvent] = useState(events);
-  const [calender, setCalender] = useState("");
-  const [range, setRange] = useState([
-    {
-      startDate: new Date(),
-      endDate: addDays(new Date(), 6),
-      key: "selection",
-    },
-  ]);
-  const [open, setOpen] = useState(false);
-  const refOne = useRef(null);
-  useEffect(() => {
-    document.addEventListener("keydown", hideOnEscape, true);
-    document.addEventListener("click", hideOnClickOutside, true);
-  }, []);
+  // const [calender, setCalender] = useState("");
+
+  const [range, setRange] = useState();
+
+  //   const [open, setOpen] = useState(false);
+  //   const refOne = useRef(null);
+  //   useEffect(() => {
+  //     document.addEventListener("keydown", hideOnEscape, true);
+  //     document.addEventListener("click", hideOnClickOutside, true);
+  //   }, []);
   const AddEvent = () => {
-    setAllEvent([...allEvent, newEvent]);
+    // setAllEvent([...allEvent, newEvent]);
   };
 
-  const hideOnEscape = (e) => {
-    console.log(e.key);
-    if (e.key === "Escape") {
-      setOpen(false);
+  //   const hideOnEscape = (e) => {
+  //     console.log(e.key);
+  //     if (e.key === "Escape") {
+  //       setOpen(false);
+  //     }
+  //   };
+  //   const hideOnClickOutside = (e) => {
+  //     // console.log(refOne.current);
+  //     // console.log((e.target += 7));
+  //   };
+  //   const [values, setValues] = useState([
+  //     new DateObject().subtract(4, "days"),
+
+  //     // new DateObject().add(11, "days")
+  //   ]);
+
+  let footer = <p>Please pick the first day.</p>;
+  if (range?.from) {
+    if (!range.to) {
+      footer = <p>{format(range.from, "PPP")}</p>;
+    } else if (range.to) {
+      footer = (
+        <p>
+          {format(range.from, "PPP")}–{format(range.to, "PPP")}
+        </p>
+      );
     }
-  };
-  const hideOnClickOutside = (e) => {
-    // console.log(refOne.current);
-    console.log((e.target += 7));
-  };
+  }
+
   return (
     <Box>
       <Calendar
@@ -76,29 +92,19 @@ function DateTable() {
         touchUi={true}
         style={{ height: 500, margin: "50px" }}
       />
-
-      <Flex>
-        <Input
-          placeholder="Add User"
-          type="text"
-          name="addTitle"
-          id="addTitle"
-          value={newEvent.title}
-          onChange={(e) => setNewEvent({ ...newEvent, title: e.target.value })}
-          size="md"
-          width={"10%"}
+        <DayPicker
+          mode="range"
+          min={6}
+          max={7}
+          selected={range}
+          onSelect={setRange}
+          footer={footer}
         />
-
-        {/* <DatePicker
-          placeholderText="end Date"
-          selected={newEvent.end}
-          onChange={(end) => setNewEvent({ ...newEvent, end })}
-        /> */}
+      <Flex>
         <Button colorScheme="teal" variant="outline" onClick={AddEvent}>
           Add Event
         </Button>
-
-        <Select placeholder="Select" name="task" width={"10%"}>
+        <Select placeholder="Select" name="task" width={"15%"}>
           <option value="1">אבט"ש</option>
           <option value="2">שמירה</option>
           <option value="3">מחסן</option>
@@ -106,31 +112,58 @@ function DateTable() {
           <option value="5">הנפצה</option>
           <option value="6">אחר</option>
         </Select>
+
+        {console.log(range)}
+
+        {/* 
+        <DatePicker
+       
+       placeholderText="date"
+       range
+      //  value={}
+        onChange={(selectedDates)=>{
+          console.log({selectedDates});
+          if(!selectedDates[1]) return;
+          selectedDates[1].day = selectedDates[0].day+7
+        }}  
+
+        /> */}
         {/* <DatePicker
+  value={values}
+  onChange={setValues}
+  range
+/> */}
+
+        {/* 
+        <DatePicker
            placeholderText="Start Date"
           selectsRange={true}
           // // Date={new Date().getDate() + 7}
-          // selected={newEvent.start}
+           selected={newEvent.start}
           // style={{ width: "200px", height: "50px", border: "3px" }}
-        
-          // onChange={onChange}
+
+           onChange={onChange}
           // value={value}
+          range
+          weekPicker
+          // selected={startDate} onChange={(date ) => setStartDate(date)}
+        /> */}
 
-          selected={startDate} onChange={(date ) => setStartDate(date)}
-        />
-         {console.log(startDate)} */}
-
+        {/* {console.log(startDate)} */}
+        {/* 
         <Input
-          width="25%"
+          width="31%"
           //לסדר את הלוח שנה שיקבל רק 7 ימים ולא מלא
-          value={`  ${format(range[0].startDate, "MM/dd/yyyy")}to ${format(
-            range[0].startDate,
-            `MM/dd/yyyy`
-          )} `}
+          value={`  ${format(range[0].startDate, "MM/dd/yyyy")} 
+          to
+           ${format(range[0].endDate, `MM/dd/yyyy` )} `}
           readOnly
           className="inputBox"
           onClick={() => setOpen((open) => !open)}
-        />
+        /> */}
+
+        {/* {console.log(range[0].startDate)}
+        {console.log(range[0].endDate)} 
 
         {open && (
           <DateRange
@@ -141,8 +174,9 @@ function DateTable() {
             months={1}
             direction="horizontal"
             className="calenderElement"
+          
           />
-        )}
+        )}  */}
       </Flex>
     </Box>
   );

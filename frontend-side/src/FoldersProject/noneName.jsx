@@ -1,16 +1,12 @@
 import { ChakraProvider } from "@chakra-ui/react";
-import React from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import FetchRatings, { Rating } from "./Rating/Rating";
-import DateTable from "./DateTable/DateTable";
+import React, { useState } from "react";
+import { DayPicker } from "react-day-picker";
+import "react-day-picker/dist/style.css";
 
-function noneName() {
-  return (
-    <>
-        <FetchRatings />
-        <DateTable />
-        </>
-  );
+function NoneName() {
+  const [range, setRange] = useState();
+
+  return <></>;
 }
 
-export default noneName;
+export default NoneName;
