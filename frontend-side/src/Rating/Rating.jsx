@@ -1,6 +1,7 @@
 import React from "react";
 import { useQuery } from "react-query";
 import axios from "axios";
+import { useUsersData } from "../api/fetchAxios";
 import {
   Table,
   Thead,
@@ -25,9 +26,12 @@ function sortById(data) {
   });
 }
 const FetchRatings = () => {
-  const { isLoading, data } = useQuery("user-score", () => {
-    return axios.get("http://localhost:3500/items?_sort=score&_order=desc");
-  });
+  const {isLoading, data } = useUsersData(
+
+    )
+  // const { isLoading, data } = useQuery("user-score", () => {
+  //   return axios.get("http://localhost:3500/items?_sort=score&_order=desc");
+  // });
 
   if (isLoading) {
     return (
@@ -49,15 +53,15 @@ const FetchRatings = () => {
       >
         <Text width="20%" fontSize="250%">
           מקום שני
-          {" " + data?.data[1].name}
+          {" " + data?.data[1].username}
         </Text>
         <Text width="30%" height="100%" fontSize="320%">
           מקום ראשון
-          {" " + data?.data[0].name}
+          {" " + data?.data[0].username}
         </Text>
         <Text width="15%" fontSize="150%">
           מקום שלישי
-          {"\n" + data?.data[2].name}
+          {"\n" + data?.data[2].username}
         </Text>
       </Box>
 
