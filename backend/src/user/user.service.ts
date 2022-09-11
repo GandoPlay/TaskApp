@@ -9,10 +9,10 @@ export class UserService {
     constructor(@InjectModel('UserAuth') private readonly userModel: Model<UserDocument>) {}
 
     async getUsers() {
-        const users = await this.userModel.find({}).exec()
-        console.log({users});
-        
-        return users;
+        // const users = await this.userModel.find({}).exec()
+        //return the users in ascending order.
+        return this.userModel.find({}).sort('score').exec();
+        // return users.sort()
       }
 
     async getTasks(user) {

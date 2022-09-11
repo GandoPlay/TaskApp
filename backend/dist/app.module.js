@@ -14,16 +14,11 @@ const auth_module_1 = require("./auth/auth.module");
 const user_module_1 = require("./user/user.module");
 const task_module_1 = require("./task/task.module");
 const mongoose_service_1 = require("./mongoose.service");
-const refresh_token_controller_1 = require("./refresh-token/refresh-token.controller");
-const refresh_token_service_1 = require("./refresh-token/refresh-token.service");
-const refresh_token_module_1 = require("./refresh-token/refresh-token.module");
 let AppModule = class AppModule {
 };
 AppModule = __decorate([
     (0, common_1.Module)({
-        imports: [config_1.ConfigModule.forRoot({ isGlobal: true }), auth_module_1.AuthModule, user_module_1.UserModule, task_module_1.TaskModule, mongoose_1.MongooseModule.forRootAsync({ useClass: mongoose_service_1.MongooseConfigService }), refresh_token_module_1.RefreshTokenModule],
-        controllers: [refresh_token_controller_1.RefreshTokenController],
-        providers: [refresh_token_service_1.RefreshTokenService],
+        imports: [config_1.ConfigModule.forRoot({ isGlobal: true }), auth_module_1.AuthModule, user_module_1.UserModule, task_module_1.TaskModule, mongoose_1.MongooseModule.forRootAsync({ useClass: mongoose_service_1.MongooseConfigService })],
     })
 ], AppModule);
 exports.AppModule = AppModule;

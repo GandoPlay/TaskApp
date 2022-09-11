@@ -11,9 +11,9 @@ import { UserDocument } from 'src/schemas/User.schema';
 
 
 @Injectable()
-export class JwtStrategy extends PassportStrategy(
+export class JwtRefreshTokenStrategy extends PassportStrategy(
   Strategy,
-  'jwt',
+  'jwt-ref',
 ) {
   constructor(
     config: ConfigService,
@@ -22,7 +22,7 @@ export class JwtStrategy extends PassportStrategy(
     super({
       jwtFromRequest:
         ExtractJwt.fromAuthHeaderAsBearerToken(),
-      secretOrKey: config.get('JWT_SECRET'),
+      secretOrKey: config.get('REF_SECRET'),
     });
   }
 

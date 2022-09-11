@@ -21,7 +21,7 @@ AuthModule = __decorate([
     (0, common_1.Module)({
         imports: [mongoose_1.MongooseModule.forFeature([{ name: User_schema_1.UserAuth.name, schema: User_schema_2.UserAuthSchema }]), jwt_1.JwtModule.register({})],
         controllers: [auth_controller_1.AuthController],
-        providers: [auth_service_1.AuthService, strategy_1.JwtStrategy],
+        providers: [auth_service_1.AuthService, strategy_1.JwtAccessTokenStrategy, strategy_1.JwtRefreshTokenStrategy],
     })
 ], AuthModule);
 exports.AuthModule = AuthModule;

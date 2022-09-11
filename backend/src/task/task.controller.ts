@@ -1,12 +1,12 @@
 import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
 import { GetUser } from 'src/auth/decorator';
-import { JwtGuard } from 'src/auth/guard';
+import { JwtAccessTokenGuard } from 'src/auth/guard';
 import { Role } from 'src/Task.enum';
 import { TaskService } from './task.service';
 import {TaskCreateDto} from 'src/dto/Task/TaskCreate.dto'
 import { UserDocument } from 'src/schemas/User.schema';
 import { TaskDeleteDto } from 'src/dto/Task/TaskDelete.dto';
-@UseGuards(JwtGuard)
+@UseGuards(JwtAccessTokenGuard)
 @Controller('task')
 export class TaskController {
     constructor(private readonly taskService: TaskService){}    

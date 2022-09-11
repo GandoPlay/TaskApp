@@ -5,10 +5,10 @@
 } from '@nestjs/common';
 import { UserAuth, UserDocument } from 'src/schemas/User.schema';
 import { GetUser } from '../auth/decorator';
-import { JwtGuard } from '../auth/guard';
+import { JwtAccessTokenGuard } from '../auth/guard';
 import { UserService } from './user.service';
 
-@UseGuards(JwtGuard)
+@UseGuards(JwtAccessTokenGuard)
 @Controller('users')
 export class UserController {
   constructor(private readonly userService: UserService) {}
