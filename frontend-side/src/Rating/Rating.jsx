@@ -28,13 +28,15 @@ function sortById(data) {
 const FetchRatings = () => {
   const {isLoading, data } = useUsersData()
 
-  if (isLoading || !data) {
+  if (isLoading||!data) {
     return (
       <Text textAlign="center" fontSize="400%" mt="25%">
         Loading
       </Text>
     );
   }
+
+  
   return (
     <>
     

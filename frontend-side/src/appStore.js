@@ -11,5 +11,7 @@ import create from 'zustand';
 
 
 const useStore = create(set=>({
-    username: String
+    username: undefined,
+    setUsername: (username) => set((state)=>({username: username})),
 }))
+export default useStore
