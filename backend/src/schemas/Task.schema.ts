@@ -12,10 +12,21 @@ export type TaskDocument = Task & Document;
 export class Task {
 
     @Prop({ required: true })
-    date: Number
+    startDate: Number
+
+    @Prop({ required: true })
+    endDate: Number
+
+    @Prop({ required: true })
+    command: String
+
+    
+
     @Prop({ type: String, enum: Role})
     type: Role
 
+
+    
     @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'UserAuth' })
     owner: UserDocument
 

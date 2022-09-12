@@ -1,14 +1,28 @@
-import { IsNotEmpty , IsIn, IsEnum} from "class-validator"
+import { IsNotEmpty , IsIn, IsEnum, IsString, IsNumber} from "class-validator"
 import { Role } from "../../Task.enum";
-
+ 
 export class TaskCreateDto{
-    id: string
     @IsNotEmpty()
-    date: number
+    @IsString()
+    id: string
+
+    @IsNotEmpty()
+    @IsString()
+    command: string
+
+    @IsNotEmpty()
+    @IsNumber()
+    startDate: number
+
+    @IsNotEmpty()
+    @IsNumber()
+    endDate: number
     // @IsIn(Object.values(Role))
     // type: Role
     @IsEnum(Role)
     type: Role
+
+    @IsString()
     @IsNotEmpty()
     owner: string
 }
