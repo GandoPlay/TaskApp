@@ -61,12 +61,20 @@ function DateTable() {
   // const [calender, setCalender] = useState("");
 
   const { isOpen, onOpen, onClose } = useDisclosure();
-
+  const [massage, setMassage] = useState("");
+  const [time, setTime] = useState();
   const [range, setRange] = useState();
 
-  const click = () => {};
   const AddEvent = () => {
     // setAllEvent([...allEvent, newEvent]);
+    if (massage || range.from) {
+      setTime([range.from].toString());
+      // console.log({ range });
+      // alert(massage + [range.from].toString + [range.to].toString );
+      console.log(massage);
+      console.log([range.from].toString());
+      console.log([range.to].toString());
+    }
   };
 
   let footer = <p>Please pick the first day.</p>;
@@ -81,7 +89,16 @@ function DateTable() {
       );
     }
   }
+  const eventChangh = (event) => {
+    setMassage(event.target.value);
 
+    console.log({ massage });
+    console.log(time);
+  };
+  // const changhDay =(range)=>{
+
+  //   console.log(range);
+  // }
   return (
     <Box>
       <Calendar
@@ -104,19 +121,21 @@ function DateTable() {
             <MenuButton as={Button}>Actions</MenuButton>
             <MenuList>
               {Role.map((item, index) => (
-                <MenuItem key={index} colorScheme="blue" onClick={onOpen}>
+                <MenuItem key={index}  onClick={onOpen}>
                   {item}
                 </MenuItem>
               ))}
             </MenuList>
           </Menu>
         </Grid>
+
         {/* <Button onClick={onOpen}>Open Modal</Button> */}
         <Modal closeOnOverlayClick={false} isOpen={isOpen} onClose={onClose}>
           <ModalOverlay />
           <ModalContent>
             <Center>
               <DayPicker
+                //  onChange={setTime}
                 mode="range"
                 min={6}
                 max={7}
@@ -127,11 +146,15 @@ function DateTable() {
             </Center>
             <ModalCloseButton />
             <ModalBody pb={6}></ModalBody>
-            <Input placeholder="comment" />
+            <Input
+              placeholder="comment"
+              type="text"
+              id="massage"
+              onChange={eventChangh}
+              value={massage}
+            />
             <ModalFooter>
-              {/* 
-<Box>{console.log()}</Box> */}
-//צריך לעשות שלוחצים על שמירה הוא ישמור לי את הטורנות ואת הימים שלו
+              {/* //צריך לעשות שלוחצים על שמירה הוא ישמור לי את הטורנות ואת הימים שלו */}
               <Button
                 colorScheme="blue"
                 mr={3}
@@ -144,7 +167,6 @@ function DateTable() {
             </ModalFooter>
           </ModalContent>
         </Modal>
-        {console.log(range)}
       </Flex>
     </Box>
   );
