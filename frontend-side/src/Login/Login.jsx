@@ -19,7 +19,7 @@ import { useForm } from "react-hook-form";
 import NavBar from "../navBar/NavBar";
 import { request, SignUpUserName } from "../api/axios";
 import { useUsersData } from "../api/fetchAxios";
-
+import useStore from "../appStore";
 function Login() {
 
 
@@ -32,7 +32,8 @@ function Login() {
   const navigate = useNavigate();
 
   const { isLoading, isError, error, mutate } = useMutation(SignUpUserName);
-  
+  const setUsername = useStore((state) => state.setUsername);
+
 
 
 
@@ -45,7 +46,8 @@ function Login() {
       username: values.Username,
       password: values.Password,
     });
-         navigate('/rating')
+    setUsername(values.Username)
+     navigate('/rating')
 
   }
 

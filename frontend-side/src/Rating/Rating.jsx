@@ -11,6 +11,7 @@ import {
   Text,
   Center,
 } from "@chakra-ui/react";
+import { useStore } from "../appStore";
 
 import {
   List,
@@ -27,6 +28,7 @@ function sortById(data) {
 }
 const FetchRatings = () => {
   const {isLoading, data } = useUsersData()
+const username = useStore(state=> state.username)
 
   if (isLoading||!data) {
     return (
@@ -48,6 +50,7 @@ const FetchRatings = () => {
         height="150px"
         justifyContent="space-around"
       >
+        <Text>{username}</Text>
         <Text width="20%" fontSize="250%">
           מקום שני
           {" " + data?data[data.length-2].username:''}
