@@ -1,10 +1,12 @@
 import { useQuery } from "react-query"
 import { requestWithAccessTokenAuthorization } from "./axios"
-const baseURL = 'http://172.20.10.8:3001'
+import client from "./axios"
 
+const baseURL = 'http://localhost:3001'
 const fetchUsers = () => {
     
-    return requestWithAccessTokenAuthorization({ url: baseURL+'/users/getUsers' })
+    return client.get(baseURL+'/users/getUsers')
+    //return requestWithAccessTokenAuthorization({ url: baseURL+'/users/getUsers' })
 }
 
 export const useUsersData = () => {
