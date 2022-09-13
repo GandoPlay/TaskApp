@@ -1,26 +1,30 @@
-import { Injectable } from '@nestjs/common';
-import { PrismaService } from '../prisma/prisma.service';
-import { EditUserDto } from './dto';
+import { Injectable } from '@nestjs/common'
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
+import { UserDocument } from 'src/schemas/User.schema';
+import { Rank, Role } from 'src/Task.enum';
 
 @Injectable()
 export class UserService {
-  constructor(private prisma: PrismaService) {}
+    constructor(@InjectModel('UserAuth') private readonly userModel: Model<UserDocument>) {}
 
-  async editUser(
-    userId: number,
-    dto: EditUserDto,
-  ) {
-    const user = await this.prisma.user.update({
-      where: {
-        id: userId,
-      },
-      data: {
-        ...dto,
-      },
-    });
+    /**
+     * 
+     * @returns all the users sorted by their score
+     */
+    async getUsers() {
+        return this.userModel.find({}).sort('score').exec();
+      }
+    /**
+     * 
+     * @param user verifed user data
+     * @returns all the tasks the user has
+     */
+    async getTasks(user) {
+      const userPopulated = await user.populate('tasks')
+      return userPopulated.tasks
+    }
 
-    delete user.hash;
 
-    return user;
-  }
 }
+ 
