@@ -9,6 +9,12 @@ import { TaskDeleteDto } from 'src/dto/Task/TaskDelete.dto';
 export class TaskService {
     constructor(@InjectModel('Task') private readonly taskModel: Model<TaskDocument>){}
 
+    /**
+     * 
+     * @param TaskCreatedto information about a task to create it
+     * @param owner the owner creating the task
+     * @returns the task created
+     */
     async addTask(TaskCreatedto: TaskCreateDto, owner): Promise<Task> {// 
       TaskCreatedto.owner = owner._id
       let newTask = new this.taskModel(TaskCreatedto);
@@ -23,17 +29,24 @@ export class TaskService {
   }
 
 
-
+  /**
+   * 
+   * @param TaskDeleteDto information about a task to delete it
+   */
   async removeTask(TaskDeleteDto: TaskDeleteDto){
    const task = await this.taskModel.findById(TaskDeleteDto.id);
    const populatedTask = await task.populate('owner');
    const ownerTask = populatedTask.owner;
    ownerTask.tasks = ownerTask.tasks.filter(t=>{ 
-   return t._id.toString() !== TaskDeleteDto.id});
+   t._id.toString() !== TaskDeleteDto.id});
    await ownerTask.save();
    }
 
-    async taskCalc(user) {
+   /**
+    * 
+    * @param user a verifed user data
+    */ 
+   async taskCalc(user) {
       const total = user.score
       switch(true){
         case total == 0:

@@ -8,13 +8,18 @@ import { Rank, Role } from 'src/Task.enum';
 export class UserService {
     constructor(@InjectModel('UserAuth') private readonly userModel: Model<UserDocument>) {}
 
+    /**
+     * 
+     * @returns all the users sorted by their score
+     */
     async getUsers() {
-        // const users = await this.userModel.find({}).exec()
-        //return the users in ascending order.
         return this.userModel.find({}).sort('score').exec();
-        // return users.sort()
       }
-
+    /**
+     * 
+     * @param user verifed user data
+     * @returns all the tasks the user has
+     */
     async getTasks(user) {
       const userPopulated = await user.populate('tasks')
       return userPopulated.tasks

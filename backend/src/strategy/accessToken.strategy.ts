@@ -26,6 +26,11 @@ export class JwtAccessTokenStrategy extends PassportStrategy(
     });
   }
 
+  /**
+   * 
+   * @param payload the data included in the token 
+   * @returns the verified user
+   */
   async validate(payload: {
     sub: number;
     username: string;

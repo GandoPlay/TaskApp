@@ -48,8 +48,8 @@ let AuthService = class AuthService {
         return this.generateTokens(data.id, data.username);
     }
     async refreshTokens(user) {
-        const tokens = this.generateAccessToken(user._id, user.username);
-        return tokens;
+        const token = this.generateAccessToken(user._id, user.username);
+        return token;
     }
     async generateAccessToken(userId, username) {
         const payload = {

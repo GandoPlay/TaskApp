@@ -13,7 +13,10 @@ export class AuthService {
       private config: ConfigService,
       @InjectModel('UserAuth') private readonly userModel: Model<UserDocument>) {}
 
-
+      /**
+       * @param userCreatedto  signup data about the user
+       * @returns  the refreshToken and the accessToken
+       */
     async signUp(userCreatedto: UserCreateDto): Promise<{access_token: string,refresh_token:string}> {
       try{
         userCreatedto.hash = await argon.hash(userCreatedto.password);
@@ -30,11 +33,15 @@ export class AuthService {
   }
 
   
+  /**
+   * @param userLoginDto login data about the user
+   * @returns  the refreshToken and the accessToken
+   */
   async login(userLoginDto: UserLoginDto) {
     const result = await this.userModel.find({username: userLoginDto.username}).exec()
     if(!result) throw new ForbiddenException('Credentials incorrect')
-    const data = result[0];
-    const pwMatches = await argon.verify(data.hash,userLoginDto.password)
+    const data = result[0]; // a way the access the user's features
+    const pwMatches = await argon.verify(data.hash,userLoginDto.password) // checks if the password entered matches with the matching user
       if(!pwMatches) throw new ForbiddenException('Credentials incorrect')
       return this.generateTokens(data.id, data.username)
     }
@@ -67,14 +74,24 @@ export class AuthService {
     //     return this.signToken(data.id, data.username)
     //   }
 
+    /**
+     * @param user a verifed user data
+     * @return a new accessToken
+     */
     async refreshTokens(user): Promise<{access_token: string}> {
-      const tokens = this.generateAccessToken(user._id, user.username)
-      return tokens;
+      const token = this.generateAccessToken(user._id, user.username)
+      return token;
     }
 
 
 
-      async generateAccessToken(userId: string, username: string): Promise<{access_token: string}>{
+    /**
+     * 
+     * @param userId the id of the user
+     * @param username the username
+     * @returns a new accessToken
+     */
+    async generateAccessToken(userId: string, username: string): Promise<{access_token: string}>{
         const payload = {
           sub: userId, 
           username, 
@@ -89,7 +106,12 @@ export class AuthService {
       }
 
 
-
+      /**
+       * 
+       * @param userId the id of the user
+       * @param username the username
+       * @returns a new refreshToken
+       */
       async generateRefreshToken(userId: string, username: string): Promise<{refresh_token: string}>{
         const payload = {
           sub: userId, 
@@ -103,6 +125,12 @@ export class AuthService {
       }
 
 
+      /**
+       * 
+       * @param userId the id of the user
+       * @param username the username
+       * @returns a new refreshToken and accessToken
+       */
       async generateTokens(userId: string, username: string): Promise<{access_token: string,refresh_token:string}>{
         const accessToken = (await this.generateAccessToken(userId, username)).access_token;
         const refreshToken = (await this.generateRefreshToken(userId, username)).refresh_token;

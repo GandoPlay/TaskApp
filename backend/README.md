@@ -25,7 +25,7 @@
 ## תיאור
 
 ```bash
-[Nest](https://github.com/nestjs/nest) פריימוורק שעובד בטייפסקריפט הנקרא נסט: פרויקט ראשון של עידו בן יוספה נריה וגל
+[Nest](https://github.com/nestjs/nest) פריימוורק שעובד בטייפסקריפט הנקרא נסט: פרויקט ראשון של עידו בן יוסף וגל
 ```
 
 ## הורדה
@@ -47,7 +47,7 @@ $ npm run start:dev
 $ npm run start:prod
 ```
 
-## אין טסט לול
+## אין טסט
 
 ```bash
 # unit tests
