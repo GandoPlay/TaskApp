@@ -8,7 +8,5 @@ import { MongooseConfigService } from './mongoose.service';
 
 @Module({
   imports: [ConfigModule.forRoot({isGlobal: true}),AuthModule,UserModule, TaskModule, MongooseModule.forRootAsync({useClass: MongooseConfigService})],
-  // controllers: [RefreshTokenController],
-  // providers: [RefreshTokenService],
 })
 export class AppModule {}

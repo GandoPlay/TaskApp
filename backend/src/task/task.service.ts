@@ -14,10 +14,10 @@ export class TaskService {
       let newTask = new this.taskModel(TaskCreatedto);
       const result = await newTask.save();
       owner.tasks.push(result._id)
-      await this.taskCalc(owner)
       const type = newTask.type
       const score = owner.score + taskDictionary[type]
       await owner.updateOne({score: score})
+      await this.taskCalc(owner)
       await owner.save()
       return result;
   }

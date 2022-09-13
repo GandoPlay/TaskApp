@@ -1,6 +1,6 @@
 import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
 import { GetUser } from 'src/auth/decorator';
-import { JwtAccessTokenGuard } from 'src/auth/guard';
+import { JwtAccessTokenGuard } from 'src/guard';
 import { Role } from 'src/Task.enum';
 import { TaskService } from './task.service';
 import {TaskCreateDto} from 'src/dto/Task/TaskCreate.dto'

@@ -5,7 +5,7 @@
 } from '@nestjs/common';
 import { UserAuth, UserDocument } from 'src/schemas/User.schema';
 import { GetUser } from '../auth/decorator';
-import { JwtAccessTokenGuard } from '../auth/guard';
+import { JwtAccessTokenGuard } from '../guard';
 import { UserService } from './user.service';
 
 @UseGuards(JwtAccessTokenGuard)

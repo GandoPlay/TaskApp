@@ -18,7 +18,7 @@ export class Task {
     endDate: Number
 
     @Prop({ required: true })
-    command: String
+    comment: String
 
     
 

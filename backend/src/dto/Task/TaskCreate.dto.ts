@@ -8,7 +8,7 @@ export class TaskCreateDto{
 
     @IsNotEmpty()
     @IsString()
-    command: string
+    comment: string
 
     @IsNotEmpty()
     @IsNumber()

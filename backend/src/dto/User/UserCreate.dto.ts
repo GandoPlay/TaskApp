@@ -24,7 +24,6 @@ export class UserCreateDto{
     
     tasks: Task[]
     
-    @IsNotEmpty()
-    @IsNumber()
+    
     score: Number
 }
