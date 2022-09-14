@@ -8,13 +8,13 @@ import FetchRatings, { Rating } from "./Rating/Rating";
 import ProtectedRoutes from "./protectedRoutes";
 import DateTable from "./DateTable/DateTable";
 
-
+import history from "./history";
 
 function App() {
   return (
     <BrowserRouter>
       <ChakraProvider>
-        <Routes>
+        <Routes  history={history}>
           <Route path="/" element={<Login />} />
           <Route element={<ProtectedRoutes />}>
             <Route path="/rating" element={<FetchRatings />} />

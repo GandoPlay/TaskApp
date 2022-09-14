@@ -1,21 +1,62 @@
 import axios from 'axios'
+import history from "../history";
+import React from 'react';
+import  useStore  from '../appStore';
+const baseURL = 'http://localhost:3001'
+const client = axios.create({ baseURL: baseURL })
 
 
-const baseURL = 'http://172.20.10.8:3001'
-const client = axios.create({baseURL: baseURL})
+// function useIsVaild(){
+//   return useStore(state=> state.setIsVaild)
+//  }
+ 
+ function NavigateTo(location){
+  history.replace(location)
+  history.go(0)
+ }
+ function authorizationRequest(config, tokenType){
+    let token = JSON.parse(localStorage.getItem(tokenType))
+    if (token) {
+      if(config.defaults){
+        config.defaults.headers.common['Authorization'] = 'Bearer ' + token
+      }
+
+      else{
+        config.headers['Authorization'] = 'Bearer ' + token
+
+      }
+    }
+    else {
+      if(tokenType === 'refreshToken'){
+      // the refresh token is expired.
+      NavigateTo('/')
+
+      }
+    }
+  }
+
+
+
 client.interceptors.request.use(
   config => {
-    let access_token = JSON.parse(localStorage.getItem('accessToken'))
-    if (access_token) {
-      config.headers['Authorization'] = 'Bearer ' + access_token
+    //the user is trying to get a new access token.
+    if (config.url === '/auth/refresh') {
+      
+      authorizationRequest(config, 'refreshToken')
     }
-    // config.headers['Content-Type'] = 'application/json';
+    else {
+      //the user is trying to reach the data with the access token.
+      authorizationRequest(config, 'accessToken')
+    }
     return config
+
   },
   error => {
     Promise.reject(error)
   }
 )
+
+
 
 client.interceptors.response.use(
   response => {
@@ -23,87 +64,67 @@ client.interceptors.response.use(
   },
   function (error) {
     const originalRequest = error.config
+    //the user is trying to get a new access token but the refresh token has expired.
+    if (error.response?.status === 401 && originalRequest.url === baseURL + 'auth/refresh') {
+      NavigateTo('/')
 
-    if (error.response?.status === 401 && originalRequest.url === baseURL+'auth/refresh') {
       return Promise.reject(error)
     }
-
-    if (error.response.status === 401 && !originalRequest._retry) {
+  
+    // the user is trying to get data but his access token is not up to date.
+    if (error.response?.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true
-      let refresh_token = JSON.parse(localStorage.getItem('refreshToken'))
-      return client
-        .post('/auth/refresh', {
-          refresh_token: refresh_token
-        })
-        .then(res => {
-          if (res.status === 201) {
-            localStorage.setItem('accessToken', JSON.stringify(res.data.access_token))
-            
-            let access_token = JSON.parse(localStorage.getItem('accessToken'))
 
-            client.defaults.headers.common['Authorization'] = 'Bearer ' + access_token
-            return client(originalRequest)
-          }
-        })
+      return client.get('/auth/refresh').then(res => {
+        if (res?.statusText === 'OK') {
+           localStorage.setItem('accessToken', JSON.stringify(res.data.access_token))
+          authorizationRequest(client, 'accessToken')
+          return client(originalRequest)
+        }
+      })
     }
     return Promise.reject(error)
   }
 )
 
 
-export default client
 
 
 
 
+ const useStoreVaild = () => {
+  return useStore((state) => state.setIsVaild);
+}
 
-
-
-// const client = axios.create({baseURL: baseURL})
-// export const requestWithAccessTokenAuthorization = ({...options}) =>{
-//     let access_token = JSON.parse(localStorage.getItem('accessToken'))
-//     client.defaults.headers.common.Authorization = `Bearer ${access_token}`
-    
-//     const onSuccess = (response) =>  response
-//     const onError = (error) => {
-//       if(error.response.status ===401&&!error.config.__isRetryRequest){  
-//         error.config.__isRetryRequest = true
-//         requestWithRefreshTokenAuthorization({ url: baseURL+'/auth/refresh' })
-//         console.log('HERE');
-//         return error.config
-//       }
-
-
-//     }
-//     return client(options).then(onSuccess).catch(onError)
-// }
-
-// export const requestWithRefreshTokenAuthorization = ({...options}, req) =>{
-//   let refresh_token = JSON.parse(localStorage.getItem('refreshToken'))
-//   client.defaults.headers.common.Authorization = `Bearer ${refresh_token}`
-
-//   const onSuccess = (response) => {
-//     localStorage.setItem('accessToken', JSON.stringify(response.data.access_token))
-
-//   }
-//   const onError = (error) => {
-//     return error
-//   }
-//   return client(options).then(onSuccess).catch(onError)
-// }
-
-
-
-export async function SignUpUserName(user) {
-    const response = await axios.post(
-      baseURL+"/auth/signup",
-      user
-    );
+export async function LoginUser(user){
+  //  const setIsVaild = useStore((state) => state.setIsVaild);
+  const isVaild = useStoreVaild()
+  const response = await axios.post(
+    baseURL + "/auth/login",
+    user
+  );
+  if(response.data.access_token&&response.data.refresh_token){
 
     localStorage.setItem('accessToken', JSON.stringify(response.data.access_token))
     localStorage.setItem('refreshToken', JSON.stringify(response.data.refresh_token))
-
-
-    
-    return response.data
   }
+
+}
+
+export async function SignUpUserName(user) {
+
+  const response = await axios.post(
+    baseURL + "/auth/signup",
+    user
+  );
+
+
+  localStorage.setItem('accessToken', JSON.stringify(response.data.access_token))
+  localStorage.setItem('refreshToken', JSON.stringify(response.data.refresh_token))
+  NavigateTo('/rating')
+
+
+
+}
+
+export default client

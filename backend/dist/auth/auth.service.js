@@ -40,11 +40,14 @@ let AuthService = class AuthService {
     async login(userLoginDto) {
         const result = await this.userModel.find({ username: userLoginDto.username }).exec();
         if (!result)
-            throw new common_1.ForbiddenException('Credentials incorrect');
+            return undefined;
         const data = result[0];
+        console.log(data);
+        if (!data)
+            return undefined;
         const pwMatches = await argon.verify(data.hash, userLoginDto.password);
         if (!pwMatches)
-            throw new common_1.ForbiddenException('Credentials incorrect');
+            return undefined;
         return this.generateTokens(data.id, data.username);
     }
     async refreshTokens(user) {

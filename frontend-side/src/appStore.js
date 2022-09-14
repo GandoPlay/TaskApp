@@ -1,10 +1,14 @@
 import create from 'zustand';
 
 
-export const useStore = create(set=>({
+const useStore = create(set=>({
     username: undefined,
-    setUsername: (username) => {set({ username })
-    console.log(username);
-},
+    isVaild: true,
+    setUsername: (username) => {set({ username })},
+    setIsVaild : (isVaild) => {set({isVaild})}
+
 }))
-export default useStore
+
+
+
+ export default  useStore

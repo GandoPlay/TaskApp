@@ -17,6 +17,12 @@ export class UserController {
     return user;
   }
 
+
+  @Get('getUser')
+  GetUser(@GetUser() user: UserDocument) {
+    return this.userService.getUser(user)
+  }
+
   @Get('getUsers')
   getUsers() {
     return this.userService.getUsers();

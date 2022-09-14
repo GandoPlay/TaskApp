@@ -1,7 +1,7 @@
 import { useQuery } from "react-query"
 import { requestWithAccessTokenAuthorization } from "./axios"
 import client from "./axios"
-
+import { LoginUser } from "./axios"
 const baseURL = 'http://localhost:3001'
 const fetchUsers = () => {
     
@@ -16,3 +16,12 @@ export const useUsersData = () => {
         }
     })
 }
+
+// export const useLogin = () => {
+//     return useQuery('login', LoginUser,{
+//         select: (response) =>{
+//             return response.data
+//         }
+//     })
+// }
+

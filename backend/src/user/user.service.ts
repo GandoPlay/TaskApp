@@ -25,6 +25,10 @@ export class UserService {
       return userPopulated.tasks
     }
 
+    async getUser(user) {
+      return {id: user.id}
+    }
+
 
 }
  

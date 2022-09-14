@@ -10,16 +10,16 @@ import {
   Button,
 } from "@chakra-ui/react";
 import "./Login.css";
-import { useNavigate } from "react-router-dom";
 import { useState, useContext } from "react";
 import axios from "axios";
 // import { Context } from "../Context/context";
 import { useQuery, useMutation } from "react-query";
 import { useForm } from "react-hook-form";
 import NavBar from "../navBar/NavBar";
-import { request, SignUpUserName } from "../api/axios";
+import { request, SignUpUserName , LoginUser} from "../api/axios";
 import { useUsersData } from "../api/fetchAxios";
 import useStore from "../appStore";
+import {useLogin} from '../api/fetchAxios'
 function Login() {
 
 
@@ -29,11 +29,10 @@ function Login() {
     formState: { errors, isSubmitting },
   } = useForm();
 
-  const navigate = useNavigate();
 
-  const { isLoading, isError, error, mutate } = useMutation(SignUpUserName);
+  const { isLoading, isError, error, mutate } = useMutation(LoginUser);
   const setUsername = useStore((state) => state.setUsername);
-
+  
 
 
 
@@ -47,7 +46,7 @@ function Login() {
       password: values.Password,
     });
     setUsername(values.Username)
-     navigate('/rating')
+    
 
   }
 
