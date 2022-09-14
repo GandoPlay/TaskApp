@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Modal,
   ModalOverlay,
@@ -16,29 +16,53 @@ import { format } from "date-fns";
 
 import { DayPicker } from "react-day-picker";
 
-const TaskModal = ({ type ,array }) => {
+const TaskModal = ({ type, array }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [range, setRange] = useState();
   const [time, setTime] = useState();
   const [massage, setMassage] = useState("");
-
+  const [avtash, setAvtash] = useState("אבטש");
+  const [number, setNumber] = useState();
   const eventChangh = (event) => {
     setMassage(event.target.value);
 
-    console.log({ massage });
+    console.log(event.target.value);
     console.log(time);
   };
-  const AddEvent = () => {
-  
-    if (massage || range.from) {
-      setTime([range.from].toString());
-      console.log(massage);
-      console.log([range.from].toString());
-      console.log([range.to].toString());
-      console.log({array});
-    array.push({title:type,start:range.from,end:range.to})
-    }
-  };
+  const sameType = () => {
+   
+   
+    //   setNumber(3);
+     
+    
+    };
+    useEffect(() => {
+    const AddEvent = () => {
+    
+          if (massage || range.from) {
+              setTime([range.from].toString());
+              console.log(massage);
+              console.log([range.from].toString());
+              console.log([range.to].toString());
+              console.log({ array });
+      console.log(array);
+
+      setNumber(80)
+      setAvtash("gbjnjnj")
+        console.log(number);
+        
+        array.push({
+            title: `${type} : ${massage}`,
+        start: range.from,
+        end: range.to,
+    });
+    onClose();
+    //   sameType()
+   
+}
+};
+});
+
   let footer = <p>Please pick the first day.</p>;
   if (range?.from) {
     if (!range.to) {

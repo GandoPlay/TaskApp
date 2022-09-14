@@ -14,6 +14,7 @@ import {
   MenuButton,
 } from "@chakra-ui/react";
 import TaskModal from "../TaskModal/TaskModal";
+import { useEffect } from "react";
 
 
 const roles = ["אבטש", "ניקיון", "לילה", "הנפצה", "מחסן", "שמירה", "אחר"];
@@ -24,26 +25,29 @@ const events = [
     title: "אבטש",
     allDay: true,
     start: new Date(2022, 8, 6),
-    end: new Date(2022, 8, 10),
+    end: new Date(2022, 8, 13),
   },
   {
     title: "ניקיון",
-    start: new Date(2022, 8, 12),
+    start: new Date(2022, 8, 14),
     end: new Date(2022, 8, 15),
   },
   {
-    title: "טורנות",
+    title: "תורנות",
     start: new Date(2022, 8, 20),
-    end: new Date(2022, 8, 23),
+    end: new Date(2022, 8, 21),
   },
 ];
 
 function DateTable() {
   const [allEvent, setAllEvent] = useState(events);
-  //  const { isOpen, onOpen, onClose } = useDisclosure();
   const [massage, setMassage] = useState("");
   const [time, setTime] = useState();
   const [range, setRange] = useState();
+
+  //  const { isOpen, onOpen, onClose } = useDisclosure();
+
+
 
   const eventChangh = (event) => {
     setMassage(event.target.value);
@@ -73,7 +77,7 @@ function DateTable() {
             <MenuList zIndex={10}>
               {roles.map((role, index) => (
                 // <MenuItem key={index}  onClick={onOpen} bg="red">
-                <TaskModal type={role} array={events} />
+                <TaskModal key={index} type={role} array={events}  />
                 // </MenuItem>
               ))}
             </MenuList>
