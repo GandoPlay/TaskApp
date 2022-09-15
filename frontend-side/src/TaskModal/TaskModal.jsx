@@ -76,8 +76,8 @@ const TaskModal = ({ type, array }) => {
           <Center>
           <DayPicker
           mode="range"
-          min={type==='אבטש'? 7 : 0}
-          max={type==='אבטש'? 8 : 1}
+          min={1}
+          max={type==='אבטש'? 7 : 1}
           selected={range}
           onSelect={setRange}
           footer={footer}

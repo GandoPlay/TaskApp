@@ -19,12 +19,10 @@ function App() {
       <ChakraProvider>
         <Routes  history={history}>
         {/* <NavBar/> */}
-        <Routes>
           <Route path="/" element={<Login />} />
           <Route element={<ProtectedRoutes />}>
             <Route path="/rating" element={<FetchRatings />} />
             <Route path="/dateTable" element={<DateTable />} />
-            <Route path="/nonename" element={<NoneName />} />
           </Route>
         </Routes>
       </ChakraProvider>
