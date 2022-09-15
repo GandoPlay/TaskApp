@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   Modal,
   ModalOverlay,
@@ -32,36 +32,31 @@ const TaskModal = ({ type, array }) => {
   const sameType = () => {
    
    
-    //   setNumber(3);
+      setNumber(3);
      
     
-    };
-    useEffect(() => {
-    const AddEvent = () => {
-    
-          if (massage || range.from) {
-              setTime([range.from].toString());
-              console.log(massage);
-              console.log([range.from].toString());
-              console.log([range.to].toString());
-              console.log({ array });
-      console.log(array);
+  };
+  const AddEvent = () => {
+    if (massage || range.from) {
+      setTime([range.from].toString());
+      console.log(massage);
+      console.log([range.from].toString());
+      console.log([range.to].toString());
+      console.log({ array });
 
-      setNumber(80)
-      setAvtash("gbjnjnj")
-        console.log(number);
-        
-        array.push({
-            title: `${type} : ${massage}`,
+      array.push({
+        title: `${type} : ${massage}`,
         start: range.from,
         end: range.to,
-    });
-    onClose();
+      });
+      onClose();
     //   sameType()
-   
-}
-};
-});
+    setNumber(87)
+    setAvtash("gbjnjn")
+      console.log(avtash);
+      console.log(number);
+    }
+  };
 
   let footer = <p>Please pick the first day.</p>;
   if (range?.from) {
