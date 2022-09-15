@@ -1,15 +1,9 @@
 import axios from 'axios'
 import history from "../history";
-import React from 'react';
-import  useStore  from '../appStore';
 const baseURL = 'http://localhost:3001'
 const client = axios.create({ baseURL: baseURL })
 
 
-// function useIsVaild(){
-//   return useStore(state=> state.setIsVaild)
-//  }
- 
  function NavigateTo(location){
   history.replace(location)
   history.go(0)
@@ -74,13 +68,15 @@ client.interceptors.response.use(
     // the user is trying to get data but his access token is not up to date.
     if (error.response?.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true
-
+      
       return client.get('/auth/refresh').then(res => {
-        if (res?.statusText === 'OK') {
+        console.log(res);
+        if (res?.status === 201) {
            localStorage.setItem('accessToken', JSON.stringify(res.data.access_token))
           authorizationRequest(client, 'accessToken')
           return client(originalRequest)
         }
+       
       })
     }
     return Promise.reject(error)
@@ -92,13 +88,13 @@ client.interceptors.response.use(
 
 
 
- const useStoreVaild = () => {
-  return useStore((state) => state.setIsVaild);
-}
+//  const useStoreVaild = () => {
+//   return useStore((state) => state.setIsVaild);
+// }
 
 export async function LoginUser(user){
   //  const setIsVaild = useStore((state) => state.setIsVaild);
-  const isVaild = useStoreVaild()
+  // const isVaild = useStoreVaild()
   const response = await axios.post(
     baseURL + "/auth/login",
     user
@@ -107,6 +103,7 @@ export async function LoginUser(user){
 
     localStorage.setItem('accessToken', JSON.stringify(response.data.access_token))
     localStorage.setItem('refreshToken', JSON.stringify(response.data.refresh_token))
+    NavigateTo('/rating')
   }
 
 }

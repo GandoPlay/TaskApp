@@ -3,23 +3,15 @@ import {
   Box,
   Grid,
   GridItem,
-  FormErrorMessage,
-  FormLabel,
   FormControl,
   Input,
   Button,
 } from "@chakra-ui/react";
 import "./Login.css";
-import { useState, useContext } from "react";
-import axios from "axios";
-// import { Context } from "../Context/context";
-import { useQuery, useMutation } from "react-query";
+import {  useMutation } from "react-query";
 import { useForm } from "react-hook-form";
-import NavBar from "../navBar/NavBar";
-import { request, SignUpUserName , LoginUser} from "../api/axios";
-import { useUsersData } from "../api/fetchAxios";
-import useStore from "../appStore";
-import {useLogin} from '../api/fetchAxios'
+import {LoginUser} from "../api/axios";
+
 function Login() {
 
 
@@ -30,29 +22,18 @@ function Login() {
   } = useForm();
 
 
-  const { isLoading, isError, error, mutate } = useMutation(LoginUser);
-  const setUsername = useStore((state) => state.setUsername);
+  const { mutate } = useMutation(LoginUser);
   
 
-
-
-
- 
-
-
   function onSubmit(values) {
+
     mutate({
       username: values.Username,
       password: values.Password,
     });
-    setUsername(values.Username)
     
 
   }
-
-
-
-
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>

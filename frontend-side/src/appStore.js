@@ -9,6 +9,4 @@ const useStore = create(set=>({
 
 }))
 
-
-
- export default  useStore
+export default useStore

@@ -11,8 +11,7 @@ import {
   Text,
   Center,
 } from "@chakra-ui/react";
-import  useStore  from "../appStore";
-
+import useStore from "../appStore";
 import {
   List,
   ListItem,
@@ -27,21 +26,22 @@ function sortById(data) {
   });
 }
 const FetchRatings = () => {
-  const {isLoading, data } = useUsersData()
-const username = useStore(state=> state.username)
-
-  if (isLoading||!data) {
+  const users  = useUsersData()
+const setUsername = useStore(state=> state.setUsername)
+// console.log(username);
+  if (users.isLoading||!users.data) {
     return (
       <Text textAlign="center" fontSize="400%" mt="25%">
         Loading
       </Text>
     );
   }
+  // setUsername(lgin.data.usernameo)
 
   
   return (
     <>
-    
+      
       <Box
         bg=" rgba(192, 192, 192, 0.39)"
         display="flex"
@@ -50,18 +50,18 @@ const username = useStore(state=> state.username)
         height="150px"
         justifyContent="space-around"
       >
-        <Text>{username}</Text>
+        {/* <Text>{login.data.username}</Text> */}
         <Text width="20%" fontSize="250%">
           מקום שני
-          {" " + data?data[data.length-2].username:''}
+          {" " + users.data?users.data[users.data.length-2].username:''}
         </Text>
         <Text width="30%" height="100%" fontSize="320%">
           מקום ראשון
-          {" " + data?data[data.length-1].username:''}
+          {" " + users.data?users.data[users.data.length-1].username:''}
         </Text>
         <Text width="15%" fontSize="150%">
           מקום שלישי
-          {"\n" + data?data[data.length-3].username:''}
+          {"\n" + users.data?users.data[users.data.length-3].username:''}
         </Text>
       </Box>
 
@@ -81,8 +81,8 @@ const username = useStore(state=> state.username)
             </Text>
           </Center>
 
-          {data
-            ? data.map((user, index) => {
+          {users.data
+            ? users.data.map((user, index) => {
                 return (
                   <Center
                     key={index}

@@ -26,7 +26,9 @@ export class UserService {
     }
 
     async getUser(user) {
-      return {id: user.id}
+      return {
+        id: user.id,
+        username: user.username    }
     }
 
 
