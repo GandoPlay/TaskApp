@@ -73,7 +73,7 @@ function DateTable() {
       <Flex>
         <Grid justifyContent="space-around">
           <Menu>
-            <MenuButton as={Button}>Actions</MenuButton>
+            <MenuButton as={Button}>בחר תורנות</MenuButton>
             <MenuList zIndex={10}>
               {roles.map((role, index) => (
                 // <MenuItem key={index}  onClick={onOpen} bg="red">
