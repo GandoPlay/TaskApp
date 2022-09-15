@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import {
   Modal,
   ModalOverlay,
@@ -12,29 +12,29 @@ import {
   Input,
   Button,
 } from "@chakra-ui/react";
-import { format } from "date-fns";
 
 import { DayPicker } from "react-day-picker";
+import TaskDayPicer from "../TaskDayPicer/TaskDayPicer";
+
 
 const TaskModal = ({ type, array }) => {
-  const { isOpen, onOpen, onClose } = useDisclosure();
   const [range, setRange] = useState();
+
+  const { isOpen, onOpen, onClose } = useDisclosure();
   const [time, setTime] = useState();
   const [massage, setMassage] = useState("");
-  const [avtash, setAvtash] = useState("אבטש");
-  const [number, setNumber] = useState();
+  const [addTask, setAddTask] = useState(type);
+
+useEffect(()=>{
+
+if(addTask === "אבטש" ){
+  console.log("work");
+}
+},[])
+
   const eventChangh = (event) => {
     setMassage(event.target.value);
-
     console.log(event.target.value);
-    console.log(time);
-  };
-  const sameType = () => {
-   
-   
-      setNumber(3);
-     
-    
   };
   const AddEvent = () => {
     if (massage || range.from) {
@@ -43,49 +43,31 @@ const TaskModal = ({ type, array }) => {
       console.log([range.from].toString());
       console.log([range.to].toString());
       console.log({ array });
-
-      array.push({
+            array.push({
         title: `${type} : ${massage}`,
         start: range.from,
         end: range.to,
       });
       onClose();
-    //   sameType()
-    setNumber(87)
-    setAvtash("gbjnjn")
-      console.log(avtash);
-      console.log(number);
     }
   };
 
-  let footer = <p>Please pick the first day.</p>;
-  if (range?.from) {
-    if (!range.to) {
-      footer = <p>{format(range.from, "PPP")}</p>;
-    } else if (range.to) {
-      footer = (
-        <p>
-          {format(range.from, "PPP")}–{format(range.to, "PPP")}
-        </p>
-      );
-    }
-  }
 
   return (
     <>
-      <Button onClick={onOpen}>{type}</Button>
+        <Button onClick={()=>{
+          onOpen()
+          setAddTask(type)
+      {console.log(addTask)}
+        }}>{type}</Button>
       <Modal closeOnOverlayClick={false} isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
           <Center>
-            <DayPicker
-              mode="range"
-              min={7}
-              max={8}
-              selected={range}
-              onSelect={setRange}
-              footer={footer}
-            />
+
+            <TaskDayPicer range={range} setRange={setRange} setAddTask={setAddTask} />
+          
+           
           </Center>
           <ModalCloseButton />
           <ModalBody pb={6}></ModalBody>
