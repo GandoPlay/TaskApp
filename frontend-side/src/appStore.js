@@ -5,7 +5,7 @@ const useStore = create(set=>({
     username: undefined,
     isVaild: true,
     setUsername: (username) => {set({ username })},
-    setIsVaild : (isVaild) => {set({isVaild})}
+    setIsLogged : (isLogged) => {set({isLogged})}
 
 }))
 

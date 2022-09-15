@@ -7,11 +7,13 @@ const fetchUsers = () => {
 
 
 const fetchLogin = () =>{
+
     return client.get(baseURL+'/users/getUser')
 
 
 }
 export const useLogin = () => {
+
     return useQuery('login', fetchLogin,{
         select: (response) =>{
             return response.data?JSON.parse(JSON.stringify(response.data)): undefined

@@ -59,24 +59,20 @@ client.interceptors.response.use(
   function (error) {
     const originalRequest = error.config
     //the user is trying to get a new access token but the refresh token has expired.
-    if (error.response?.status === 401 && originalRequest.url === baseURL + 'auth/refresh') {
+    if (error.response?.status === 401 && originalRequest.url === '/auth/refresh') {
       NavigateTo('/')
-
       return Promise.reject(error)
     }
   
     // the user is trying to get data but his access token is not up to date.
     if (error.response?.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true
-      
       return client.get('/auth/refresh').then(res => {
-        console.log(res);
         if (res?.status === 201) {
            localStorage.setItem('accessToken', JSON.stringify(res.data.access_token))
           authorizationRequest(client, 'accessToken')
           return client(originalRequest)
         }
-       
       })
     }
     return Promise.reject(error)
@@ -88,13 +84,10 @@ client.interceptors.response.use(
 
 
 
-//  const useStoreVaild = () => {
-//   return useStore((state) => state.setIsVaild);
-// }
+
 
 export async function LoginUser(user){
-  //  const setIsVaild = useStore((state) => state.setIsVaild);
-  // const isVaild = useStoreVaild()
+
   const response = await axios.post(
     baseURL + "/auth/login",
     user
@@ -105,6 +98,7 @@ export async function LoginUser(user){
     localStorage.setItem('refreshToken', JSON.stringify(response.data.refresh_token))
     NavigateTo('/rating')
   }
+  
 
 }
 
