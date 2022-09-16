@@ -19,7 +19,7 @@ import {
   OrderedList,
   UnorderedList,
 } from "@chakra-ui/react";
-import NavBar from "../navBar/NavBar";
+import NavBar from "./navBar/NavBar";
 function sortById(data) {
   return [...data].sort(function (a, b) {
     return a.id - b.id;

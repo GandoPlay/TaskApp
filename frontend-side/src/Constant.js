@@ -4,3 +4,9 @@ export const Role = {
 	NIGHT: 'לילה',
 	HANFZA: 'הנפצה'
 }
+ const Routes = {
+	"Rating": "ניקוד",
+	"dateTable": "טבלת תורניות"
+  };
+
+  export default Routes
