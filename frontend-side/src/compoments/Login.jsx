@@ -7,7 +7,6 @@ import {
   Input,
   Button,
 } from "@chakra-ui/react";
-import "./Login.css";
 import {  useMutation } from "react-query";
 import { useForm } from "react-hook-form";
 import {LoginUser} from "../api/axios";

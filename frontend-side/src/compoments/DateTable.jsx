@@ -12,48 +12,76 @@ import {
   MenuList,
   Menu,
   MenuButton,
+  Text
 } from "@chakra-ui/react";
-import TaskModal from "../TaskModal/TaskModal";
+import TaskModal from "./TaskModal";
+import { useTasksData } from "../api/fetchAxios";
 import { useEffect } from "react";
-
 
 const roles = ["אבטש", "ניקיון", "לילה", "הנפצה", "מחסן", "שמירה", "אחר"];
 const localizer = momentLocalizer(moment);
 
-const events = [
+
+// const events = [
+//   {
+//     title: "אבטש",
+//     allDay: true,
+//     start: new Date(2022, 8, 6),
+//     end: new Date(2022, 8, 13),
+//   },
+//   {
+//     title: "ניקיון",
+//     start: new Date(2022, 8, 14),
+//     end: new Date(2022, 8, 15),
+//   },
+//   {
+//     title: "תורנות",
+//     start: new Date(2022, 8, 20),
+//     end: new Date(2022, 8, 21),
+//   },
+// ];
+
+function convertTaskElementToEventObject(element) {
+  return (
   {
-    title: "אבטש",
+    title: `${element.type}: ${element.comment}`,
     allDay: true,
-    start: new Date(2022, 8, 6),
-    end: new Date(2022, 8, 13),
-  },
-  {
-    title: "ניקיון",
-    start: new Date(2022, 8, 14),
-    end: new Date(2022, 8, 15),
-  },
-  {
-    title: "תורנות",
-    start: new Date(2022, 8, 20),
-    end: new Date(2022, 8, 21),
-  },
-];
+    start: new Date(element.startDate), 
+    end: new Date(element.endDate),
+  }
+  )
+}
+
 
 function DateTable() {
-  const [allEvent, setAllEvent] = useState(events);
-  const [massage, setMassage] = useState("");
-  const [time, setTime] = useState();
-  const [range, setRange] = useState();
+  const tasks  = useTasksData()
+  const [events, setEvents] = useState([]);
+  useEffect(() => {
+    console.log('heyy');
+  },[events]);
 
-  //  const { isOpen, onOpen, onClose } = useDisclosure();
+  const convertTasksToEventArray=(tasks)=>{
+    if(tasks.length>0){
+    const eventsTask = []
+    tasks.forEach(element=>eventsTask.push(convertTaskElementToEventObject(element)))
+    return eventsTask;
+    }
+    else{
+      return [];
+    }
+  }
+
+
+  if (tasks.isLoading||!tasks.data) {
+    return (
+      <Text textAlign="center" fontSize="400%" mt="25%">
+        Loading
+      </Text>
+    );
+  }
 
 
 
-  const eventChangh = (event) => {
-    setMassage(event.target.value);
-    console.log({ massage });
-    console.log(time);
-  };
 
   return (
     <Box>
@@ -61,7 +89,7 @@ function DateTable() {
         className="calendardate"
         views={["month"]}
         localizer={localizer}
-        events={allEvent}
+        events={convertTasksToEventArray(tasks.data)}
         startAccessor="start"
         endAccessor="end"
         controls={["calendar"]}
@@ -76,9 +104,7 @@ function DateTable() {
             <MenuButton as={Button}>בחר תורנות</MenuButton>
             <MenuList zIndex={10}>
               {roles.map((role, index) => (
-                // <MenuItem key={index}  onClick={onOpen} bg="red">
-                <TaskModal key={index} type={role} array={events}  />
-                // </MenuItem>
+                <TaskModal key={index} type={role} events={events} setEvents = {setEvents}  />
               ))}
             </MenuList>
           </Menu>

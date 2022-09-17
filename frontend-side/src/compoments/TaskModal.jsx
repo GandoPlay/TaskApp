@@ -13,36 +13,51 @@ import {
   Button,
 } from "@chakra-ui/react";
 
-import { DayPicker } from "react-day-picker";
+import { Day, DayPicker } from "react-day-picker";
 import { format } from "date-fns";
+import 'react-day-picker/dist/style.css';
+import { addTask } from "../api/fetchAxios";
 
-const TaskModal = ({ type, array }) => {
+const TaskModal = ({ type, events , setEvents}) => {
   const [range, setRange] = useState();
-
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [massage, setMassage] = useState("");
-  const [addTask, setAddTask] = useState(type);
+  const [comment, setComment] = useState("");
 
-  useEffect(() => {
-    if (addTask === "אבטש") {
-      console.log("work");
-    }
-  }, []);
+  // useEffect(() => {
 
-  const eventChangh = (event) => {
-    setMassage(event.target.value);
-    console.log(event.target.value);
-  };
-  const AddEvent = () => {
-    if (massage && range.from) {
-      array.push({
-        title: `${type} : ${massage}`,
-        start: range.from,
-        end: range.to,
-      });
+  // },[]);
+
+
+
+  function handleAddTask() {
+    console.log('add to backend');
+      const task = 
+      {
+        comment: comment,
+        startDate: range.from.getTime(),
+        endDate: range.to.getTime(),
+        type: type
+      }
+      addTask(task)
+      setEvents([...events, task])
       onClose();
-    }
-  };
+
+      
+  }
+
+  const updateComment = (event) => {
+    setComment(event.target.value);
+  }
+  // const AddEvent = () => {
+  //   if (message && range.from) {
+  //     array.push({
+  //       title: `${type} : ${message}`,
+  //       start: range.from,
+  //       end: range.to,
+  //     });
+  //     onClose();
+  //   }
+  // };
   let footer = <p>Please pick the first day.</p>;
   if (range?.from) {
     if (!range.to) {
@@ -56,16 +71,12 @@ const TaskModal = ({ type, array }) => {
     }
   }
   
-
   return (
     <>
+    
       <Button
         onClick={() => {
           onOpen();
-          setAddTask(type);
-          {
-            console.log(addTask);
-          }
         }}
       >
         {type}
@@ -76,7 +87,7 @@ const TaskModal = ({ type, array }) => {
           <Center>
           <DayPicker
           mode="range"
-          min={1}
+          min={type==='אבטש'? 6 :1}
           max={type==='אבטש'? 7 : 1}
           selected={range}
           onSelect={setRange}
@@ -86,11 +97,11 @@ const TaskModal = ({ type, array }) => {
           <ModalCloseButton />
           <ModalBody pb={6}></ModalBody>
           <Input
-            placeholder="comment"
+            placeholder="אנא הוסף הערה לתורנות"
             type="text"
             id="massage"
-            onChange={eventChangh}
-            value={massage}
+            onChange={updateComment}
+            value={comment}
           />
           <Center>{type}</Center>
           <ModalFooter>
@@ -98,7 +109,7 @@ const TaskModal = ({ type, array }) => {
               colorScheme="blue"
               mr={3}
               variant="outline"
-              onClick={AddEvent}
+              onClick={handleAddTask }
             >
               Save
             </Button>

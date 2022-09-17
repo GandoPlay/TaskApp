@@ -1,5 +1,5 @@
 import { Outlet } from "react-router-dom";
-import Login from "./Login/Login";
+import Login from "./compoments/Login";
 import { useEffect, useState } from "react";
 import  useStore  from "./appStore";
 import { useLocation } from "react-router-dom";

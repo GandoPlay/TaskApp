@@ -6,6 +6,10 @@ const fetchUsers = () => {
 }
 
 
+const fetchTasks = () => {
+    return client.get(baseURL+'/users/getTasks')
+}
+
 const fetchLogin = () =>{
 
     return client.get(baseURL+'/users/getUser')
@@ -27,5 +31,25 @@ export const useUsersData = () => {
         }
     })
 }
+
+
+export const useTasksData = () => {
+    return useQuery('tasks', fetchTasks,{
+        select: (response) =>{
+            return response.data?JSON.parse(JSON.stringify(response.data)): undefined
+        }
+    })
+}
+
+export async function addTask(task) {
+
+    const response = await client.post(
+      baseURL + "/task/addTask",
+      task
+    );
+  return response;
+  
+  
+  }
 
 

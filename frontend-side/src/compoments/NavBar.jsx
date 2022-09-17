@@ -5,19 +5,12 @@ import {
   Avatar,
   HStack,
   Link,
-  IconButton,
-  Button,
-  Menu,
-  MenuButton,
-  MenuList,
-  MenuItem,
-  MenuDivider,
-  useDisclosure,
+  Text,
   useColorModeValue,
-  Stack,
 } from '@chakra-ui/react';
-import { HamburgerIcon, CloseIcon, AddIcon } from '@chakra-ui/icons';
-import Routes from '../../Constant'
+import Routes from '../Constant'
+import { useState } from 'react';
+import useStore from '../appStore';
 
 const NavLink = ({ title,url }) => (
   <Link
@@ -33,16 +26,24 @@ const NavLink = ({ title,url }) => (
   </Link>
 );
 
+
 export default function NavBar() {
+  const username = useStore(state=> state.username)
+
+  const [color, setColor] = useState(useColorModeValue('gray.100', 'gray.900'))
+
+  if(window.location.pathname!=='/'){
   return (
     <>
-      <Box bg={useColorModeValue('gray.100', 'gray.900')} px={4}>
+      <Box bg={color} px={4}>
         <Flex h={16} alignItems={'center'} justifyContent={'space-between'}>
         <Avatar
                   size={'md'}
                   src= 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/eb/Hatal.png/180px-Hatal.png'
                   />
+          
           <HStack spacing={8} alignItems={'center'}>
+            
             <HStack
               as={'nav'}
               spacing={4}
@@ -51,16 +52,21 @@ export default function NavBar() {
                 <NavLink key={key} title = {Routes[key]} url = {key}></NavLink>
               ))} 
             </HStack>
+
           </HStack>
-          <Flex alignItems={'center'}>    
+          <Flex alignItems={'center'}> 
+          <Text color={'blueviolet'}>{username} שלום </Text>   
+
                 <Avatar
                   size={'md'}
                   src={require("./zroa.png")}
                   />
+                  
           </Flex>
         </Flex>
       </Box>
 
     </>
   );
+}
 }
