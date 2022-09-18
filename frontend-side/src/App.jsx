@@ -4,8 +4,8 @@ import Login from "./compoments/Login";
 import { BrowserRouter } from "react-router-dom";
 import * as React from "react";
 import { ChakraProvider } from "@chakra-ui/react";
-import FetchRatings, { Rating } from "./compoments/Rating";
-import ProtectedRoutes from "./protectedRoutes";
+import FetchRatings from "./compoments/Rating";
+import ProtectedRoutes from "./compoments/protectedRoutes";
 import DateTable from "./compoments/DateTable";
 import NavBar from "./compoments/NavBar";
 import history from "./history";
@@ -15,7 +15,7 @@ function App() {
     <BrowserRouter>
     
       <ChakraProvider>
-      {/* <NavBar/> */}
+      <NavBar/>
 
         <Routes  history={history}>
 

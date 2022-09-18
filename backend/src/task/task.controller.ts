@@ -12,22 +12,18 @@ export class TaskController {
     constructor(private readonly taskService: TaskService){}    
         @Post('addTask')
         async CreateTask(@Body()  taskCreateDto : TaskCreateDto, @GetUser()  user: UserDocument ){
+            
         return this.taskService.addTask(taskCreateDto, user)
         }
 
 
 
         @Post('RemoveTask')
-        async removeTask(@Body()  TaskDeleteDto: TaskDeleteDto){
-        return this.taskService.removeTask(TaskDeleteDto)
+        async removeTask(@Body()  TaskDeleteDto: TaskDeleteDto,@GetUser()  user: UserDocument){
+        return this.taskService.removeTask(TaskDeleteDto, user)
         }
 
-        // @Post('addTask')
-        // async addTask(@GetUser() Wuser: User, 
-        // @Body ('date') date:number,
-        // @Body ('type') type:string,){
-        //     return await this.taskService.addTask(date, type,user)
-        // }
+    
         
         
 

@@ -9,8 +9,7 @@ import {
 } from "@chakra-ui/react";
 import {  useMutation } from "react-query";
 import { useForm } from "react-hook-form";
-import {LoginUser} from "../api/axios";
-
+import { LoginUser } from "../api/authAPI";
 function Login() {
 
 
@@ -60,7 +59,7 @@ function Login() {
                 id="Username"
                 type="text"
                 className="input"
-                placeholder="Username"
+                placeholder="שם משתמש"
                 {...register("Username", {
                   required: "This is required",
                   minLength: {
@@ -78,7 +77,7 @@ function Login() {
                 id="Password"
                 type="password"
                 className="input"
-                placeholder="password"
+                placeholder="סיסמא"
                 {...register("Password", {
                   required: "This is required",
                   minLength: {
@@ -94,7 +93,7 @@ function Login() {
             </GridItem>
 
             <Button type="submit" colorScheme="gray" mt="50px">
-              Log in
+              היכנס
             </Button>
           </Grid>
         </Box>

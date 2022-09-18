@@ -1,16 +1,15 @@
 import { Outlet } from "react-router-dom";
-import Login from "./compoments/Login";
+import Login from "./Login";
 import { useEffect, useState } from "react";
-import  useStore  from "./appStore";
+import  useStore  from "../appStore";
 import { useLocation } from "react-router-dom";
-import { useLogin } from "./api/fetchAxios";
-
+import { useLogin } from "../api/authAPI";
    
     
 
 const ProtectedRoutes = () =>{
     const location = useLocation();
-    const privateRoutes = ['/rating']
+    const privateRoutes = ['/Rating','/dateTable']
 
 
     const setUsername = useStore(state=> state.setUsername)
@@ -36,7 +35,6 @@ const ProtectedRoutes = () =>{
         setIsVaild(false)
         }
       },[login.data]);
-      console.log(isVaild);
 
       
     return isVaild ? <Outlet/> : <Login /> ; 

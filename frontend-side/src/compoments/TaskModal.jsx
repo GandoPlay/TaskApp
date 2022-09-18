@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   Modal,
   ModalOverlay,
@@ -16,30 +16,29 @@ import {
 import { Day, DayPicker } from "react-day-picker";
 import { format } from "date-fns";
 import 'react-day-picker/dist/style.css';
-import { addTask } from "../api/fetchAxios";
-
-const TaskModal = ({ type, events , setEvents}) => {
+import { addTask } from "../api/taskAPI";
+import { Role } from "../Constant";
+const TaskModal = ({ type}) => {
   const [range, setRange] = useState();
-  const { isOpen, onOpen, onClose } = useDisclosure();
   const [comment, setComment] = useState("");
 
-  // useEffect(() => {
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
-  // },[]);
+  
 
 
 
   function handleAddTask() {
-    console.log('add to backend');
       const task = 
       {
         comment: comment,
-        startDate: range.from.getTime(),
-        endDate: range.to.getTime(),
+        startDate:range.from.getTime(),
+        endDate: type===Role.AVTASH?range.to.getTime(): range.from.getTime(),
         type: type
       }
       addTask(task)
-      setEvents([...events, task])
+      window.location.reload();
+      // setEvents([...events, task])
       onClose();
 
       

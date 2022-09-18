@@ -15,39 +15,24 @@ import {
   Text
 } from "@chakra-ui/react";
 import TaskModal from "./TaskModal";
-import { useTasksData } from "../api/fetchAxios";
-import { useEffect } from "react";
-
-const roles = ["אבטש", "ניקיון", "לילה", "הנפצה", "מחסן", "שמירה", "אחר"];
+import { useTasksData, removeTask } from "../api/taskAPI";
+import { Role } from "../Constant";
+const roles = ["אבטש", "ניקיון", "לילה", "הנפצה", "מחסן", "שמירה"];
 const localizer = momentLocalizer(moment);
 
-
-// const events = [
-//   {
-//     title: "אבטש",
-//     allDay: true,
-//     start: new Date(2022, 8, 6),
-//     end: new Date(2022, 8, 13),
-//   },
-//   {
-//     title: "ניקיון",
-//     start: new Date(2022, 8, 14),
-//     end: new Date(2022, 8, 15),
-//   },
-//   {
-//     title: "תורנות",
-//     start: new Date(2022, 8, 20),
-//     end: new Date(2022, 8, 21),
-//   },
-// ];
-
 function convertTaskElementToEventObject(element) {
+  const startDate = element.startDate;
+  let endDate = element.startDate;
+  if(element.type === Role.AVTASH){
+    endDate = element.endDate;
+  }
   return (
   {
+    id: element._id,
     title: `${element.type}: ${element.comment}`,
     allDay: true,
-    start: new Date(element.startDate), 
-    end: new Date(element.endDate),
+    start: new Date(startDate), 
+    end: new Date(endDate),
   }
   )
 }
@@ -56,11 +41,19 @@ function convertTaskElementToEventObject(element) {
 function DateTable() {
   const tasks  = useTasksData()
   const [events, setEvents] = useState([]);
-  useEffect(() => {
-    console.log('heyy');
-  },[events]);
+  const [selectedId, setSelectedId] = useState('');
 
+ 
+
+
+  const removeEvent=()=>{
+    if(selectedId!==''){
+    removeTask({id:selectedId})
+    window.location.reload();
+  }
+}
   const convertTasksToEventArray=(tasks)=>{
+    console.log(tasks);
     if(tasks.length>0){
     const eventsTask = []
     tasks.forEach(element=>eventsTask.push(convertTaskElementToEventObject(element)))
@@ -70,7 +63,6 @@ function DateTable() {
       return [];
     }
   }
-
 
   if (tasks.isLoading||!tasks.data) {
     return (
@@ -84,32 +76,43 @@ function DateTable() {
 
 
   return (
-    <Box>
+    <Box  bgColor={"teal.300"}>
+      
       <Calendar
+        
         className="calendardate"
         views={["month"]}
+        
         localizer={localizer}
-        events={convertTasksToEventArray(tasks.data)}
+        events={ convertTasksToEventArray(tasks.data)}
         startAccessor="start"
         endAccessor="end"
+        
         controls={["calendar"]}
          select="range"
+         
+         onSelectEvent = {event => setSelectedId(event.id)}
          touchUi={true}
         style={{ height: 500, margin: "50px" }}
       />
 
-      <Flex>
-        <Grid justifyContent="space-around">
+      <Flex bgColor={'blue.500'}>
+        <Grid  justifyContent="space-between">
+          <Flex >
+          <Button bgColor={'red.400'}  onClick={removeEvent}>מחק תורנות</Button>
           <Menu>
-            <MenuButton as={Button}>בחר תורנות</MenuButton>
-            <MenuList zIndex={10}>
+
+            <MenuButton  bgColor={'green.400'} as={Button}>בחר תורנות</MenuButton>
+            <MenuList bgBlendMode={"-moz-initial"} zIndex={10}>
               {roles.map((role, index) => (
-                <TaskModal key={index} type={role} events={events} setEvents = {setEvents}  />
+                <TaskModal  key={index} type={role}  />
               ))}
             </MenuList>
           </Menu>
+          </Flex>
         </Grid>
       </Flex>
+      
     </Box>
   );
 }

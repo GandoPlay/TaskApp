@@ -1,4 +1,3 @@
-import { ReactNode } from 'react';
 import {
   Box,
   Flex,
@@ -8,22 +7,31 @@ import {
   Text,
   useColorModeValue,
 } from '@chakra-ui/react';
-import Routes from '../Constant'
+import {Routes} from '../Constant'
 import { useState } from 'react';
 import useStore from '../appStore';
 
+
+
+function removeTokens(){
+  localStorage.removeItem('refreshToken')
+  localStorage.removeItem('accessToken')
+}
 const NavLink = ({ title,url }) => (
   <Link
     px={2}
+    onClick = {url==='/'?removeTokens: ()=>{}}
     py={1}
     rounded={'md'}
     _hover={{
       textDecoration: 'none',
       bg: useColorModeValue('gray.200', 'gray.700'),
     }}
+    
     href={url}>
     {title}
   </Link>
+
 );
 
 

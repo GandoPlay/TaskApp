@@ -1,13 +1,10 @@
 import axios from 'axios'
-import history from "../history";
-const baseURL = 'http://localhost:3001'
+import { baseURL } from '../Constant';
+import { NavigateTo } from './NavigateTo';
+
 const client = axios.create({ baseURL: baseURL })
 
-
- function NavigateTo(location){
-  history.replace(location)
-  history.go(0)
- }
+ 
  function authorizationRequest(config, tokenType){
     let token = JSON.parse(localStorage.getItem(tokenType))
     if (token) {
@@ -86,36 +83,6 @@ client.interceptors.response.use(
 
 
 
-export async function LoginUser(user){
 
-  const response = await axios.post(
-    baseURL + "/auth/login",
-    user
-  );
-  if(response.data.access_token&&response.data.refresh_token){
-
-    localStorage.setItem('accessToken', JSON.stringify(response.data.access_token))
-    localStorage.setItem('refreshToken', JSON.stringify(response.data.refresh_token))
-    NavigateTo('/rating')
-  }
-  
-
-}
-
-export async function SignUpUserName(user) {
-
-  const response = await axios.post(
-    baseURL + "/auth/signup",
-    user
-  );
-
-
-  localStorage.setItem('accessToken', JSON.stringify(response.data.access_token))
-  localStorage.setItem('refreshToken', JSON.stringify(response.data.refresh_token))
-  NavigateTo('/rating')
-
-
-
-}
 
 export default client

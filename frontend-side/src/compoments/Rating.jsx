@@ -1,47 +1,36 @@
 import React from "react";
 import { useQuery } from "react-query";
 import axios from "axios";
-import { useLogin, useUsersData } from "../api/fetchAxios";
+import { Avatar } from "@chakra-ui/react"
+import { useColorModeValue } from "@chakra-ui/react";
+import { useLogin, useUsersData } from "../api/usersAPI";
 import {
   Table,
   Thead,
   TableContainer,
-  SimpleGrid,
   Box,
   Text,
-  Center,
+  Tr,Td,Th,Tbody
 } from "@chakra-ui/react";
-import useStore from "../appStore";
-import {
-  List,
-  ListItem,
-  ListIcon,
-  OrderedList,
-  UnorderedList,
-} from "@chakra-ui/react";
-import NavBar from "./NavBar";
-function sortById(data) {
-  return [...data].sort(function (a, b) {
-    return a.id - b.id;
-  });
-}
+
 const FetchRatings = () => {
+  const textColor = useColorModeValue("blue.900", "blue")
+
   const users  = useUsersData()
-const setUsername = useStore(state=> state.setUsername)
-// console.log(username);
   if (users.isLoading||!users.data) {
     return (
-      <Text textAlign="center" fontSize="400%" mt="25%">
+      <Text fontSize={{ lg: '56px'}}>
         Loading
       </Text>
     );
   }
-  // setUsername(lgin.data.usernameo)
 
-  
+
+
+
+
   return (
     <>
-      
       <Box
         bg=" rgba(192, 192, 192, 0.39)"
         display="flex"
@@ -50,62 +39,50 @@ const setUsername = useStore(state=> state.setUsername)
         height="150px"
         justifyContent="space-around"
       >
-        {/* <Text>{login.data.username}</Text> */}
-        <Text width="20%" fontSize="250%">
+        <Text  fontSize={{ md: '40px'}}>
           מקום שני
-          {" " + users.data?users.data[users.data.length-2].username:''}
+          {" " + users.data?users.data[users.data.length-2]?.username:''}
         </Text>
-        <Text width="30%" height="100%" fontSize="320%">
+        <Text fontSize={{ lg: '56px'}}>
           מקום ראשון
-          {" " + users.data?users.data[users.data.length-1].username:''}
+          {" " + users.data?users.data[users.data.length-1]?.username:''}
         </Text>
-        <Text width="15%" fontSize="150%">
+        <Text fontSize={{ base: '24px'}}>
           מקום שלישי
-          {"\n" + users.data?users.data[users.data.length-3].username:''}
+          {"\n" + users.data?users.data[users.data.length-3]?.username:''}
         </Text>
       </Box>
 
-      <TableContainer>
-          <Center boxShadow="lg" bg="white" width="100%">
-            <Text
-              fontSize="170%"
-              display="inline"
-              p="5%"
-              width="25%"
-              textAlign="start"
-            >
-              name
-            </Text>
-            <Text fontSize="170%" display="inline" p="5%" width="30%">
-              score
-            </Text>
-          </Center>
 
-          {users.data
-            ? users.data.map((user, index) => {
+  <TableContainer  >
+  <Table  variant="striped" colorScheme={textColor} size='lg'>
+    <Thead   >
+      <Tr>
+      <Th  ></Th>
+
+        <Th  >שם</Th>
+        <Th>ניקוד</Th>
+        <Th > דרגה</Th>
+      </Tr>
+
+    </Thead>
+    <Tbody >
+    {users.data ? users.data.map((user,index) => {
                 return (
-                  <Center
-                    key={index}
-                    boxShadow="lg"
-                    justifyContent="space-around"
-                  >
-                    <Box
-                      boxShadow="lg"
-                      p="6"
-                      rounded="md"
-                      justify-content="center"
-                      display="flex"
-                      width="100%"
-                    >
-                      <Text width="25%">{user.id}</Text>
-                      <Text width="30%"> {user.username} </Text>
-                      <Text> {user.score}</Text>
-                    </Box>
-                  </Center>
-                );
-              })
-            : ""}
-      </TableContainer>
+            
+        <Tr key={index}>
+          <Td><Avatar src="https://yt3.ggpht.com/ytc/AMLnZu8OyWtWV6Tv73Pp0My_I3Ss4_iOrjL0f6o4h5vveQ=s900-c-k-c0x00ffffff-no-rj"/></Td>
+        <Td>{user.username}</Td>
+        <Td>{user.score}</Td>
+        <Td >{user.type}</Td>
+      </Tr>
+       );
+      })
+    : ""}
+    </Tbody>
+  </Table>
+</TableContainer>;
+
     </>
   );
 };

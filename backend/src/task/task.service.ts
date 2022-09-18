@@ -33,13 +33,18 @@ export class TaskService {
    * 
    * @param TaskDeleteDto information about a task to delete it
    */
-  async removeTask(TaskDeleteDto: TaskDeleteDto){
+
+  async removeTask(TaskDeleteDto: TaskDeleteDto, owner){
+
+    
    const task = await this.taskModel.findById(TaskDeleteDto.id);
-   const populatedTask = await task.populate('owner');
-   const ownerTask = populatedTask.owner;
-   ownerTask.tasks = ownerTask.tasks.filter(t=>{ 
-   t._id.toString() !== TaskDeleteDto.id});
-   await ownerTask.save();
+   const type = task.type
+   const score = owner.score - taskDictionary[type]
+   await owner.updateOne({score: score})
+   owner.tasks = owner.tasks.filter(t=> t._id.toString() !== TaskDeleteDto.id);
+   
+   await this.taskModel.findByIdAndDelete(TaskDeleteDto.id);
+   await owner.save();
    }
 
    /**
