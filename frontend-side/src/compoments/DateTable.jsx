@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "react-datepicker/dist/react-datepicker.css";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import { useState } from "react";
@@ -15,8 +15,9 @@ import {
   Text
 } from "@chakra-ui/react";
 import TaskModal from "./TaskModal";
-import { useTasksData, removeTask } from "../api/taskAPI";
+import { useTasksData, removeTask, addTask } from "../api/taskAPI";
 import { Role } from "../Constant";
+ 
 const roles = ["אבטש", "ניקיון", "לילה", "הנפצה", "מחסן", "שמירה"];
 const localizer = momentLocalizer(moment);
 
@@ -41,6 +42,12 @@ function convertTaskElementToEventObject(element) {
 function DateTable() {
   const tasks  = useTasksData()
   const [events, setEvents] = useState([]);
+  useEffect(() => {
+    
+    if(!tasks.isLoading&&tasks.data){
+      setEvents(convertTasksToEventArray(tasks.data))
+    }
+  },[tasks.data]);
   const [selectedId, setSelectedId] = useState('');
 
  
@@ -48,8 +55,12 @@ function DateTable() {
 
   const removeEvent=()=>{
     if(selectedId!==''){
-    removeTask({id:selectedId})
-    window.location.reload();
+    const response = removeTask({id:selectedId})
+    console.log(response);
+    if(response.data){
+      setEvents(events.filter(t=> t.id !== response.data));
+
+    }
   }
 }
   const convertTasksToEventArray=(tasks)=>{
@@ -84,13 +95,12 @@ function DateTable() {
         views={["month"]}
         
         localizer={localizer}
-        events={ convertTasksToEventArray(tasks.data)}
+        events={ events}
         startAccessor="start"
         endAccessor="end"
         
         controls={["calendar"]}
          select="range"
-         
          onSelectEvent = {event => setSelectedId(event.id)}
          touchUi={true}
         style={{ height: 500, margin: "50px" }}

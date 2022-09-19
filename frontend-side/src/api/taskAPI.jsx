@@ -17,7 +17,7 @@ async function addTask(task) {
 }
 
  async function removeTask(id) {
-    console.log(id);
+    
     const response = await client.post(
       baseURL + "/task/RemoveTask",
       id
@@ -27,6 +27,16 @@ async function addTask(task) {
   
   
   }
+
+
+  
+  const removeTasksData = (id) => {
+    return useQuery('tasks', removeTask(id),{
+        select: (response) =>{
+            return response.data?JSON.parse(JSON.stringify(response.data)): undefined
+        }
+    })
+}
 
    const useTasksData = () => {
     return useQuery('tasks', fetchTasks,{
