@@ -17,12 +17,11 @@ async function addTask(task) {
 }
 
  async function removeTask(id) {
-    
+    console.log(id);
     const response = await client.post(
       baseURL + "/task/RemoveTask",
       id
     );
-    console.log(response);
   return response;
   
   
@@ -30,8 +29,9 @@ async function addTask(task) {
 
 
   
-  const removeTasksData = (id) => {
+  const useRemoveTasksData = (id) => {
     return useQuery('tasks', removeTask(id),{
+      enabled: false,
         select: (response) =>{
             return response.data?JSON.parse(JSON.stringify(response.data)): undefined
         }
@@ -45,4 +45,4 @@ async function addTask(task) {
         }
     })
 }
-export  {addTask, removeTask, useTasksData}
+export  {addTask, removeTask, useTasksData, useRemoveTasksData}

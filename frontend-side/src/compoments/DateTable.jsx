@@ -3,6 +3,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import { useState } from "react";
 import { Calendar, momentLocalizer } from "react-big-calendar";
+
 import moment from "moment";
 import {
   Button,
@@ -15,7 +16,7 @@ import {
   Text
 } from "@chakra-ui/react";
 import TaskModal from "./TaskModal";
-import { useTasksData, removeTask, addTask } from "../api/taskAPI";
+import { useTasksData, useRemoveTasksData, addTask, removeTask } from "../api/taskAPI";
 import { Role } from "../Constant";
  
 const roles = ["אבטש", "ניקיון", "לילה", "הנפצה", "מחסן", "שמירה"];
@@ -41,6 +42,7 @@ function convertTaskElementToEventObject(element) {
 
 function DateTable() {
   const tasks  = useTasksData()
+  const removeTasks = useRemoveTasksData()
   const [events, setEvents] = useState([]);
   useEffect(() => {
     
@@ -55,10 +57,16 @@ function DateTable() {
 
   const removeEvent=()=>{
     if(selectedId!==''){
-    const response = removeTask({id:selectedId})
-    console.log(response);
-    if(response.data){
-      setEvents(events.filter(t=> t.id !== response.data));
+      removeTasks.refetch({id:selectedId})
+
+    //  const response = removeTask({id:selectedId})
+    // console.log(response);
+    if(selectedId!==''){
+      // removeTask({id:selectedId})
+      setEvents(events.filter(t=> t.id !== selectedId));
+      setSelectedId('');
+      
+      
 
     }
   }

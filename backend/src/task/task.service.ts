@@ -36,10 +36,11 @@ export class TaskService {
 
   async removeTask(TaskDeleteDto: TaskDeleteDto, owner){
 
+    console.log(TaskDeleteDto.id);
     
    const task = await this.taskModel.findById(TaskDeleteDto.id);
    console.log(task);
-   
+   if(task){
    const type = task.type
    const score = owner.score - taskDictionary[type]
    await owner.updateOne({score: score})
@@ -49,6 +50,9 @@ export class TaskService {
    await owner.save();
    return {id:TaskDeleteDto.id}
    }
+   return undefined;
+  }
+  
 
    /**
     * 
