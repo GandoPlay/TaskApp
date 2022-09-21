@@ -66,12 +66,34 @@ let AuthService = class AuthService {
             access_token: accessToken
         };
     }
+    async generateAdminToken(userId, username) {
+        const payload = {
+            sub: userId,
+            username,
+        };
+        const accsesSecret = this.config.get('ADMIN_SECRET');
+        const accessToken = await this.jwt.signAsync(payload, { expiresIn: '1m',
+            secret: accsesSecret });
+        return {
+            access_token: accessToken
+        };
+    }
     async generateRefreshToken(userId, username) {
         const payload = {
             sub: userId,
             username,
         };
         const refreshSecret = this.config.get('REF_SECRET');
+        const refreshToken = await this.jwt.signAsync(payload, { expiresIn: '1d',
+            secret: refreshSecret });
+        return { refresh_token: refreshToken };
+    }
+    async generateAdminRefreshToken(userId, username) {
+        const payload = {
+            sub: userId,
+            username,
+        };
+        const refreshSecret = this.config.get('REF_ADMIN');
         const refreshToken = await this.jwt.signAsync(payload, { expiresIn: '1d',
             secret: refreshSecret });
         return { refresh_token: refreshToken };

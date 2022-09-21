@@ -23,7 +23,13 @@ export declare class AuthService {
     generateAccessToken(userId: string, username: string): Promise<{
         access_token: string;
     }>;
+    generateAdminToken(userId: string, username: string): Promise<{
+        access_token: string;
+    }>;
     generateRefreshToken(userId: string, username: string): Promise<{
+        refresh_token: string;
+    }>;
+    generateAdminRefreshToken(userId: string, username: string): Promise<{
         refresh_token: string;
     }>;
     generateTokens(userId: string, username: string): Promise<{

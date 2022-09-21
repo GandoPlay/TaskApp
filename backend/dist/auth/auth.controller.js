@@ -16,7 +16,6 @@ exports.AuthController = void 0;
 const common_1 = require("@nestjs/common");
 const UserCreate_dto_1 = require("../dto/User/UserCreate.dto");
 const UserLogin_dto_1 = require("../dto/User/UserLogin.dto");
-const User_schema_1 = require("../schemas/User.schema");
 const auth_service_1 = require("./auth.service");
 const decorator_1 = require("./decorator");
 const guard_1 = require("../guard");
