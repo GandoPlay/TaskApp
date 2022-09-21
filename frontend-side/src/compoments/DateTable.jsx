@@ -13,77 +13,73 @@ import {
   MenuList,
   Menu,
   MenuButton,
-  Text
+  Text,
 } from "@chakra-ui/react";
 import TaskModal from "./TaskModal";
-import { useTasksData, useRemoveTasksData, addTask, removeTask } from "../api/taskAPI";
+import {
+  useTasksData,
+  useRemoveTasksData,
+  addTask,
+  removeTask,
+} from "../api/taskAPI";
 import { Role } from "../Constant";
- 
+
 const roles = ["אבטש", "ניקיון", "לילה", "הנפצה", "מחסן", "שמירה"];
 const localizer = momentLocalizer(moment);
 
 function convertTaskElementToEventObject(element) {
   const startDate = element.startDate;
   let endDate = element.startDate;
-  if(element.type === Role.AVTASH){
+  if (element.type === Role.AVTASH) {
     endDate = element.endDate;
   }
-  return (
-  {
+  return {
     id: element._id,
     title: `${element.type}: ${element.comment}`,
     allDay: true,
-    start: new Date(startDate), 
+    start: new Date(startDate),
     end: new Date(endDate),
-  }
-  )
+  };
 }
-
 
 function DateTable() {
-  const tasks  = useTasksData()
-  const removeTasks = useRemoveTasksData()
+  const tasks = useTasksData();
+  const removeTasks = useRemoveTasksData();
   const [events, setEvents] = useState([]);
   useEffect(() => {
-    
-    if(!tasks.isLoading&&tasks.data){
-      setEvents(convertTasksToEventArray(tasks.data))
+    if (!tasks.isLoading && tasks.data) {
+      setEvents(convertTasksToEventArray(tasks.data));
     }
-  },[tasks.data]);
-  const [selectedId, setSelectedId] = useState('');
+  }, [tasks.data]);
+  const [selectedId, setSelectedId] = useState("");
 
- 
+  const removeEvent = () => {
+    if (selectedId !== "") {
+      removeTasks.refetch({ id: selectedId });
 
-
-  const removeEvent=()=>{
-    if(selectedId!==''){
-      removeTasks.refetch({id:selectedId})
-
-    //  const response = removeTask({id:selectedId})
-    // console.log(response);
-    if(selectedId!==''){
-      // removeTask({id:selectedId})
-      setEvents(events.filter(t=> t.id !== selectedId));
-      setSelectedId('');
-      
-      
-
+      //  const response = removeTask({id:selectedId})
+      // console.log(response);
+      if (selectedId !== "") {
+        // removeTask({id:selectedId})
+        setEvents(events.filter((t) => t.id !== selectedId));
+        setSelectedId("");
+      }
     }
-  }
-}
-  const convertTasksToEventArray=(tasks)=>{
+  };
+  const convertTasksToEventArray = (tasks) => {
     console.log(tasks);
-    if(tasks.length>0){
-    const eventsTask = []
-    tasks.forEach(element=>eventsTask.push(convertTaskElementToEventObject(element)))
-    return eventsTask;
-    }
-    else{
+    if (tasks.length > 0) {
+      const eventsTask = [];
+      tasks.forEach((element) =>
+        eventsTask.push(convertTaskElementToEventObject(element))
+      );
+      return eventsTask;
+    } else {
       return [];
     }
-  }
+  };
 
-  if (tasks.isLoading||!tasks.data) {
+  if (tasks.isLoading || !tasks.data) {
     return (
       <Text textAlign="center" fontSize="400%" mt="25%">
         Loading
@@ -91,46 +87,42 @@ function DateTable() {
     );
   }
 
-
-
-
   return (
-    <Box  bgColor={"teal.300"}>
-      
+    <Box>
       <Calendar
-        
         className="calendardate"
         views={["month"]}
-        
         localizer={localizer}
-        events={ events}
+        events={events}
         startAccessor="start"
         endAccessor="end"
-        
         controls={["calendar"]}
-         select="range"
-         onSelectEvent = {event => setSelectedId(event.id)}
-         touchUi={true}
-        style={{ height: 500, margin: "50px" }}
+        select="range"
+        onSelectEvent={(event) => setSelectedId(event.id)}
+        touchUi={true}
+        style={{ height: 500, margin: "20px" }}
       />
 
-      <Flex bgColor={'blue.500'}>
-        <Grid  justifyContent="space-between">
-          <Flex >
-          <Button bgColor={'red.400'}  onClick={removeEvent}>מחק תורנות</Button>
-          <Menu>
+      <Flex >
+        <Grid w="100%" display="flex"  justifyContent="space-around" >
+          <Flex>
+            <Button bgColor={"red.300"} onClick={removeEvent}  w="100%" >
+              מחק תורנות
+            </Button>
 
-            <MenuButton  bgColor={'green.400'} as={Button}>בחר תורנות</MenuButton>
-            <MenuList bgBlendMode={"-moz-initial"} zIndex={10}>
-              {roles.map((role, index) => (
-                <TaskModal  key={index} type={role}  />
-              ))}
-            </MenuList>
-          </Menu>
+            <Menu>
+              <MenuButton bgColor={"green.300"}  as={Button} w="100%" >
+                בחר תורנות
+              </MenuButton>
+              <MenuList bgBlendMode={"-moz-initial"} zIndex={10}>
+                {roles.map((role, index) => (
+                  <TaskModal key={index} type={role} onSelectEvent/>
+                ))}
+              </MenuList>
+            </Menu>
           </Flex>
         </Grid>
       </Flex>
-      
     </Box>
   );
 }

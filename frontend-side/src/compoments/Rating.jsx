@@ -66,7 +66,7 @@ const FetchRatings = () => {
       </Tr>
 
     </Thead>
-    <Tbody >
+    <Tbody h="50%" >
     {users.data ? users.data.map((user,index) => {
                 return (
             
