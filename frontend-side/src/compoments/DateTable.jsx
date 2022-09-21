@@ -15,62 +15,50 @@ import {
   MenuButton,
   Text
 } from "@chakra-ui/react";
-import TaskModal from "./TaskModal";
+import {TaskModal,convertTaskElementToEventObject} from "./TaskModal";
 import { useTasksData, useRemoveTasksData, addTask, removeTask } from "../api/taskAPI";
 import { Role } from "../Constant";
  
 const roles = ["אבטש", "ניקיון", "לילה", "הנפצה", "מחסן", "שמירה"];
 const localizer = momentLocalizer(moment);
 
-function convertTaskElementToEventObject(element) {
-  const startDate = element.startDate;
-  let endDate = element.startDate;
-  if(element.type === Role.AVTASH){
-    endDate = element.endDate;
-  }
-  return (
-  {
-    id: element._id,
-    title: `${element.type}: ${element.comment}`,
-    allDay: true,
-    start: new Date(startDate), 
-    end: new Date(endDate),
-  }
-  )
-}
+
 
 
 function DateTable() {
   const tasks  = useTasksData()
-  const removeTasks = useRemoveTasksData()
+  const [selectedId, setSelectedId] = useState('');
+
   const [events, setEvents] = useState([]);
+  const removeTasks = useRemoveTasksData(selectedId,events,setEvents)
+
   useEffect(() => {
     
     if(!tasks.isLoading&&tasks.data){
       setEvents(convertTasksToEventArray(tasks.data))
     }
   },[tasks.data]);
-  const [selectedId, setSelectedId] = useState('');
+
+
+  useEffect(() => {
+    
+    if(!removeTasks.isLoading&&removeTasks.data){
+      setEvents(events.filter(t=> t.id !== removeTasks.data.id));
+      setSelectedId('');
+
+    }
+  },[removeTasks.data]);
 
  
 
 
   const removeEvent=()=>{
     if(selectedId!==''){
-      removeTasks.refetch({id:selectedId})
-
-    //  const response = removeTask({id:selectedId})
-    // console.log(response);
-    if(selectedId!==''){
-      // removeTask({id:selectedId})
-      setEvents(events.filter(t=> t.id !== selectedId));
-      setSelectedId('');
-      
-      
-
+      console.log('refrech deleted');
+      removeTasks.refetch()
     }
   }
-}
+
   const convertTasksToEventArray=(tasks)=>{
     console.log(tasks);
     if(tasks.length>0){
@@ -123,7 +111,7 @@ function DateTable() {
             <MenuButton  bgColor={'green.400'} as={Button}>בחר תורנות</MenuButton>
             <MenuList bgBlendMode={"-moz-initial"} zIndex={10}>
               {roles.map((role, index) => (
-                <TaskModal  key={index} type={role}  />
+                <TaskModal  key={index} type={role} events = {events} setEvents = {setEvents}  />
               ))}
             </MenuList>
           </Menu>

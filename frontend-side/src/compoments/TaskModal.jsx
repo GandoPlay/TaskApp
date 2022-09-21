@@ -12,20 +12,44 @@ import {
   Input,
   Button,
 } from "@chakra-ui/react";
-
+import { useEffect } from "react";
 import { Day, DayPicker } from "react-day-picker";
 import { format } from "date-fns";
 import 'react-day-picker/dist/style.css';
-import { addTask } from "../api/taskAPI";
+import { addTask, useAddTasksData } from "../api/taskAPI";
 import { Role } from "../Constant";
-const TaskModal = ({ type}) => {
+
+
+function convertTaskElementToEventObject(element) {
+  const startDate = element.startDate;
+  let endDate = element.startDate;
+  if(element.type === Role.AVTASH){
+    endDate = element.endDate;
+  }
+  return (
+  {
+    id: element._id,
+    title: `${element.type}: ${element.comment}`,
+    allDay: true,
+    start: new Date(startDate), 
+    end: new Date(endDate),
+  }
+  )
+}
+const TaskModal = ({ type, events, setEvents}) => {
   const [range, setRange] = useState();
   const [comment, setComment] = useState("");
-
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [newTask, setNewTask] = useState({})
+  const Addtasks = useAddTasksData(newTask);
 
-  
 
+  useEffect(() => {
+    
+    if(!Addtasks.isLoading&&Addtasks.data){
+      setEvents([...events,convertTaskElementToEventObject(Addtasks.data)])
+    }
+  },[Addtasks.data]);
 
 
   function handleAddTask() {
@@ -36,9 +60,8 @@ const TaskModal = ({ type}) => {
         endDate: type===Role.AVTASH?range.to.getTime(): range.from.getTime(),
         type: type
       }
-      addTask(task)
-      window.location.reload();
-      // setEvents([...events, task])
+      
+      Addtasks.refetch(task)
       onClose();
 
       
@@ -47,16 +70,7 @@ const TaskModal = ({ type}) => {
   const updateComment = (event) => {
     setComment(event.target.value);
   }
-  // const AddEvent = () => {
-  //   if (message && range.from) {
-  //     array.push({
-  //       title: `${type} : ${message}`,
-  //       start: range.from,
-  //       end: range.to,
-  //     });
-  //     onClose();
-  //   }
-  // };
+
   let footer = <p>Please pick the first day.</p>;
   if (range?.from) {
     if (!range.to) {
@@ -85,7 +99,7 @@ const TaskModal = ({ type}) => {
         <ModalContent>
           <Center>
           <DayPicker
-          mode="range"
+          mode = "range"
           min={type==='אבטש'? 6 :1}
           max={type==='אבטש'? 7 : 1}
           selected={range}
@@ -120,4 +134,4 @@ const TaskModal = ({ type}) => {
   );
 };
 
-export default TaskModal;
+export  {TaskModal,convertTaskElementToEventObject };

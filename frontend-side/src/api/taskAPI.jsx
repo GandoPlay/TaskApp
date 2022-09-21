@@ -2,14 +2,11 @@ import client from "./axiosInterceptors";
 import { useQuery } from "react-query"
 import {baseURL} from '../Constant'
 async function addTask(task) {
-
     const response = await client.post(
       baseURL + "/task/addTask",
       task
     );
   return response;
-  
-  
   }
 
   const fetchTasks = () => {
@@ -28,9 +25,21 @@ async function addTask(task) {
   }
 
 
+
+  const useAddTasksData = (task) => {
+  
+    return useQuery('tasksAdd', ()=>addTask(task),{
+      enabled: false,
+        select: (response) =>{
+            return response.data?JSON.parse(JSON.stringify(response.data)): undefined
+        }
+    })
+}
+
   
   const useRemoveTasksData = (id) => {
-    return useQuery('tasks', removeTask(id),{
+  
+    return useQuery('tasksRemove', ()=>removeTask({id:id}),{
       enabled: false,
         select: (response) =>{
             return response.data?JSON.parse(JSON.stringify(response.data)): undefined
@@ -45,4 +54,4 @@ async function addTask(task) {
         }
     })
 }
-export  {addTask, removeTask, useTasksData, useRemoveTasksData}
+export  {addTask, removeTask, useTasksData, useRemoveTasksData, useAddTasksData}

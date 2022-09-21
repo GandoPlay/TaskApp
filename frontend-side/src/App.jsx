@@ -26,6 +26,7 @@ function App() {
           </Route>
         </Routes>
       </ChakraProvider>
+
     </BrowserRouter>
   );
 }
