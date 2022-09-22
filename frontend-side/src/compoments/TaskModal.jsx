@@ -19,6 +19,8 @@ import 'react-day-picker/dist/style.css';
 import { addTask, useAddTasksData } from "../api/taskAPI";
 import { Role } from "../Constant";
 import he from "date-fns/esm/locale/he";
+import { useForm } from "react-hook-form";
+
 
 
 //Convert a single task from the backend into an item of the Events array.
@@ -41,11 +43,10 @@ function convertTaskElementToEventObject(element) {
 
 
 const TaskModal = ({ type, events, setEvents}) => {
+  const {handleSubmit,register,control} = useForm();
+
   //Setting the Range in the dayPicker.
   const [range, setRange] = useState();
-
-  //the comment for the task
-  const [comment, setComment] = useState("");
 
   //the task we want to append to events array.
   const [newTask, setNewTask] = useState(undefined)
@@ -58,20 +59,19 @@ const TaskModal = ({ type, events, setEvents}) => {
 
   //whenever the Query recieve new information => update the events 
   useEffect(() => {
-    console.log('here');
 
     if(!Addtasks.isLoading&&Addtasks.data){
       setEvents([...events,convertTaskElementToEventObject(Addtasks.data)])
       setNewTask(undefined)
 
     }
-  },[Addtasks.data]);
+  },[Addtasks.data,Addtasks.isLoading]);
 
 
-  function handleAddTask() {
+  function handleAddTask(values) {
       const task = 
       {
-        comment: comment,
+        comment: values.Comment,
         startDate:type===Role.AVTASH?range.from.getTime():range.getTime(),
         endDate: type===Role.AVTASH?range.to.getTime(): range.getTime(),
         type: type
@@ -82,9 +82,6 @@ const TaskModal = ({ type, events, setEvents}) => {
       
   }
 
-  const updateComment = (event) => {
-    setComment(event.target.value);
-  }
 
   let footer = <p>Please pick the first day.</p>;
   if (range?.from) {
@@ -115,36 +112,44 @@ const TaskModal = ({ type, events, setEvents}) => {
           <Center>
           <DayPicker
           locale={he}
+          
           mode = {type==='אבטש'?"range":"single"}
           min={type==='אבטש'? 6 :1}
           max={type==='אבטש'? 7 : 1}
           selected={range}
-          
+          showWeekNumber
           onSelect={setRange}
           footer={footer}
         />
           </Center>
           <ModalCloseButton />
+          <form onSubmit={handleSubmit(handleAddTask)}>
+          
           <ModalBody pb={6}></ModalBody>
           <Input
+            id = "Comment"
             placeholder="אנא הוסף הערה לתורנות"
             type="text"
-            id="massage"
-            onChange={updateComment}
-            value={comment}
+            {...register("Comment", {
+              required: "This is required"
+              
+            })}
           />
           <Center>{type}</Center>
           <ModalFooter>
             <Button
+            type="submit"
               colorScheme="blue"
               mr={3}
               variant="outline"
-              onClick={handleAddTask }
+              // onClick={handleAddTask }
             >
               Save
             </Button>
+            
             <Button onClick={onClose}>Cancel</Button>
           </ModalFooter>
+          </form>
         </ModalContent>
       </Modal>
     </>
