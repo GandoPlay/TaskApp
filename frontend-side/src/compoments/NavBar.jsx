@@ -67,7 +67,7 @@ export default function NavBar() {
                 {Object.keys(Routes).map((key) =>
                   key == "/" ? (
                     <>
-                      <Button onClick={onOpen} fontWeight={'normal'}>התנתק</Button>
+                      <Button onClick={onOpen} fontWeight={'normal'} >התנתק</Button>
                       <AlertDialog
                         motionPreset="slideInBottom"
                         leastDestructiveRef={cancelRef}
@@ -78,18 +78,18 @@ export default function NavBar() {
                       >
                         <AlertDialogOverlay />
                         <AlertDialogContent>
-                          <AlertDialogHeader dir="rtl">
+                          <AlertDialogHeader  display="flex"  justifyContent="flex-start"  >
                             התנתק
                           </AlertDialogHeader>
                           <AlertDialogCloseButton />
                           <AlertDialogBody dir="rtl">
                             האם הנך בטוח שהנך רוצה להתנתק
                           </AlertDialogBody>
-                          <AlertDialogFooter>
-                          <Button onClick={onClose}>
-                          <NavLink key={key} title={Routes[key]} url={key}>yes</NavLink>
+                          <AlertDialogFooter  justifyContent="space-between">
+                          <Button onClick={onClose}  bg="red.500"  >
+                          <NavLink key={key} title={Routes[key]} url={key} >yes</NavLink>
                             </Button>
-                            <Button ref={cancelRef} onClick={onClose}>
+                            <Button ref={cancelRef} onClick={onClose} bg="green.500">
                               השאר
                             </Button>
                           </AlertDialogFooter>
@@ -103,8 +103,8 @@ export default function NavBar() {
               </HStack>
             </HStack>
             <Flex alignItems={"center"}>
-              <Text color="green" w="250px" h="50px" fontSize="200%">
-                {username} שלום{" "}
+              <Text color="black" mr="30%" w="200px" fontSize="130%" borderTop="solid" textAlign="center" >
+                {username} Hello{" "}
               </Text>
 
               <Avatar size={"md"} src={require("./zroa.png")} />
