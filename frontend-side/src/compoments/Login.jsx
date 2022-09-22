@@ -10,14 +10,11 @@ import {
 import {  useMutation } from "react-query";
 import { useForm } from "react-hook-form";
 import { LoginUser } from "../api/authAPI";
+
 function Login() {
 
 
-  const {
-    handleSubmit,
-    register,
-    formState: { errors, isSubmitting },
-  } = useForm();
+  const {handleSubmit,register,} = useForm();
 
 
   const { mutate } = useMutation(LoginUser);

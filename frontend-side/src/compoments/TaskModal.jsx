@@ -18,8 +18,10 @@ import { format } from "date-fns";
 import 'react-day-picker/dist/style.css';
 import { addTask, useAddTasksData } from "../api/taskAPI";
 import { Role } from "../Constant";
+import he from "date-fns/esm/locale/he";
 
 
+//Convert a single task from the backend into an item of the Events array.
 function convertTaskElementToEventObject(element) {
   const startDate = element.startDate;
   let endDate = element.startDate;
@@ -36,18 +38,32 @@ function convertTaskElementToEventObject(element) {
   }
   )
 }
+
+
 const TaskModal = ({ type, events, setEvents}) => {
+  //Setting the Range in the dayPicker.
   const [range, setRange] = useState();
+
+  //the comment for the task
   const [comment, setComment] = useState("");
+
+  //the task we want to append to events array.
+  const [newTask, setNewTask] = useState(undefined)
+
+
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [newTask, setNewTask] = useState({})
+
+  //Query that will recive information the newTask.
   const Addtasks = useAddTasksData(newTask);
 
-
+  //whenever the Query recieve new information => update the events 
   useEffect(() => {
-    
+    console.log('here');
+
     if(!Addtasks.isLoading&&Addtasks.data){
       setEvents([...events,convertTaskElementToEventObject(Addtasks.data)])
+      setNewTask(undefined)
+
     }
   },[Addtasks.data]);
 
@@ -56,12 +72,11 @@ const TaskModal = ({ type, events, setEvents}) => {
       const task = 
       {
         comment: comment,
-        startDate:range.from.getTime(),
-        endDate: type===Role.AVTASH?range.to.getTime(): range.from.getTime(),
+        startDate:type===Role.AVTASH?range.from.getTime():range.getTime(),
+        endDate: type===Role.AVTASH?range.to.getTime(): range.getTime(),
         type: type
       }
-      
-      Addtasks.refetch(task)
+      setNewTask(task)
       onClose();
 
       
@@ -99,10 +114,12 @@ const TaskModal = ({ type, events, setEvents}) => {
         <ModalContent>
           <Center>
           <DayPicker
-          mode = "range"
+          locale={he}
+          mode = {type==='אבטש'?"range":"single"}
           min={type==='אבטש'? 6 :1}
           max={type==='אבטש'? 7 : 1}
           selected={range}
+          
           onSelect={setRange}
           footer={footer}
         />

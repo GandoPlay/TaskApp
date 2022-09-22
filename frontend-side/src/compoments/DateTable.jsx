@@ -18,7 +18,6 @@ import {
 import {TaskModal,convertTaskElementToEventObject} from "./TaskModal";
 import { useTasksData, useRemoveTasksData, addTask, removeTask } from "../api/taskAPI";
 import { Role } from "../Constant";
- 
 const roles = ["אבטש", "ניקיון", "לילה", "הנפצה", "מחסן", "שמירה"];
 const localizer = momentLocalizer(moment);
 
@@ -26,20 +25,28 @@ const localizer = momentLocalizer(moment);
 
 
 function DateTable() {
+  //Query that recvive all the tasks of the user.
   const tasks  = useTasksData()
+
+  //selectedId represent the id that the user is selecting right now.
   const [selectedId, setSelectedId] = useState('');
 
+  // events represent the tasks that will appear at the user's calendar. 
   const [events, setEvents] = useState([]);
+
+  //Query that will return the id of the task that the user want to delete (also changes the events array.)
   const removeTasks = useRemoveTasksData(selectedId,events,setEvents)
 
+
+  // until the user get that proper data => this useEffect is responsible for updating the events array.
   useEffect(() => {
-    
     if(!tasks.isLoading&&tasks.data){
       setEvents(convertTasksToEventArray(tasks.data))
     }
   },[tasks.data]);
 
 
+  //when the user recive from the server an id - that's the id we remove from the events array.
   useEffect(() => {
     
     if(!removeTasks.isLoading&&removeTasks.data){
@@ -51,16 +58,15 @@ function DateTable() {
 
  
 
-
+  //only when the button is Click we want to refatch.0
   const removeEvent=()=>{
     if(selectedId!==''){
-      console.log('refrech deleted');
       removeTasks.refetch()
     }
   }
 
+  // this function convert the backend information about the tasks into an event Arary
   const convertTasksToEventArray=(tasks)=>{
-    console.log(tasks);
     if(tasks.length>0){
     const eventsTask = []
     tasks.forEach(element=>eventsTask.push(convertTaskElementToEventObject(element)))
@@ -91,6 +97,7 @@ function DateTable() {
         views={["month"]}
         
         localizer={localizer}
+        
         events={ events}
         startAccessor="start"
         endAccessor="end"
