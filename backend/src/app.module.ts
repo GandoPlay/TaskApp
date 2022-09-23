@@ -1,4 +1,5 @@
-import { Module } from '@nestjs/common';
+import { Module, CacheModule } from '@nestjs/common';
+import * as redisStore from 'cache-manager-redis-store';
 import { ConfigModule } from '@nestjs/config';
 import {MongooseModule} from '@nestjs/mongoose'
 import { AuthModule } from './auth/auth.module';
@@ -7,6 +8,11 @@ import { TaskModule } from './task/task.module';
 import { MongooseConfigService } from './mongoose.service';
 
 @Module({
-  imports: [ConfigModule.forRoot({isGlobal: true}),AuthModule,UserModule, TaskModule, MongooseModule.forRootAsync({useClass: MongooseConfigService})],
+  imports: [ConfigModule.forRoot({isGlobal: true}),AuthModule,UserModule, TaskModule, MongooseModule.forRootAsync({useClass: MongooseConfigService}), 
+  CacheModule.register({store: redisStore,
+    host: 'localhost', //default host
+    port: 6379, //default port
+    isGlobal: true 
+  })],
 })
 export class AppModule {}

@@ -20,9 +20,10 @@ const argon = require("argon2");
 const jwt_1 = require("@nestjs/jwt");
 const config_1 = require("@nestjs/config");
 let AuthService = class AuthService {
-    constructor(jwt, config, userModel) {
+    constructor(jwt, config, cacheManager, userModel) {
         this.jwt = jwt;
         this.config = config;
+        this.cacheManager = cacheManager;
         this.userModel = userModel;
     }
     async signUp(userCreatedto) {
@@ -101,6 +102,8 @@ let AuthService = class AuthService {
     async generateTokens(userId, username) {
         const accessToken = (await this.generateAccessToken(userId, username)).access_token;
         const refreshToken = (await this.generateRefreshToken(userId, username)).refresh_token;
+        await this.cacheManager.set("access_token", { accessToken });
+        await this.cacheManager.set("refresh_token", { accessToken });
         return {
             access_token: accessToken,
             refresh_token: refreshToken
@@ -109,10 +112,10 @@ let AuthService = class AuthService {
 };
 AuthService = __decorate([
     (0, common_1.Injectable)(),
-    __param(2, (0, mongoose_1.InjectModel)('UserAuth')),
+    __param(2, (0, common_1.Inject)(common_1.CACHE_MANAGER)),
+    __param(3, (0, mongoose_1.InjectModel)('UserAuth')),
     __metadata("design:paramtypes", [jwt_1.JwtService,
-        config_1.ConfigService,
-        mongoose_2.Model])
+        config_1.ConfigService, Object, mongoose_2.Model])
 ], AuthService);
 exports.AuthService = AuthService;
 //# sourceMappingURL=auth.service.js.map

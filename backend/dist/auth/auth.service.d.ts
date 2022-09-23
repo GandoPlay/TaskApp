@@ -4,11 +4,13 @@ import { ConfigService } from "@nestjs/config";
 import { UserDocument } from '../schemas/User.schema';
 import { UserCreateDto } from '../dto/User/UserCreate.dto';
 import { UserLoginDto } from '../dto/User/UserLogin.dto';
+import { Cache } from 'cache-manager';
 export declare class AuthService {
     private jwt;
     private config;
+    private readonly cacheManager;
     private readonly userModel;
-    constructor(jwt: JwtService, config: ConfigService, userModel: Model<UserDocument>);
+    constructor(jwt: JwtService, config: ConfigService, cacheManager: Cache, userModel: Model<UserDocument>);
     signUp(userCreatedto: UserCreateDto): Promise<{
         access_token: string;
         refresh_token: string;

@@ -8,6 +8,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AppModule = void 0;
 const common_1 = require("@nestjs/common");
+const redisStore = require("cache-manager-redis-store");
 const config_1 = require("@nestjs/config");
 const mongoose_1 = require("@nestjs/mongoose");
 const auth_module_1 = require("./auth/auth.module");
@@ -18,7 +19,12 @@ let AppModule = class AppModule {
 };
 AppModule = __decorate([
     (0, common_1.Module)({
-        imports: [config_1.ConfigModule.forRoot({ isGlobal: true }), auth_module_1.AuthModule, user_module_1.UserModule, task_module_1.TaskModule, mongoose_1.MongooseModule.forRootAsync({ useClass: mongoose_service_1.MongooseConfigService })],
+        imports: [config_1.ConfigModule.forRoot({ isGlobal: true }), auth_module_1.AuthModule, user_module_1.UserModule, task_module_1.TaskModule, mongoose_1.MongooseModule.forRootAsync({ useClass: mongoose_service_1.MongooseConfigService }),
+            common_1.CacheModule.register({ store: redisStore,
+                host: 'localhost',
+                port: 6379,
+                isGlobal: true
+            })],
     })
 ], AppModule);
 exports.AppModule = AppModule;

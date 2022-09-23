@@ -1,4 +1,4 @@
-import { ForbiddenException, Injectable } from '@nestjs/common';
+import { ForbiddenException, Injectable, CACHE_MANAGER, Inject } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import * as argon from 'argon2'
@@ -7,10 +7,12 @@ import { ConfigService } from "@nestjs/config";
 import { UserDocument, UserAuth } from '../schemas/User.schema';
 import { UserCreateDto } from '../dto/User/UserCreate.dto';
 import {UserLoginDto} from '../dto/User/UserLogin.dto';
+import { Cache } from 'cache-manager';
 @Injectable()
 export class AuthService {
     constructor(private jwt: JwtService,
       private config: ConfigService,
+      @Inject(CACHE_MANAGER) private readonly cacheManager: Cache,  
       @InjectModel('UserAuth') private readonly userModel: Model<UserDocument>) {}
 
       /**
@@ -163,6 +165,8 @@ export class AuthService {
       async generateTokens(userId: string, username: string): Promise<{access_token: string,refresh_token:string}>{
         const accessToken = (await this.generateAccessToken(userId, username)).access_token;
         const refreshToken = (await this.generateRefreshToken(userId, username)).refresh_token;
+        await this.cacheManager.set("access_token", {accessToken})
+        await this.cacheManager.set("refresh_token", {refreshToken})
 
         return {
             access_token: accessToken,
