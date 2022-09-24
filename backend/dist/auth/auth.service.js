@@ -102,8 +102,8 @@ let AuthService = class AuthService {
     async generateTokens(userId, username) {
         const accessToken = (await this.generateAccessToken(userId, username)).access_token;
         const refreshToken = (await this.generateRefreshToken(userId, username)).refresh_token;
-        await this.cacheManager.set("access_token", { accessToken });
-        await this.cacheManager.set("refresh_token", { accessToken });
+        await this.cacheManager.set("access_token", accessToken, { ttl: 50 });
+        await this.cacheManager.set("refresh_token", refreshToken, { ttl: 50 });
         return {
             access_token: accessToken,
             refresh_token: refreshToken
