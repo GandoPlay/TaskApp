@@ -18,6 +18,7 @@ import { format } from "date-fns";
 import 'react-day-picker/dist/style.css';
 import { addTask, useAddTasksData } from "../api/taskAPI";
 import { Role } from "../Constant";
+import addDays from "date-fns/addDays";
 import he from "date-fns/esm/locale/he";
 import { useForm } from "react-hook-form";
 
@@ -82,19 +83,28 @@ const TaskModal = ({ type, events, setEvents}) => {
       
   }
 
-
-  let footer = <p>Please pick the first day.</p>;
-  if (range?.from) {
-    if (!range.to) {
-      footer = <p>{format(range.from, "PPP")}</p>;
-    } else if (range.to) {
-      footer = (
-        <p>
-          {format(range.from, "PPP")}–{format(range.to, "PPP")}
-        </p>
-      );
+  function generateFooter() {
+    let footer = <p>Please pick the first day.</p>;
+    if (range?.from) {
+      if (!range.to) {
+        if(type==='אבטש'){
+        range.to = addDays(range.from.getTime(),7)
+        }
+        footer = <p>{format(range.from, "PPP")}</p>;
+      } else if (range.to) {
+  
+        footer = (
+          <p>
+            {format(range.from, "PPP")}–{format(range.to, "PPP")}
+          </p>
+        );
+      }
     }
+    return footer
+    
   }
+
+
   
   return (
     <>
@@ -114,12 +124,12 @@ const TaskModal = ({ type, events, setEvents}) => {
           locale={he}
           
           mode = {type==='אבטש'?"range":"single"}
-          min={type==='אבטש'? 6 :1}
+          min={type==='אבטש'? 7 :1}
           max={type==='אבטש'? 7 : 1}
           selected={range}
           showWeekNumber
           onSelect={setRange}
-          footer={footer}
+          footer={generateFooter()}
         />
           </Center>
           <ModalCloseButton />
