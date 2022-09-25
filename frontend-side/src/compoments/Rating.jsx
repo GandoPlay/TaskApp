@@ -1,9 +1,18 @@
 import React from "react";
 import { useQuery } from "react-query";
 import axios from "axios";
-import { Avatar } from "@chakra-ui/react"
+import { Avatar, Center } from "@chakra-ui/react"
 import { useColorModeValue } from "@chakra-ui/react";
 import { useLogin, useUsersData } from "../api/usersAPI";
+import {
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend
+} from "recharts";
 import {
   Table,
   Thead,
@@ -25,13 +34,32 @@ const FetchRatings = () => {
     );
   }
 
+function generateUsersArray(data){
 
-
+  if(data.length>=3){
+    return data.slice(-3)
+  }
+  return data
+}
 
 
   return (
     <>
-      <Box
+      <Center>
+      
+     <BarChart
+      
+      width={1000}
+      height={300}
+      data={generateUsersArray(users.data)}
+      barSize={50}
+    >
+      <XAxis  dataKey="username"    />
+      <Tooltip  />
+      <Bar dataKey="score" fill="green" background={{ fill: "#eee" }} />
+    </BarChart>
+    </Center>
+      {/* <Box
         bg=" rgba(192, 192, 192, 0.39)"
         display="flex"
         textAlign="center"
@@ -51,7 +79,7 @@ const FetchRatings = () => {
           מקום שלישי
           {"\n" + users.data?users.data[users.data.length-3]?.username:''}
         </Text>
-      </Box>
+      </Box> */}
 
 
   <TableContainer  >
@@ -71,7 +99,7 @@ const FetchRatings = () => {
                 return (
             
         <Tr key={index}>
-          <Td><Avatar src="https://yt3.ggpht.com/ytc/AMLnZu8OyWtWV6Tv73Pp0My_I3Ss4_iOrjL0f6o4h5vveQ=s900-c-k-c0x00ffffff-no-rj"/></Td>
+          <Td><Avatar src={require("./profileHatal.jpg")}/></Td>
         <Td>{user.username}</Td>
         <Td>{user.score}</Td>
         <Td >{user.type}</Td>
