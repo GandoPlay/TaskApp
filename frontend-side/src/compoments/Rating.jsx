@@ -23,7 +23,7 @@ import {
 } from "@chakra-ui/react";
 
 const FetchRatings = () => {
-  const textColor = useColorModeValue("blue.900", "blue")
+  const textColor = useColorModeValue("blue.100", "blue")
 
   const users  = useUsersData()
   if (users.isLoading||!users.data) {
@@ -45,7 +45,7 @@ function generateUsersArray(data){
 
   return (
     <>
-      <Center>
+      <Center background={'blackAlpha.900'}>
       
      <BarChart
       
@@ -54,9 +54,10 @@ function generateUsersArray(data){
       data={generateUsersArray(users.data)}
       barSize={50}
     >
-      <XAxis  dataKey="username"    />
+      <YAxis enableBackground={<Avatar src={require("./profileHatal.jpg")}/>}/>
+      <XAxis dataKey="username"   fill="white" />
       <Tooltip  />
-      <Bar dataKey="score" fill="green" background={{ fill: "#eee" }} />
+      <Bar dataKey="score" fill="green" />
     </BarChart>
     </Center>
       {/* <Box
@@ -82,7 +83,7 @@ function generateUsersArray(data){
       </Box> */}
 
 
-  <TableContainer  >
+  <TableContainer  background={'blackAlpha.800'}>
   <Table  variant="striped" colorScheme={textColor} size='lg'>
     <Thead   >
       <Tr>
@@ -94,7 +95,7 @@ function generateUsersArray(data){
       </Tr>
 
     </Thead>
-    <Tbody >
+    <Tbody textColor={'whatsapp.400'}>
     {users.data ? users.data.map((user,index) => {
                 return (
             
