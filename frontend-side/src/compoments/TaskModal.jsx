@@ -122,7 +122,7 @@ const TaskModal = ({ type, events, setEvents}) => {
           <Center>
           <DayPicker
           locale={he}
-          
+          fromDate = {new Date()}
           mode = {type==='אבטש'?"range":"single"}
           min={type==='אבטש'? 7 :1}
           max={type==='אבטש'? 7 : 1}

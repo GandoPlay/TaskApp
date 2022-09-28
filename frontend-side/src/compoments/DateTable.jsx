@@ -5,6 +5,7 @@ import { useState } from "react";
 import { Calendar, momentLocalizer } from "react-big-calendar";
 
 import moment from "moment";
+
 import {
   Button,
   Box,
@@ -18,7 +19,10 @@ import {
 import {TaskModal,convertTaskElementToEventObject} from "./TaskModal";
 import { useTasksData, useRemoveTasksData, addTask, removeTask } from "../api/taskAPI";
 import { Role } from "../Constant";
-const roles = ["אבטש", "ניקיון", "לילה", "הנפצה", "מחסן", "שמירה"];
+import 'moment/locale/he';
+moment.locale("he");
+
+const roles = ["אבטש", "ניקיון", "לילה", "הנפצה"];
 const localizer = momentLocalizer(moment);
 
 
@@ -85,36 +89,36 @@ function DateTable() {
     );
   }
 
-
-
-
+  
+  function handleSelect(event) {
+    setSelectedId(event.id)
+  }
   return (
-    <Box  bgColor={"teal.300"}>
-      
+    <Box  bgColor={"teal.300"} h={'100vh'}>
       <Calendar
-        
         className="calendardate"
         views={["month"]}
         
         localizer={localizer}
-        
-        events={ events}
+        onSelectSlot={()=>{
+          setSelectedId('')
+        }}
+        events={events}
         startAccessor="start"
         endAccessor="end"
-        
+        selectable
         controls={["calendar"]}
-         select="range"
-         onSelectEvent = {event => setSelectedId(event.id)}
-         touchUi={true}
+        select="range"
+        culture= 'he'
+        selected={selectedId}
+        onSelectEvent = {event => handleSelect(event)}
+       
+        touchUi={true}
         style={{ height: 500, margin: "50px" }}
       />
-
-      <Flex bgColor={'blue.500'}>
-        <Grid  justifyContent="space-between">
-          <Flex >
+      <Flex justify={'center'}>
           <Button bgColor={'red.400'}  onClick={removeEvent}>מחק תורנות</Button>
           <Menu>
-
             <MenuButton  bgColor={'green.400'} as={Button}>בחר תורנות</MenuButton>
             <MenuList bgBlendMode={"-moz-initial"} zIndex={10}>
               {roles.map((role, index) => (
@@ -122,10 +126,7 @@ function DateTable() {
               ))}
             </MenuList>
           </Menu>
-          </Flex>
-        </Grid>
       </Flex>
-      
     </Box>
   );
 }

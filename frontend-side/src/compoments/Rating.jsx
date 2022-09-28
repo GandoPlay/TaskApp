@@ -37,7 +37,7 @@ const FetchRatings = () => {
 function generateUsersArray(data){
 
   if(data.length>=3){
-    return data.slice(-3)
+    return data.slice(0,3)
   }
   return data
 }

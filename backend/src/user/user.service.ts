@@ -13,7 +13,7 @@ export class UserService {
      * @returns all the users sorted by their score
      */
     async getUsers() {
-        return this.userModel.find({}).sort('score').exec();
+        return this.userModel.find({}).sort('-score').exec();
       }
     /**
      * 
