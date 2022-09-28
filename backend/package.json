@@ -38,6 +38,7 @@
     "class-validator": "^0.13.2",
     "graphql": "^16.6.0",
     "mongoose": "^6.5.2",
+    "nest": "^0.1.6",
     "passport": "^0.6.0",
     "passport-jwt": "^4.0.0",
     "reflect-metadata": "^0.1.13",
