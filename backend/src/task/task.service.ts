@@ -57,16 +57,16 @@ export class TaskService {
         case total == 0:
           await user.updateOne({type: Rank.NOTHING})
           break
-        case total <= 5:
+        case total <= 25:
           await user.updateOne({type: Rank.YOUNG})
           break
-        case total <= 10:
+        case total <= 50:
           await user.updateOne({type: Rank.MID})
           break
-        case total <= 20:
+        case total <= 75:
           await user.updateOne({type: Rank.LARGE})
           break
-        case total >= 25:
+        case total >= 100:
           await user.updateOne({type: Rank.HUGE})
           break
       } 
