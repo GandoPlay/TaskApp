@@ -6,11 +6,13 @@ import {
   Link,
   Text,
   useColorModeValue,
+  Alert,
 } from '@chakra-ui/react';
 import {Routes} from '../Constant'
 import { useState } from 'react';
 import useStore from '../appStore';
 import { useDisclosure } from "@chakra-ui/react";
+import { Button } from 'react-day-picker';
 
 
 function removeTokens(){
@@ -59,9 +61,14 @@ export default function NavBar() {
               as={'nav'}
               spacing={4}
               display={{ base: 'none', md: 'flex' }}>
-              {Object.keys(Routes).map((key) => (
-                <NavLink key={key} title = {Routes[key]} url = {key}></NavLink>
-              ))} 
+              {Object.keys(Routes).map((key) => 
+
+
+ 
+
+ <NavLink key={key} title = {Routes[key]} url = {key}></NavLink>
+              )
+} 
             </HStack>
 
           </HStack>
