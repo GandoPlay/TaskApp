@@ -4,7 +4,7 @@ import { UserLoginDto } from 'src/dto/User/UserLogin.dto';
 import { UserDocument } from 'src/schemas/User.schema';
 import { AuthService } from './auth.service';
 import { GetUser } from './decorator';
-import { JwtRefreshTokenGuard } from '../guard';
+import { JwtRefreshTokenGuard , JwtRefreshAdminTokenGuard} from '../guard';
 
 @Controller('auth')
 export class AuthController {
@@ -28,7 +28,7 @@ export class AuthController {
         
 
 
-    @UseGuards(JwtRefreshTokenGuard, )
+    @UseGuards(JwtRefreshTokenGuard)
     @HttpCode(201)
     @Get('refresh')
     refresh(@GetUser() user: UserDocument) {

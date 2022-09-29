@@ -11,7 +11,7 @@ import { UserDocument } from 'src/schemas/User.schema';
 
 
 @Injectable()
-export class JwtAccessTokenStrategy extends PassportStrategy(
+export class JwtAdminAccessTokenStrategy extends PassportStrategy(
   Strategy,
   'jwt-admin',
 ) {
