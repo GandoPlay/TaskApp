@@ -20,6 +20,13 @@ export class AuthController {
         return this.authService.login(userLoginDto);
     }
 
+    // @UseGuards(JwtRefreshTokenGuard)
+    // @Get('logout')
+    // logout(){
+
+    // }
+        
+
 
     @UseGuards(JwtRefreshTokenGuard)
     @HttpCode(201)
