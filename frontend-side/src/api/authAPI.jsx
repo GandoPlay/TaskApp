@@ -18,7 +18,9 @@ import { useQuery } from "react-query"
       NavigateTo('/dateTable')
        user.setAuthFailed(false)
     }
+    else{
      user.setAuthFailed(true)
+    }
     
   
   }

@@ -12,15 +12,6 @@ import {  useMutation } from "react-query";
 import { useForm } from "react-hook-form";
 import { LoginUser } from "../api/authAPI";
 import { useState } from "react";
-import { useDisclosure } from "@chakra-ui/react";
-import {
-  AlertDialog,
-  AlertDialogBody,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogContent,
-  AlertDialogOverlay,
-} from '@chakra-ui/react'
 function Login() {
 
 
@@ -28,7 +19,6 @@ function Login() {
 
   const [authFailed, setAuthFailed] = useState(false)
   const { mutate } = useMutation(LoginUser);
-  const { isOpen, onOpen, onClose } = useDisclosure()
   const cancelRef = React.useRef()
 
   function onSubmit(values) {
@@ -71,14 +61,10 @@ function Login() {
               <Input
                 id="Username"
                 type="text"
-                // className="input"
                 placeholder="שם משתמש"
                 {...register("Username", {
                   required: "This is required",
-                  minLength: {
-                    value: 4,
-                    message: "Minimum length should be 4",
-                  },
+              
                 })}
                 size={'60%'}
                 borderRadius={'5px'}
@@ -93,15 +79,10 @@ function Login() {
                 placeholder="סיסמא"
                 {...register("Password", {
                   required: "This is required",
-                  minLength: {
-                    value: 4,
-                    message: "Minimum length should be 4",
-                  },
+              
                 })}
                 alignSelf="center"
-                // height="80%"
-                // width="80%"
-                // mt="7%"
+            
                 size={'80%'}
                 borderRadius={'5px'}
               />
