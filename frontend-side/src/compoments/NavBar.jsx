@@ -64,18 +64,18 @@ export default function NavBar() {
                 spacing={4}
                 display={{ base: "none", md: "flex" }}
               >
-                {Object.keys(Routes).map((key) =>
-                  key == "/" ? (
                     <>
-                      <Button onClick={onOpen} fontWeight={'normal'} key={key}>התנתק</Button>
+                      <Button onClick={onOpen} fontWeight={'normal'}>התנתק</Button>
+                    {Object.keys(Routes).map((key) =>
+                      key == "/" ? (
                       <AlertDialog
                         motionPreset="slideInBottom"
                         leastDestructiveRef={cancelRef}
                         onClose={onClose}
                         isOpen={isOpen}
                         isCentered
-                        
-                      >
+                        key={key}
+                        >
                         <AlertDialogOverlay />
                         <AlertDialogContent>
                           <AlertDialogHeader  display="flex"  justifyContent="flex-start"  >
@@ -95,11 +95,11 @@ export default function NavBar() {
                           </AlertDialogFooter>
                         </AlertDialogContent>
                       </AlertDialog>
+                        ) : (
+                          <NavLink key={key} title={Routes[key]} url={key}></NavLink>
+                        )
+                      )}
                     </>
-                  ) : (
-                    <NavLink key={key} title={Routes[key]} url={key}></NavLink>
-                  )
-                )}
               </HStack>
             </HStack>
             <Flex alignItems={"center"}>
