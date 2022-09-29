@@ -28,7 +28,7 @@ export class AuthController {
         
 
 
-    @UseGuards(JwtRefreshTokenGuard)
+    @UseGuards(JwtRefreshTokenGuard, )
     @HttpCode(201)
     @Get('refresh')
     refresh(@GetUser() user: UserDocument) {
