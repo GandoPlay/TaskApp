@@ -1,6 +1,7 @@
 import { Controller , Get, Body, Post, UseGuards} from '@nestjs/common';
-import { addTaskToUserDto } from 'src/dto/Admin/AddTaskToUser.dto';
+import { AdminToUserDto } from 'src/dto/Admin/AddTaskToUser.dto';
 import { TaskCreateDto } from 'src/dto/Task/TaskCreate.dto';
+import { TaskDeleteDto } from 'src/dto/Task/TaskDelete.dto';
 import { JwtAdminAccessTokenGuard } from 'src/guard/AdminAccessToken.guard';
 import { AdminService } from './admin.service';
 
@@ -18,7 +19,12 @@ export class AdminController {
     return this.AdminService.allUsersTasks()
     }
     @Post()
-    async addTask(@Body() addTaskToUserDto: addTaskToUserDto, @Body() TaskCreatedto: TaskCreateDto ){
-        return await this.AdminService.addTask(addTaskToUserDto, TaskCreatedto)
+    async addTask(@Body() AdminToUserDto: AdminToUserDto, @Body() TaskCreatedto: TaskCreateDto ){
+        return await this.AdminService.addTask(AdminToUserDto, TaskCreatedto)
+    }
+
+    @Post('remove')
+    async removeTask(@Body() AdminToUserDto: AdminToUserDto, @Body()  TaskDeleteDto: TaskDeleteDto){
+        return await this.AdminService.removeTask(AdminToUserDto, TaskDeleteDto)
     }
   }
