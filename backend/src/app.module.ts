@@ -6,6 +6,7 @@ import { AuthModule } from './auth/auth.module';
 import {UserModule} from './user/user.module';
 import { TaskModule } from './task/task.module';
 import { MongooseConfigService } from './mongoose.service';
+import { AdminModule } from './admin/admin.module';
 
 @Module({
   imports: [ConfigModule.forRoot({isGlobal: true}),AuthModule,UserModule, TaskModule, MongooseModule.forRootAsync({useClass: MongooseConfigService}), 
@@ -13,6 +14,6 @@ import { MongooseConfigService } from './mongoose.service';
     host: 'localhost', //default host
     port: 6379, //default port
     isGlobal: true 
-  })],
+  }), AdminModule],
 })
 export class AppModule {}

@@ -20,8 +20,8 @@ export class UserAuth {
     score: Number
     @Prop({ type:[{type: mongoose.Schema.Types.ObjectId, ref: 'Task' }]})
     tasks: TaskDocument[]
-
-
+    @Prop({default: false})
+    isAdmin: boolean
 }
 
 export const UserAuthSchema = SchemaFactory.createForClass(UserAuth);

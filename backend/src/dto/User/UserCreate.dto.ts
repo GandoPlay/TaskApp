@@ -26,4 +26,6 @@ export class UserCreateDto{
     
     
     score: Number
+
+    isAdmin: boolean
 }

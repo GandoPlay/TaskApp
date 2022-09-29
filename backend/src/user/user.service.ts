@@ -13,7 +13,9 @@ export class UserService {
      * @returns all the users sorted by their score
      */
     async getUsers() {
-        return this.userModel.find({}).sort('score').exec();
+      console.log(await this.userModel.find({}).sort('score').exec());
+      
+        return await this.userModel.find({}).sort('score').exec();
       }
     /**
      * 
@@ -30,7 +32,8 @@ export class UserService {
         id: user.id,
         username: user.username    }
     }
+  }
 
 
-}
+
  

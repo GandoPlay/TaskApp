@@ -15,6 +15,7 @@ const auth_module_1 = require("./auth/auth.module");
 const user_module_1 = require("./user/user.module");
 const task_module_1 = require("./task/task.module");
 const mongoose_service_1 = require("./mongoose.service");
+const admin_module_1 = require("./admin/admin.module");
 let AppModule = class AppModule {
 };
 AppModule = __decorate([
@@ -24,7 +25,7 @@ AppModule = __decorate([
                 host: 'localhost',
                 port: 6379,
                 isGlobal: true
-            })],
+            }), admin_module_1.AdminModule],
     })
 ], AppModule);
 exports.AppModule = AppModule;

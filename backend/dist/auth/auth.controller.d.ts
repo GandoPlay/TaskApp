@@ -12,6 +12,7 @@ export declare class AuthController {
     login(userLoginDto: UserLoginDto): Promise<{
         access_token: string;
         refresh_token: string;
+        isAdmin: boolean;
     }>;
     refresh(user: UserDocument): Promise<{
         access_token: string;
