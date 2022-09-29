@@ -5,9 +5,9 @@ import client from './axiosInterceptors'
 import { useQuery } from "react-query"
 
 
- async function LoginUser(user){
 
-    const response = await axios.post(
+ async function LoginUser(user){
+    const response = await axios.post(  
       baseURL + "/auth/login",
       user
     );
@@ -15,7 +15,11 @@ import { useQuery } from "react-query"
   
       localStorage.setItem('accessToken', JSON.stringify(response.data.access_token))
       localStorage.setItem('refreshToken', JSON.stringify(response.data.refresh_token))
-      NavigateTo('/rating')
+      NavigateTo('/dateTable')
+       user.setAuthFailed(false)
+    }
+    else{
+     user.setAuthFailed(true)
     }
     
   
@@ -31,7 +35,7 @@ import { useQuery } from "react-query"
   
     localStorage.setItem('accessToken', JSON.stringify(response.data.access_token))
     localStorage.setItem('refreshToken', JSON.stringify(response.data.refresh_token))
-    NavigateTo('/rating')
+    NavigateTo('/dateTable')
   
   
   

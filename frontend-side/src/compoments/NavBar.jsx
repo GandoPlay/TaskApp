@@ -10,7 +10,7 @@ import {
 import {Routes} from '../Constant'
 import { useState } from 'react';
 import useStore from '../appStore';
-
+import { useDisclosure } from "@chakra-ui/react";
 
 
 function removeTokens(){
@@ -36,6 +36,8 @@ const NavLink = ({ title,url }) => (
 
 
 export default function NavBar() {
+  const { isOpen, onOpen, onClose } = useDisclosure()
+
   const username = useStore(state=> state.username)
 
   const [color, setColor] = useState(useColorModeValue('gray.100', 'gray.900'))
@@ -43,6 +45,7 @@ export default function NavBar() {
   if(window.location.pathname!=='/'){
   return (
     <>
+    
       <Box bg={color} px={4}>
         <Flex h={16} alignItems={'center'} justifyContent={'space-between'}>
         <Avatar
