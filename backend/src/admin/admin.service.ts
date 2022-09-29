@@ -1,8 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { addTaskToUserDto } from 'src/dto/Admin/AddTaskToUser.dto';
+import { AdminToUserDto } from 'src/dto/Admin/AddTaskToUser.dto';
 import { TaskCreateDto } from 'src/dto/Task/TaskCreate.dto';
+import { TaskDeleteDto } from 'src/dto/Task/TaskDelete.dto';
 import { TaskDocument } from 'src/schemas/Task.schema';
 import { UserDocument } from 'src/schemas/User.schema';
 import { taskDictionary } from 'src/Task.enum';
@@ -28,8 +29,13 @@ export class AdminService {
         return userData
       }
 
-      async addTask(addTaskToUserdto: addTaskToUserDto, TaskCreatedto: TaskCreateDto) {
-        const user = await this.userModel.findById(addTaskToUserdto.id)
+      async addTask(AdminToUserDto: AdminToUserDto, TaskCreatedto: TaskCreateDto) {
+        const user = await this.userModel.findById(AdminToUserDto._id)
         await this.taskService.addTask(TaskCreatedto, user)
+      }
+
+      async removeTask(AdminToUserDto: AdminToUserDto, TaskDeleteDto: TaskDeleteDto){
+        const user = await this.userModel.findById(AdminToUserDto._id)
+        await this.taskService.removeTask(TaskDeleteDto, user)
       }
 }

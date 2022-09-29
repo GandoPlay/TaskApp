@@ -1,4 +1,4 @@
 
-export class addTaskToUserDto{
-    id: string
+export class AdminToUserDto{
+    _id: string
 }

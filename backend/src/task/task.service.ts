@@ -35,9 +35,6 @@ export class TaskService {
    */
 
   async removeTask(TaskDeleteDto: TaskDeleteDto, owner){
-
-    console.log(TaskDeleteDto.id);
-    
    const task = await this.taskModel.findById(TaskDeleteDto.id);
    console.log(task);
    if(task){
