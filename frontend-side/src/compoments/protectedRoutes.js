@@ -13,6 +13,8 @@ const ProtectedRoutes = () =>{
 
 
     const setUsername = useStore(state=> state.setUsername)
+    const setIsAdmin = useStore(state=> state.setIsAdmin)
+
     const isLogged = useStore(state=> state.isLogged)
     const setIsLogged = useStore(state=> state.setIsLogged)
     const [isVaild, setIsVaild] = useState(false);
@@ -27,6 +29,10 @@ const ProtectedRoutes = () =>{
             {
                 setIsLogged(true)
                 setUsername(login.data.username)
+                if(login.data.isAdmin){
+                    setIsAdmin(login.data.isAdmin)
+
+                }
             }
             
             setIsVaild(true)

@@ -45,6 +45,7 @@ export default function NavBar() {
   const cancelRef = useRef();
 
   const username = useStore((state) => state.username);
+  const isAdmim = useStore((state) => state.isAdmin);
 
   const [color, setColor] = useState(useColorModeValue("gray.100", "gray.900"));
 
@@ -104,7 +105,7 @@ export default function NavBar() {
             </HStack>
             <Flex alignItems={"center"}>
               <Text color="black" mr="30%" w="200px" fontSize="130%"  textAlign="center" >
-                {username} Hello{" "}
+                {isAdmim? "שלום המפקד" : `${username?username:''} שלום `}
               </Text>
 
               <Avatar size={"md"} src={require("./zroa.png")} />

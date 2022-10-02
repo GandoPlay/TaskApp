@@ -11,6 +11,7 @@ import {
   Center,
   Input,
   Button,
+  Text,
 } from "@chakra-ui/react";
 import { useEffect } from "react";
 import { Day, DayPicker } from "react-day-picker";
@@ -25,19 +26,26 @@ import { useForm } from "react-hook-form";
 
 
 //Convert a single task from the backend into an item of the Events array.
-function convertTaskElementToEventObject(element) {
+function convertTaskElementToEventObject(element, username='') {
   const startDate = element.startDate;
   let endDate = element.startDate;
   if(element.type === Role.AVTASH){
     endDate = element.endDate;
   }
+    // if (username) {
+    //   <Text fontSize={'20px'}>${username} ${element.type}: ${element.comment}</Text>
+    //   return (
+    //     username
+    //   )
+    // }
+
   return (
-  {
-    id: element._id,
-    title: `${element.type}: ${element.comment}`,
-    allDay: true,
-    start: new Date(startDate), 
-    end: new Date(endDate),
+    {
+      id: element._id,
+      title: `${username} ${element.type}: ${element.comment}`,
+      allDay: true,
+      start: new Date(startDate), 
+      end: new Date(endDate),
   }
   )
 }

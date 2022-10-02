@@ -85,8 +85,16 @@ export class AuthService {
      * @return a new accessToken
      */
     async refreshTokens(user): Promise<{access_token: string}> {
-      const token = this.generateAccessToken(user._id, user.username)
-      return token;
+      if(user.isAdmin){
+        console.log('admin');
+        
+        return this.generateAdminAccessToken(user._id, user.username)
+
+      }
+      
+        return this.generateAccessToken(user._id, user.username)
+      
+     
     }
 
 
@@ -180,7 +188,7 @@ export class AuthService {
         const refreshToken = (await this.generateAdminRefreshToken(userId, username)).refresh_token;
         // await this.cacheManager.set("admin_access_token", {accessToken}, {ttl: 10000})
         // await this.cacheManager.set("admin_refresh_token", {refreshToken}, {ttl: 10000})
-
+        
         return {
             access_token: accessToken,
             refresh_token: refreshToken, 

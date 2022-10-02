@@ -14,6 +14,7 @@ import { useQuery } from "react-query"
     if(response.data.access_token&&response.data.refresh_token){
   
       localStorage.setItem('accessToken', JSON.stringify(response.data.access_token))
+      console.log(JSON.stringify(response.data.access_token));
       localStorage.setItem('refreshToken', JSON.stringify(response.data.refresh_token))
       NavigateTo('/dateTable')
        user.setAuthFailed(false)

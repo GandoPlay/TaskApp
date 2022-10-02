@@ -8,9 +8,18 @@ async function addTask(task) {
       return await client.post(baseURL + "/task/addTask",task);
   }
 
-  const fetchTasks = () => {
-    return  client.get(baseURL+'/users/getTasks')
+  const fetchTasks = (isAdmin) => {
+    let url = baseURL+'/users/getTasks'
+    if (isAdmin) {
+      url = baseURL+'/admin/allUsersTasks'
+
+    }
+    console.log(url);
+    return  client.get(url)
+
+
 }
+
 
  async function removeTask(id) {
     console.log(id);
@@ -45,8 +54,10 @@ async function addTask(task) {
     })
 }
 
-   const useTasksData = () => {
-    return useQuery('tasks', fetchTasks,{
+   const useTasksData = (isAdmin) => {
+    console.log('tried '+ isAdmin);
+    return useQuery('tasks', ()=>fetchTasks(isAdmin),{
+        enabled: false,
         select: (response) =>{
             return response.data?JSON.parse(JSON.stringify(response.data)): undefined
         }

@@ -55,8 +55,11 @@ let AuthService = class AuthService {
         return this.generateTokens(data.id, data.username);
     }
     async refreshTokens(user) {
-        const token = this.generateAccessToken(user._id, user.username);
-        return token;
+        if (user.isAdmin) {
+            console.log('admin');
+            return this.generateAdminAccessToken(user._id, user.username);
+        }
+        return this.generateAccessToken(user._id, user.username);
     }
     async generateAccessToken(userId, username) {
         const payload = {

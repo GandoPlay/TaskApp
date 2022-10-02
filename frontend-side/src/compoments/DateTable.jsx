@@ -5,7 +5,7 @@ import { useState } from "react";
 import { Calendar, momentLocalizer } from "react-big-calendar";
 
 import moment from "moment";
-
+import useStore from "../appStore";
 import {
   Button,
   Box,
@@ -29,8 +29,9 @@ const localizer = momentLocalizer(moment);
 
 
 function DateTable() {
+  const isAdmin = useStore((state) => state.isAdmin);
   //Query that recvive all the tasks of the user.
-  const tasks  = useTasksData()
+  const tasks  = useTasksData(isAdmin)
 
   //selectedId represent the id that the user is selecting right now.
   const [selectedId, setSelectedId] = useState('');
@@ -42,14 +43,50 @@ function DateTable() {
   const removeTasks = useRemoveTasksData(selectedId,events,setEvents)
 
 
+
+  useEffect(() => {
+    
+    tasks.refetch()
+  },[isAdmin]);
+
   // until the user get that proper data => this useEffect is responsible for updating the events array.
   useEffect(() => {
+    
     if(!tasks.isLoading&&tasks.data){
-      setEvents(convertTasksToEventArray(tasks.data))
+      const data = tasks.data
+      if(isAdmin){
+        console.log('every ADmin');
+        setEvents(AllUsersToTasksArray(data))
+
+      }
+      else{
+        console.log('not ADmin');
+        
+        setEvents(convertTasksToEventArray(data))
+
+      }
     }
   },[tasks.data]);
-
-
+  function eventStyleGetter(event, start, end, isSelected) {
+    console.log(event);
+    var backgroundColor = '#' + event.hexColor;
+    var style = {
+        // backgroundColor: backgroundColor,
+        // borderRadius: '0px',
+        // opacity: 0.8,
+        color: '#FEFFFF',
+        fontSize: '12px',
+        border: '0px',
+    };
+    return {
+        style: style
+    };
+  }
+  function AllUsersToTasksArray(users){
+    const eventsTask = []
+    users.forEach(user=>eventsTask.push(...convertTasksToEventArray(user.tasks, user.username)))
+    return eventsTask
+  }
   //when the user recive from the server an id - that's the id we remove from the events array.
   useEffect(() => {
     
@@ -70,10 +107,10 @@ function DateTable() {
   }
 
   // this function convert the backend information about the tasks into an event Arary
-  const convertTasksToEventArray=(tasks)=>{
+  const convertTasksToEventArray=(tasks, username='')=>{
     if(tasks.length>0){
     const eventsTask = []
-    tasks.forEach(element=>eventsTask.push(convertTaskElementToEventObject(element)))
+    tasks.forEach(element=>eventsTask.push(convertTaskElementToEventObject(element, username)))
     return eventsTask;
     }
     else{
@@ -112,6 +149,8 @@ function DateTable() {
         culture= 'he'
         selected={selectedId}
         onSelectEvent = {event => handleSelect(event)}
+        eventPropGetter={(eventStyleGetter)}
+
        
         touchUi={true}
         style={{ height: 500, margin: "50px" }}
