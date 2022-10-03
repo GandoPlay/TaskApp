@@ -31,7 +31,6 @@ const NavLink = ({ title, url }) => (
     py={1}
     rounded={"md"}
     _hover={{
-      textDecoration: "none",
       bg: useColorModeValue("gray.200", "gray.700"),
     }}
     href={url}
@@ -65,10 +64,12 @@ export default function NavBar() {
                 spacing={4}
                 display={{ base: "none", md: "flex" }}
               >
-                    <>
-                      <Button onClick={onOpen} fontWeight={'normal'}>התנתק</Button>
-                    {Object.keys(Routes).map((key) =>
-                      key == "/" ? (
+                <>
+                  <Button onClick={onOpen} fontWeight={"normal"}>
+                    התנתק
+                  </Button>
+                  {Object.keys(Routes).map((key) =>
+                    key == "/" ? (
                       <AlertDialog
                         motionPreset="slideInBottom"
                         leastDestructiveRef={cancelRef}
@@ -76,36 +77,60 @@ export default function NavBar() {
                         isOpen={isOpen}
                         isCentered
                         key={key}
-                        >
+                      >
                         <AlertDialogOverlay />
                         <AlertDialogContent>
-                          <AlertDialogHeader  display="flex"  justifyContent="flex-start"  >
+                          <AlertDialogHeader
+                            display="flex"
+                            justifyContent="flex-start"
+                          >
                             התנתק
                           </AlertDialogHeader>
                           <AlertDialogCloseButton />
                           <AlertDialogBody dir="rtl">
                             האם הנך בטוח שהנך רוצה להתנתק
                           </AlertDialogBody>
-                          <AlertDialogFooter  justifyContent="space-between">
-                          <Button onClick={onClose}  bg="red.500" key={key} >
-                          <NavLink key={key} title={Routes[key]} url={key} >yes</NavLink>
-                            </Button>
-                            <Button ref={cancelRef} onClick={onClose} bg="green.500">
+                          <AlertDialogFooter justifyContent="space-between">
+                            <NavLink key={key} title={Routes[key]} url={key}>
+                              <Button
+                                onClick={onClose}
+                                bg="red.500"
+                                _hover={{ bg: "red.500" }}
+                                key={key}
+                              >
+                                התנתק
+                              </Button>
+                            </NavLink>
+                            <Button
+                              ref={cancelRef}
+                              onClick={onClose}
+                              bg="green.500"
+                            >
                               השאר
                             </Button>
                           </AlertDialogFooter>
                         </AlertDialogContent>
                       </AlertDialog>
-                        ) : (
-                          <NavLink key={key} title={Routes[key]} url={key}></NavLink>
-                        )
-                      )}
-                    </>
+                    ) : (
+                      <NavLink
+                        key={key}
+                        title={Routes[key]}
+                        url={key}
+                      ></NavLink>
+                    )
+                  )}
+                </>
               </HStack>
             </HStack>
             <Flex alignItems={"center"}>
-              <Text color="black" mr="30%" w="200px" fontSize="130%"  textAlign="center" >
-                {isAdmim? "שלום המפקד" : `${username?username:''} שלום `}
+              <Text
+                color="black"
+                mr="30%"
+                w="200px"
+                fontSize="130%"
+                textAlign="center"
+              >
+                {isAdmim ? "שלום המפקד" : `${username ? username : ""} שלום `}
               </Text>
 
               <Avatar size={"md"} src={require("./zroa.png")} />

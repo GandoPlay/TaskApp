@@ -31,11 +31,11 @@ export class AdminService {
 
       async addTask(AdminToUserDto: AdminToUserDto, TaskCreatedto: TaskCreateDto) {
         const user = await this.userModel.findById(AdminToUserDto._id)
-        await this.taskService.addTask(TaskCreatedto, user)
+        return await this.taskService.addTask(TaskCreatedto, user)
       }
 
       async removeTask(AdminToUserDto: AdminToUserDto, TaskDeleteDto: TaskDeleteDto){
         const user = await this.userModel.findById(AdminToUserDto._id)
-        await this.taskService.removeTask(TaskDeleteDto, user)
+        return await this.taskService.removeTask(TaskDeleteDto, user)
       }
 }

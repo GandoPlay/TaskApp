@@ -4,6 +4,13 @@
 	NIGHT: 'לילה',
 	HANFZA: 'הנפצה'
 }
+
+const RoleColors = {
+	AVTASH: 'green',
+	CLEAN: 'black',
+	NIGHT: 'blue',
+	HANFZA: 'red'
+}
  const Routes = {
 	"/": "התנתק",
 	"Rating": "ניקוד",
@@ -13,4 +20,4 @@
 const baseURL = 'http://localhost:3001'
 
 
-  export { Routes, Role,baseURL}
+  export { RoleColors,Routes, Role,baseURL}

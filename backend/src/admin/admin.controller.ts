@@ -18,12 +18,12 @@ export class AdminController {
     allUsersTasks(){
     return this.AdminService.allUsersTasks()
     }
-    @Post()
+    @Post('addTask')
     async addTask(@Body() AdminToUserDto: AdminToUserDto, @Body() TaskCreatedto: TaskCreateDto ){
         return await this.AdminService.addTask(AdminToUserDto, TaskCreatedto)
     }
 
-    @Post('remove')
+    @Post('removeTask')
     async removeTask(@Body() AdminToUserDto: AdminToUserDto, @Body()  TaskDeleteDto: TaskDeleteDto){
         return await this.AdminService.removeTask(AdminToUserDto, TaskDeleteDto)
     }
