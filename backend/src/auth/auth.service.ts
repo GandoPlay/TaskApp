@@ -166,8 +166,8 @@ export class AuthService {
       async generateTokens(userId: string, username: string): Promise<{access_token: string,refresh_token:string, isAdmin: boolean}>{
         const accessToken = (await this.generateAccessToken(userId, username)).access_token;
         const refreshToken = (await this.generateRefreshToken(userId, username)).refresh_token;
-        // await this.cacheManager.set("access_token", {accessToken}, {ttl: 10000})
-        // await this.cacheManager.set("refresh_token", {refreshToken}, {ttl: 10000})
+        await this.cacheManager.set("access_token", {accessToken}, {ttl: 100})
+        await this.cacheManager.set("refresh_token", {refreshToken}, {ttl: 100})
 
         return {
             access_token: accessToken,
@@ -178,8 +178,8 @@ export class AuthService {
       async generateAdminTokens(userId: string, username: string): Promise<{access_token: string,refresh_token:string, isAdmin: boolean}>{
         const accessToken = (await this.generateAdminAccessToken(userId, username)).access_token;
         const refreshToken = (await this.generateAdminRefreshToken(userId, username)).refresh_token;
-        // await this.cacheManager.set("admin_access_token", {accessToken}, {ttl: 10000})
-        // await this.cacheManager.set("admin_refresh_token", {refreshToken}, {ttl: 10000})
+        await this.cacheManager.set("admin_access_token", {accessToken}, {ttl: 100})
+        await this.cacheManager.set("admin_refresh_token", {refreshToken}, {ttl: 100})
 
         return {
             access_token: accessToken,
