@@ -29,6 +29,8 @@ const useAddTasksData = (task, isAdmin) => {
   return useQuery("tasksAdd", () => addTask(task, isAdmin), {
     enabled: task !== undefined,
     select: (response) => {
+      console.log(task !== undefined);
+      console.log(response);
       return response.data
         ? JSON.parse(JSON.stringify(response.data))
         : undefined;

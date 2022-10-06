@@ -93,9 +93,10 @@ export default function NavBar() {
                           <AlertDialogFooter justifyContent="space-between">
                             <NavLink key={key} title={Routes[key]} url={key}>
                               <Button
-                                onClick={onClose}
-                                bg="red.500"
-                                _hover={{ bg: "red.500" }}
+                                // onClick={onClose}
+                                // bg="red.500"
+                                // color={"red"}
+                                // _hover={{ bg: "red.500" }}
                                 key={key}
                               >
                                 התנתק
