@@ -52,12 +52,23 @@ const TaskModal = ({ type, events, setEvents }) => {
 
   //Query that will recive information the newTask.
   const Addtasks = useAddTasksData(newTask);
+  const colorFortype = ({ type }) => {
+    if (type == "אבטש") {
+      return "yellow.300";
+    } else if (type == "ניקיון") {
+      return "green.300";
+    }
+    if (type == "לילה") {
+      return "red.300";
+    }
+    if (type == "הנפצה") {
+      return "blue.300";
+    }
+  };
 
- const [color,setColor]=useState("");
+  const [color, setColor] = useState("");
   const selectColor = () => {
-  setColor(Object.keys(colorObject))  
- 
-  
+    setColor(Object.keys(colorObject));
   };
   //whenever the Query recieve new information => update the events
   useEffect(() => {
@@ -100,10 +111,9 @@ const TaskModal = ({ type, events, setEvents }) => {
   return (
     <>
       <Button
-        bg={color}
+        bg={colorFortype({ type })}
         onClick={() => {
           onOpen();
-         
         }}
       >
         {type}
