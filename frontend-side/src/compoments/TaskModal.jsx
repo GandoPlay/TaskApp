@@ -80,6 +80,8 @@ const TaskModal = ({ type, events, setEvents, UsersDetails }) => {
   //Query that will recive information the newTask.
   const Addtasks = useAddTasksData(newTask, isAdmin);
 
+
+
   //whenever the Query recieve new information => update the events
   useEffect(() => {
     if (!Addtasks.isLoading && Addtasks.data) {
@@ -94,6 +96,36 @@ const TaskModal = ({ type, events, setEvents, UsersDetails }) => {
     }
   }, [Addtasks.data, Addtasks.isLoading]);
 
+  function ChooseUser(){
+    return(
+      <>
+      <ModalBody pb={6}></ModalBody>
+
+      <Center>
+      <Menu>
+        <MenuButton required={true} as={Button}>
+          בחר חייל
+        </MenuButton>
+        <MenuList>
+          {UsersDetails.data.map((key) => {
+            return (
+              <MenuItem
+                key={key._id}
+                onClick={() => {
+                  setUserId(key._id);
+                }}
+                minH="48px"
+              >
+                <span key={key}>{key.username}</span>
+              </MenuItem>
+            );
+          })}
+        </MenuList>
+      </Menu>
+    </Center>
+    </>
+    )
+  }
   function handleAddTask(values) {
     const task = {
       comment: values.Comment,
@@ -155,8 +187,8 @@ const TaskModal = ({ type, events, setEvents, UsersDetails }) => {
           </Center>
           <ModalCloseButton />
           <form onSubmit={handleSubmit(handleAddTask)}>
-            <ModalBody pb={6}></ModalBody>
-            <Center>
+            {isAdmin?ChooseUser():''}
+            {/* <Center>
               <Menu>
                 <MenuButton required={true} as={Button}>
                   בחר חייל
@@ -177,7 +209,7 @@ const TaskModal = ({ type, events, setEvents, UsersDetails }) => {
                   })}
                 </MenuList>
               </Menu>
-            </Center>
+            </Center> */}
             <Input
               id="Comment"
               placeholder="אנא הוסף הערה לתורנות"
@@ -186,11 +218,11 @@ const TaskModal = ({ type, events, setEvents, UsersDetails }) => {
                 required: "This is required",
               })}
             />
-
+            {username?username:''}
             <Center>{type}</Center>
             <ModalFooter>
               <Button
-                isDisabled={!userId}
+                // isDisabled={isAdmin?!userId:false}
                 type="submit"
                 colorScheme="blue"
                 mr={3}

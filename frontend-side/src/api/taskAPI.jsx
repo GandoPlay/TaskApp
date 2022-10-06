@@ -3,6 +3,7 @@ import { useQuery } from "react-query";
 import { baseURL } from "../Constant";
 
 async function addTask(task, isAdmim) {
+  console.log(task);
   if (isAdmim) {
     return await client.post(baseURL + "/admin/addTask", task);
   }
@@ -10,6 +11,7 @@ async function addTask(task, isAdmim) {
 }
 
 const fetchTasks = (isAdmin) => {
+  console.log('tried');
   let url = baseURL + "/users/getTasks";
   if (isAdmin) {
     url = baseURL + "/admin/allUsersTasks";
@@ -27,16 +29,17 @@ async function removeTask(id) {
 
 const useAddTasksData = (task, isAdmin) => {
   return useQuery("tasksAdd", () => addTask(task, isAdmin), {
+    
     enabled: task !== undefined,
     select: (response) => {
-      console.log(task !== undefined);
-      console.log(response);
       return response.data
         ? JSON.parse(JSON.stringify(response.data))
         : undefined;
     },
   });
 };
+
+
 
 const useRemoveTasksData = (id) => {
   return useQuery("tasksRemove", () => removeTask({ id: id }), {
@@ -51,6 +54,16 @@ const useRemoveTasksData = (id) => {
 
 const useTasksData = (isAdmin) => {
   return useQuery("tasks", () => fetchTasks(isAdmin), {
+    select: (response) => {
+      return response.data
+        ? JSON.parse(JSON.stringify(response.data))
+        : undefined;
+    },
+  });
+};
+
+const useAdminTasksData = (isAdmin) => {
+  return useQuery("Admintasks", () => fetchTasks(isAdmin), {
     enabled: isAdmin,
     select: (response) => {
       return response.data
@@ -77,4 +90,5 @@ export {
   useTasksData,
   useRemoveTasksData,
   useAddTasksData,
+  useAdminTasksData,
 };

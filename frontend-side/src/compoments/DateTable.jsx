@@ -23,6 +23,7 @@ import {
   useRemoveTasksData,
   addTask,
   removeTask,
+  useAdminTasksData,
 } from "../api/taskAPI";
 import { RoleColors } from "../Constant";
 import "moment/locale/he";
@@ -47,17 +48,18 @@ function DateTable() {
   //Query that will return the id of the task that the user want to delete (also changes the events array.)
   const removeTasks = useRemoveTasksData(selectedId, events, setEvents);
 
+  const Admintasks = useAdminTasksData(isAdmin);
+ 
   // until the user get that proper data => this useEffect is responsible for updating the events array.
   useEffect(() => {
     if (!tasks.isLoading && tasks.data) {
-      const data = tasks.data;
-      if (isAdmin) {
-        setEvents(AllUsersToTasksArray(data));
-      } else {
-        setEvents(convertTasksToEventArray(data));
-      }
+      setEvents(convertTasksToEventArray(tasks.data));
     }
-  }, [tasks.data]);
+
+    if(!Admintasks.isLoading && Admintasks.data){
+    setEvents(AllUsersToTasksArray(Admintasks.data));
+    }
+  }, [tasks.data,Admintasks.data]);
 
   function AllUsersToTasksArray(users) {
     const eventsTask = [];
@@ -98,7 +100,7 @@ function DateTable() {
     if (UsersDetails.isLoading || !UsersDetails.data) {
       return (
         <Text textAlign="center" fontSize="400%" mt="25%">
-          Loading
+          Admin Loading
         </Text>
       );
     }
