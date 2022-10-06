@@ -54,14 +54,12 @@ const TaskModal = ({ type, events, setEvents }) => {
   const Addtasks = useAddTasksData(newTask);
   const colorFortype = ({ type }) => {
     if (type == "אבטש") {
-      return "yellow.300";
-    } else if (type == "ניקיון") {
       return "green.300";
-    }
-    if (type == "לילה") {
+    } else if (type == "ניקיון") {
       return "red.300";
-    }
-    if (type == "הנפצה") {
+    } else if (type == "לילה") {
+      return "yellow.300";
+    } else if (type == "הנפצה") {
       return "blue.300";
     }
   };
