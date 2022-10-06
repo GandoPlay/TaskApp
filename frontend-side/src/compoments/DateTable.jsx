@@ -120,9 +120,9 @@ function DateTable() {
           <Button bgColor={'red.400'}  onClick={removeEvent}>מחק תורנות</Button>
           <Menu>
             <MenuButton  bgColor={'green.400'} as={Button}>בחר תורנות</MenuButton>
-            <MenuList bgBlendMode={"-moz-initial"} zIndex={10}>
+            <MenuList   bgBlendMode={"-moz-initial"} zIndex={10}>
               {roles.map((role, index) => (
-                <TaskModal  key={index} type={role} events = {events} setEvents = {setEvents}  />
+                <TaskModal key={index} type={role} events={events} setEvents = {setEvents}  />
               ))}
             </MenuList>
           </Menu>

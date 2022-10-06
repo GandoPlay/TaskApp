@@ -10,7 +10,14 @@
 	"dateTable": "טבלת תורניות"
   };
 
+const colorObject ={
+	AVTASH: 'black',
+	CLEAN: 'Red',
+	NIGHT: 'yellow',
+	HANFZA: 'Pink'
+}
+
 const baseURL = 'http://localhost:3001'
 
 
-  export { Routes, Role,baseURL}
+  export { Routes, Role,baseURL,colorObject}
