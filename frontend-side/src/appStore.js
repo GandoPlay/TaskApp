@@ -6,10 +6,12 @@ const useStore = create(set=>({
     isLogged: true,
     authFailed : false,
     isAdmin : false,
+    isError : false,
 
     setUsername: (username) => {set({ username })},
     setIsLogged : (isLogged) => {set({isLogged})},
     setIsAdmin: (isAdmin) => {set({ isAdmin })},
+    setIsError: (isError) => {set({ isError })},
     setAuthFailed: (authFailed =>{set({authFailed})}
 
 )}))

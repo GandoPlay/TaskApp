@@ -25,6 +25,8 @@ export class Task {
     @Prop({ type: String, enum: Role})
     type: Role
 
+    @Prop({})
+    error: String
 
     
     @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'UserAuth' })

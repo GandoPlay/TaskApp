@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import useStore from "../appStore";
 
 import {
@@ -19,6 +19,13 @@ import {
   MenuList,
   MenuItem,
   Menu,
+  AlertDialog,
+  AlertDialogOverlay,
+  AlertDialogContent,
+  AlertDialogHeader,
+  AlertDialogBody,
+  AlertDialogCloseButton,
+  AlertDialogFooter,
 } from "@chakra-ui/react";
 import { useEffect } from "react";
 import { Day, DayPicker } from "react-day-picker";
@@ -29,6 +36,8 @@ import { Role } from "../Constant";
 import addDays from "date-fns/addDays";
 import he from "date-fns/esm/locale/he";
 import { useForm } from "react-hook-form";
+
+
 
 function getKeyByValue(object, value) {
   return Object.keys(object).find((key) => object[key] === value);
@@ -63,6 +72,7 @@ function convertTaskElementToEventObject(element, username = "") {
 
 const TaskModal = ({ type, events, setEvents, UsersDetails }) => {
   const isAdmin = useStore((state) => state.isAdmin);
+  const setIsError = useStore((state) => state.setIsError);
 
   const { handleSubmit, register, control } = useForm();
 
@@ -75,26 +85,39 @@ const TaskModal = ({ type, events, setEvents, UsersDetails }) => {
   //the task we want to append to events array.
   const [newTask, setNewTask] = useState(undefined);
 
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const { isOpen: isTaskModalOpen , onOpen: onTaskModalOpen, onClose: onTaskModalClose } = useDisclosure()
+  
+
+
 
   //Query that will recive information the newTask.
   const Addtasks = useAddTasksData(newTask, isAdmin);
 
 
+  
+
 
   //whenever the Query recieve new information => update the events
   useEffect(() => {
-    if (!Addtasks.isLoading && Addtasks.data) {
-      console.log(Addtasks.data);
-      setEvents([
-        ...events,
-        convertTaskElementToEventObject(Addtasks.data, username),
-      ]);
+    if (!Addtasks.isLoading && Addtasks.data    ) {
+
+      if(Addtasks.data.error){
+        setIsError(true)
+      }
+      else{
+
+        setEvents([
+          ...events,
+          convertTaskElementToEventObject(Addtasks.data, username),
+        ]);
+       
+      }
       setUsername();
       setNewTask(undefined);
       setUserId();
     }
   }, [Addtasks.data, Addtasks.isLoading]);
+
 
   function ChooseUser(){
     return(
@@ -113,6 +136,7 @@ const TaskModal = ({ type, events, setEvents, UsersDetails }) => {
                 key={key._id}
                 onClick={() => {
                   setUserId(key._id);
+                  setUsername(key.username)
                 }}
                 minH="48px"
               >
@@ -134,15 +158,14 @@ const TaskModal = ({ type, events, setEvents, UsersDetails }) => {
       type: type,
     };
     if (isAdmin) {
-      console.log("userId is ", userId);
       task._id = userId;
     }
     setNewTask(task);
-    onClose();
+    onTaskModalClose();
   }
 
   function generateFooter() {
-    let footer = <p>Please pick the first day.</p>;
+    let footer = <p>אנא בחר את התאריך המבוקש</p>;
     if (range?.from) {
       if (!range.to) {
         if (type === "אבטש") {
@@ -160,16 +183,23 @@ const TaskModal = ({ type, events, setEvents, UsersDetails }) => {
     return footer;
   }
 
+ 
+
   return (
     <>
+    
+
+
       <Button
         onClick={() => {
-          onOpen();
+          onTaskModalOpen();
         }}
       >
+
+
         {type}
       </Button>
-      <Modal closeOnOverlayClick={false} isOpen={isOpen} onClose={onClose}>
+      <Modal closeOnOverlayClick={false} isOpen={isTaskModalOpen} onClose={onTaskModalClose}>
         <ModalOverlay />
         <ModalContent>
           <Center>
@@ -188,28 +218,8 @@ const TaskModal = ({ type, events, setEvents, UsersDetails }) => {
           <ModalCloseButton />
           <form onSubmit={handleSubmit(handleAddTask)}>
             {isAdmin?ChooseUser():''}
-            {/* <Center>
-              <Menu>
-                <MenuButton required={true} as={Button}>
-                  בחר חייל
-                </MenuButton>
-                <MenuList>
-                  {UsersDetails.data.map((key) => {
-                    return (
-                      <MenuItem
-                        key={key._id}
-                        onClick={() => {
-                          setUserId(key._id);
-                        }}
-                        minH="48px"
-                      >
-                        <span key={key}>{key.username}</span>
-                      </MenuItem>
-                    );
-                  })}
-                </MenuList>
-              </Menu>
-            </Center> */}
+            <Center>{username!==''?username+' החייל הנבחר הינו':''}</Center>
+
             <Input
               id="Comment"
               placeholder="אנא הוסף הערה לתורנות"
@@ -218,7 +228,7 @@ const TaskModal = ({ type, events, setEvents, UsersDetails }) => {
                 required: "This is required",
               })}
             />
-            {username?username:''}
+
             <Center>{type}</Center>
             <ModalFooter>
               <Button
@@ -228,10 +238,10 @@ const TaskModal = ({ type, events, setEvents, UsersDetails }) => {
                 mr={3}
                 variant="outline"
               >
-                Save
+                שמור
               </Button>
 
-              <Button onClick={onClose}>Cancel</Button>
+              <Button onClick={onTaskModalClose}>בטל</Button>
             </ModalFooter>
           </form>
         </ModalContent>

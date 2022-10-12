@@ -27,6 +27,7 @@ import {
 } from "../api/taskAPI";
 import { RoleColors } from "../Constant";
 import "moment/locale/he";
+import { ErrorModal } from "./ErrorModal";
 
 moment.locale("he");
 
@@ -164,6 +165,7 @@ function DateTable() {
           </MenuList>
         </Menu>
       </Flex>
+      <ErrorModal/>
     </Box>
   );
 }

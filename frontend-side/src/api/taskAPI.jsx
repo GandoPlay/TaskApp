@@ -3,7 +3,6 @@ import { useQuery } from "react-query";
 import { baseURL } from "../Constant";
 
 async function addTask(task, isAdmim) {
-  console.log(task);
   if (isAdmim) {
     return await client.post(baseURL + "/admin/addTask", task);
   }
@@ -11,7 +10,6 @@ async function addTask(task, isAdmim) {
 }
 
 const fetchTasks = (isAdmin) => {
-  console.log('tried');
   let url = baseURL + "/users/getTasks";
   if (isAdmin) {
     url = baseURL + "/admin/allUsersTasks";
@@ -22,9 +20,13 @@ const fetchTasks = (isAdmin) => {
 const fetchAdminUsers = () => {
   return client.get(baseURL + "/admin/userDetails");
 };
-async function removeTask(id) {
-  const response = await client.post(baseURL + "/task/RemoveTask", id);
-  return response;
+async function removeTask(id, isAdmin) {
+  let url = baseURL + "/task/RemoveTask";
+  if(isAdmin){
+    return await client.post(baseURL + "/admin/removeTask", id);
+  }
+  return await client.post(baseURL + "/task/RemoveTask", id);
+
 }
 
 const useAddTasksData = (task, isAdmin) => {

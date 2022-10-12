@@ -18,6 +18,21 @@ export class TaskService {
     async addTask(TaskCreatedto: TaskCreateDto, owner): Promise<Task> {// 
       TaskCreatedto.owner = owner._id
       let newTask = new this.taskModel(TaskCreatedto);
+      let newOwner = await owner.populate('tasks')
+
+
+      for await (const task of newOwner.tasks){
+        const flag = await this.checkNoDateCollision(newTask, task)        
+        if( flag){
+          newTask.error = 'date_collision'
+          return newTask
+        }
+      }
+
+        
+      
+
+      
       const result = await newTask.save();
       owner.tasks.push(result._id)
       const type = newTask.type
@@ -26,6 +41,10 @@ export class TaskService {
       await this.taskCalc(owner)
       await owner.save()
       return result;
+  } 
+ //(StartDate1 <= EndDate2) && (StartDate2 <= EndDate1)
+  async checkNoDateCollision(a, b){
+    return (a.startDate<=b.endDate) && (b.startDate<=a.startDate)
   }
 
 
@@ -36,7 +55,6 @@ export class TaskService {
 
   async removeTask(TaskDeleteDto: TaskDeleteDto, owner){
    const task = await this.taskModel.findById(TaskDeleteDto.id);
-   console.log(task);
    if(task){
    const type = task.type
    const score = owner.score - taskDictionary[type]
