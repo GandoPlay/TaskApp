@@ -67,6 +67,7 @@ function convertTaskElementToEventObject(element, username = "") {
     start: new Date(startDate),
     end: new Date(endDate),
     type: getKeyByValue(Role, element.type),
+    owner: element.owner,
   };
 }
 
@@ -112,9 +113,9 @@ const TaskModal = ({ type, events, setEvents, UsersDetails }) => {
         ]);
        
       }
-      setUsername();
+      setUsername("");
       setNewTask(undefined);
-      setUserId();
+      setUserId("");
     }
   }, [Addtasks.data, Addtasks.isLoading]);
 
@@ -158,7 +159,7 @@ const TaskModal = ({ type, events, setEvents, UsersDetails }) => {
       type: type,
     };
     if (isAdmin) {
-      task._id = userId;
+      task.ownerId = userId;
     }
     setNewTask(task);
     onTaskModalClose();

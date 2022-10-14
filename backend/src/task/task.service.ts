@@ -22,13 +22,13 @@ export class TaskService {
 
 
       for await (const task of newOwner.tasks){
-        const flag = await this.checkNoDateCollision(newTask, task)        
+        const flag = await this.areRangesOverLapping(newTask, task)        
         if( flag){
           newTask.error = 'date_collision'
           return newTask
         }
       }
-
+      
         
       
 
@@ -43,8 +43,8 @@ export class TaskService {
       return result;
   } 
  //(StartDate1 <= EndDate2) && (StartDate2 <= EndDate1)
-  async checkNoDateCollision(a, b){
-    return (a.startDate<=b.endDate) && (b.startDate<=a.startDate)
+  async areRangesOverLapping(a, b){
+    return Math.max(a.startDate,b.startDate) <=Math.min(a.endDate,b.endDate)
   }
 
 

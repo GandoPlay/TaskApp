@@ -43,14 +43,18 @@ function DateTable() {
   //selectedId represent the id that the user is selecting right now.
   const [selectedId, setSelectedId] = useState("");
 
+
+  const [selectedOwner,setSelectedOwner] = useState("");
   // events represent the tasks that will   appear at the user's calendar.
   const [events, setEvents] = useState([]);
 
+  
   //Query that will return the id of the task that the user want to delete (also changes the events array.)
-  const removeTasks = useRemoveTasksData(selectedId, events, setEvents);
+  const removeTasks = useRemoveTasksData(selectedId,selectedOwner,isAdmin);
 
   const Admintasks = useAdminTasksData(isAdmin);
- 
+  
+  
   // until the user get that proper data => this useEffect is responsible for updating the events array.
   useEffect(() => {
     if (!tasks.isLoading && tasks.data) {
@@ -74,6 +78,7 @@ function DateTable() {
     if (!removeTasks.isLoading && removeTasks.data) {
       setEvents(events.filter((t) => t.id !== removeTasks.data.id));
       setSelectedId("");
+      setSelectedOwner("");
     }
   }, [removeTasks.data]);
 
@@ -116,6 +121,7 @@ function DateTable() {
 
   function handleSelect(event) {
     setSelectedId(event.id);
+    setSelectedOwner(event.owner)
   }
   return (
     <Box bgColor={"teal.300"} h={"100vh"}>

@@ -20,12 +20,12 @@ const fetchTasks = (isAdmin) => {
 const fetchAdminUsers = () => {
   return client.get(baseURL + "/admin/userDetails");
 };
-async function removeTask(id, isAdmin) {
+async function removeTask(id,ownerId, isAdmin) {
   let url = baseURL + "/task/RemoveTask";
   if(isAdmin){
-    return await client.post(baseURL + "/admin/removeTask", id);
+    return await client.post(baseURL + "/admin/removeTask", { ownerId:ownerId,id: id });
   }
-  return await client.post(baseURL + "/task/RemoveTask", id);
+  return await client.post(baseURL + "/task/RemoveTask",{id:id});
 
 }
 
@@ -43,8 +43,8 @@ const useAddTasksData = (task, isAdmin) => {
 
 
 
-const useRemoveTasksData = (id) => {
-  return useQuery("tasksRemove", () => removeTask({ id: id }), {
+const useRemoveTasksData = (id, ownerId, isAdmin) => {
+  return useQuery("tasksRemove", () => removeTask(id,ownerId,isAdmin), {
     enabled: false,
     select: (response) => {
       return response.data
