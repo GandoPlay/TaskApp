@@ -7,11 +7,14 @@ import {
   Input,
   Button,
   Text,
+  Flex,
+  Center,
 } from "@chakra-ui/react";
 import {  useMutation } from "react-query";
 import { useForm } from "react-hook-form";
 import { LoginUser } from "../api/authAPI";
 import { useState } from "react";
+import LoginGuard from "./animationsCompoments/LoginGuardAnimation";
 function Login() {
 
 
@@ -33,20 +36,25 @@ function Login() {
   }
 
   return (
+    <>
+          <LoginGuard/>
+
     <form onSubmit={handleSubmit(onSubmit)} dir={'rtl'}>
       <FormControl
+        
         textAlign="center"
-        bg="#274c77"
+        bg="green.800"
         height="100vh"
         width="100wh"
-        display={"flex"}
+        display={"center"}
         justifyContent={"center"}
       >
+         
         
- 
-      
+
+
         <Box
-          backgroundColor="rgba(219, 219, 219, 0.651)"
+          backgroundColor="green.500"
           p="40px"
           width="20%"
           height="350px"
@@ -55,7 +63,7 @@ function Login() {
           justifyContent={"center"}
           borderRadius={'10px'}
         >
-            
+
           <Grid alignContent="center" justifyContent={"center"} templateRows={3} gridGap={'30px'}>
             <GridItem gridRow={1}>
               <Input
@@ -94,10 +102,13 @@ function Login() {
             <Button type="submit" colorScheme="gray" mt="50px">
               היכנס
             </Button>
+
           </Grid>
         </Box>
+
       </FormControl>
     </form>
+    </>
   );
 }
 

@@ -1,5 +1,5 @@
 import "./App.css";
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Link, Navigate } from "react-router-dom";
 import Login from "./compoments/Login";
 import { BrowserRouter } from "react-router-dom";
 import * as React from "react";
@@ -9,6 +9,7 @@ import ProtectedRoutes from "./compoments/protectedRoutes";
 import DateTable from "./compoments/DateTable";
 import NavBar from "./compoments/NavBar";
 import history from "./history";
+import NotFound from "./compoments/animationsCompoments/NotFound";
 
 function App() {
   return (
@@ -18,7 +19,7 @@ function App() {
       <NavBar/>
 
         <Routes  history={history}>
-
+        <Route path='*' element={<NotFound />} />
           <Route path="/" element={<Login />} />
           <Route element={<ProtectedRoutes />}>
             <Route path="/rating" element={<FetchRatings />} />

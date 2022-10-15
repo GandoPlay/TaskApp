@@ -21,6 +21,7 @@ import {
   Text,
   Tr,Td,Th,Tbody
 } from "@chakra-ui/react";
+import Loading from "./animationsCompoments/LoadingComp";
 
 const FetchRatings = () => {
   const textColor = useColorModeValue("blue.100", "blue")
@@ -28,9 +29,8 @@ const FetchRatings = () => {
   const users  = useUsersData()
   if (users.isLoading||!users.data) {
     return (
-      <Text fontSize={{ lg: '56px'}}>
-        Loading
-      </Text>
+      <Loading></Loading>
+
     );
   }
 

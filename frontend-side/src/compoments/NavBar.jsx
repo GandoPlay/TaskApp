@@ -49,7 +49,7 @@ export default function NavBar() {
 
   const [color, setColor] = useState(useColorModeValue("gray.100", "gray.900"));
 
-  if (window.location.pathname !== "/") {
+  if (window.location.pathname === "/Rating" || window.location.pathname === "/dateTable") {
     return (
       <>
         <Box bg={color} px={4}>

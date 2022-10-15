@@ -3,7 +3,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import { useState } from "react";
 import { Calendar, momentLocalizer } from "react-big-calendar";
-
+import Loading from "./animationsCompoments/LoadingComp";
 import moment from "moment";
 import useStore from "../appStore";
 import {
@@ -66,6 +66,9 @@ function DateTable() {
     }
   }, [tasks.data,Admintasks.data]);
 
+
+    
+
   function AllUsersToTasksArray(users) {
     const eventsTask = [];
     users.forEach((user) =>
@@ -105,17 +108,16 @@ function DateTable() {
   if (isAdmin) {
     if (UsersDetails.isLoading || !UsersDetails.data) {
       return (
-        <Text textAlign="center" fontSize="400%" mt="25%">
-          Admin Loading
-        </Text>
+        <>
+        <Loading></Loading>
+        </>
+
       );
     }
   }
   if (tasks.isLoading || !tasks.data) {
     return (
-      <Text textAlign="center" fontSize="400%" mt="25%">
-        Loading
-      </Text>
+      <Loading></Loading>
     );
   }
 
@@ -124,7 +126,7 @@ function DateTable() {
     setSelectedOwner(event.owner)
   }
   return (
-    <Box bgColor={"teal.300"} h={"100vh"}>
+    <Box textColor={'black'} bgColor={"seagreen"} h={"100vh"}>
       <Calendar
         className="calendardate"
         views={["month"]}
