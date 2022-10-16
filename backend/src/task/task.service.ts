@@ -43,7 +43,7 @@ export class TaskService {
       return result;
   } 
  //(StartDate1 <= EndDate2) && (StartDate2 <= EndDate1)
-  async areRangesOverLapping(a, b){
+  async areRangesOverLapping(a, b){    
     return Math.max(a.startDate,b.startDate) <=Math.min(a.endDate,b.endDate)
   }
 

@@ -12,6 +12,7 @@ const LoginGuard = () =>{
         className="player"
         loop
         autoplay
+        
         speed={1}
 
         style={{ height: '10%', width: '10%' }}

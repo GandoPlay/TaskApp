@@ -127,7 +127,7 @@ const TaskModal = ({ type, events, setEvents, UsersDetails }) => {
 
       <Center>
       <Menu>
-        <MenuButton required={true} as={Button}>
+        <MenuButton  required={true} as={Button} rightIc>
           בחר חייל
         </MenuButton>
         <MenuList>
@@ -200,8 +200,8 @@ const TaskModal = ({ type, events, setEvents, UsersDetails }) => {
 
         {type}
       </Button>
-      <Modal closeOnOverlayClick={false} isOpen={isTaskModalOpen} onClose={onTaskModalClose}>
-        <ModalOverlay />
+      <Modal  closeOnOverlayClick={false} isOpen={isTaskModalOpen} onClose={onTaskModalClose}>
+        <ModalOverlay  />
         <ModalContent>
           <Center>
             <DayPicker

@@ -14,7 +14,10 @@ import {
   MenuList,
   Menu,
   MenuButton,
+  Center,
   Text,
+  Collapse,
+  color,
 } from "@chakra-ui/react";
 import { TaskModal, convertTaskElementToEventObject } from "./TaskModal";
 import {
@@ -126,7 +129,9 @@ function DateTable() {
     setSelectedOwner(event.owner)
   }
   return (
-    <Box textColor={'black'} bgColor={"seagreen"} h={"100vh"}>
+    <>
+
+    <Grid textColor={'black'} bgColor={"seagreen"} h={"100vh"} >
       <Calendar
         className="calendardate"
         views={["month"]}
@@ -149,11 +154,11 @@ function DateTable() {
           const backgroundColor = RoleColors[event.type];
           return { style: { backgroundColor } };
         }}
-        touchUi={true}
+        touchUi={true}  
         style={{ height: 500, margin: "50px" }}
       />
-      <Flex justify={"center"}>
-        <Button bgColor={"red.400"} onClick={removeEvent}>
+      <Flex justify={"center"} marginBottom={'10%'}>
+        <Button  bgColor={"red.400"} onClick={removeEvent}>
           מחק תורנות
         </Button>
         <Menu>
@@ -174,7 +179,8 @@ function DateTable() {
         </Menu>
       </Flex>
       <ErrorModal/>
-    </Box>
+    </Grid >
+    </>
   );
 }
 
