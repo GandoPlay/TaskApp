@@ -4,7 +4,12 @@ import { NavigateTo } from './NavigateTo';
 
 const client = axios.create({ baseURL: baseURL })
 
- 
+ /**
+ *
+ * @param config object is a list of entries that can be matched against request or request/response pairs. Its purpose is to hold configuration data that can be looked up given a request or response object.
+ * @param tokenType string: access token/ refresh token.
+ * @description In every request, accessing the localStorage to get the tokens to send in the model of 'Bearer {token}'.
+ */
  function authorizationRequest(config, tokenType){
     let token = JSON.parse(localStorage.getItem(tokenType))
     if (token) {
@@ -27,7 +32,7 @@ const client = axios.create({ baseURL: baseURL })
   }
 
 
-
+ 
 client.interceptors.request.use(
   config => {
     //the user is trying to get a new access token.

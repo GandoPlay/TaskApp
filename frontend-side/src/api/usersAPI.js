@@ -8,7 +8,10 @@ const fetchUsers = () => {
 
 
 
-
+/**
+ *
+ * @returns Custom react query hook that gets all the users in a ordered list.
+ */
 export const useUsersData = () => {
     return useQuery('users', fetchUsers,{
         select: (response) =>{
