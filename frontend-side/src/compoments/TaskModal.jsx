@@ -20,11 +20,12 @@ import { useEffect } from "react";
 import { DayPicker } from "react-day-picker";
 import { format } from "date-fns";
 import "react-day-picker/dist/style.css";
-import { useAddTasksData } from "../api/taskAPI";
+import { addTask, useAddTasksData } from "../api/taskAPI";
 import { Role } from "../Constant";
 import addDays from "date-fns/addDays";
 import he from "date-fns/esm/locale/he";
 import { useForm } from "react-hook-form";
+import { useMutation, useQueryClient } from "react-query";
 
 function getKeyByValue(object, value) {
   return Object.keys(object).find((key) => object[key] === value);
@@ -53,7 +54,7 @@ function convertTaskElementToEventObject(element, username = "") {
   };
 }
 
-const TaskModal = ({ type, events, setEvents, UsersDetails }) => {
+const TaskModal = ({ type, events, setEvents, UsersDetails, refetch }) => {
   const isAdmin = useStore((state) => state.isAdmin);
   const setIsError = useStore((state) => state.setIsError);
 
@@ -76,8 +77,30 @@ const TaskModal = ({ type, events, setEvents, UsersDetails }) => {
 
   //Query that will recive information the newTask.
   const Addtasks = useAddTasksData(newTask, isAdmin);
+  // const queryClient = useQueryClient();
+  // const [mutate, info] = useMutation(addTask, {
+  //   onSuccess: (data) => {
+  //     queryClient.setQueryData("tasks", (oldQueryData) => {
+  //       return {
+  //         ...oldQueryData,
+  //         data: [...oldQueryData.data, data.data],
+  //       };
+  //     });
+  //   },
+  // });
 
-  //whenever the Query recieve new information => update the events
+  function appendTaskToCalandar(data) {
+    if (data.error) {
+      setIsError(true);
+    } else {
+      console.log("here");
+
+      setEvents([...events, convertTaskElementToEventObject(data, username)]);
+    }
+    setUsername("");
+    setUserId("");
+  }
+  // whenever the Query recieve new information => update the events
   useEffect(() => {
     if (!Addtasks.isLoading && Addtasks.data) {
       if (Addtasks.data.error) {
@@ -139,6 +162,16 @@ const TaskModal = ({ type, events, setEvents, UsersDetails }) => {
     if (isAdmin) {
       task.ownerId = userId;
     }
+    // mutate(
+    //   { task: task, isAdmin: isAdmin },
+    //   { onSuccess: (data) => appendTaskToCalandar(data) }
+    // );
+    // try {
+    //   mutate({
+    //     task: task,
+    //     isAdmin: isAdmin,
+    //   });
+    // } catch (e) {}
     setNewTask(task);
     onTaskModalClose();
   }

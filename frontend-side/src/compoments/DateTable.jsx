@@ -173,6 +173,7 @@ function DateTable() {
                   events={events}
                   setEvents={setEvents}
                   UsersDetails={UsersDetails}
+                  refetch={isAdmin ? tasks.refetch : Admintasks.refetch}
                 />
               ))}
             </MenuList>

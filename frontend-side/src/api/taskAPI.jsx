@@ -14,6 +14,13 @@ async function addTask(task, isAdmim) {
   }
   return await client.post(baseURL + "/task/addTask", task);
 }
+
+// async function addTask(user) {
+//   if (user.isAdmim) {
+//     return await client.post(baseURL + "/admin/addTask", user.task);
+//   }
+//   return await client.post(baseURL + "/task/addTask", user.task);
+// }
 /**
  *
  * @param isAdmin boolean, if the user is an Admin
