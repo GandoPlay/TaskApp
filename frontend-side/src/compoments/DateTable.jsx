@@ -20,6 +20,7 @@ import {
   useTasksData,
   useRemoveTasksData,
   useAdminTasksData,
+  convertTasksToEventArray,
 } from "../api/taskAPI";
 import { RoleColors } from "../Constant";
 import "moment/locale/he";
@@ -36,35 +37,36 @@ const localizer = momentLocalizer(moment);
  * @description The component that is responsible for DateTable.
  */
 function DateTable() {
+  // events represent the tasks that will   appear at the user's calendar.
+  const [events, setEvents] = useState([]);
+
   //store the isAdmin in a variable.
   const isAdmin = useStore((state) => state.isAdmin);
   //Query that recvive all the tasks of the user.
-  const tasks = useTasksData(isAdmin);
+  const tasks = useTasksData(isAdmin, setEvents);
   //Query that recvive all the users data to the admin.
+  const Admintasks = useAdminTasksData(isAdmin, setEvents);
 
   const UsersDetails = useUsersDetails(isAdmin);
   //selectedId represent the id that the user is selecting right now.
   const [selectedId, setSelectedId] = useState("");
   //selectedId represent the username that the user is selecting right now.
   const [selectedOwner, setSelectedOwner] = useState("");
-  // events represent the tasks that will   appear at the user's calendar.
-  const [events, setEvents] = useState([]);
 
   //Query that will return the id of the task that the user want to delete (also changes the events array.)
   const removeTasks = useRemoveTasksData(selectedId, selectedOwner, isAdmin);
 
-  const Admintasks = useAdminTasksData(isAdmin);
-
   // until the user get that proper data => this useEffect is responsible for updating the events array.
-  useEffect(() => {
-    if (!tasks.isLoading && tasks.data) {
-      setEvents(convertTasksToEventArray(tasks.data));
-    }
+  // useEffect(() => {
+  //   console.log(tasks);
+  //   if (!tasks.isLoading && tasks.data) {
+  //     setEvents(convertTasksToEventArray(tasks.data));
+  //   }
 
-    if (!Admintasks.isLoading && Admintasks.data) {
-      setEvents(AllUsersToTasksArray(Admintasks.data));
-    }
-  }, [tasks.data, Admintasks.data]);
+  //   if (!Admintasks.isLoading && Admintasks.data) {
+  //     setEvents(AllUsersToTasksArray(Admintasks.data));
+  //   }
+  // }, [tasks.data, Admintasks.data]);
 
   //when the user recive from the server an id - that's the id we remove from the events array.
   useEffect(() => {
@@ -84,34 +86,10 @@ function DateTable() {
 
   /**
    *
-   * @param users the tasks from the backend(every user has a task array)==> {username: tasks[]}
-   * @returns Events Array for all the users that exists.
-   */
-  function AllUsersToTasksArray(users) {
-    const eventsTask = [];
-    users.forEach((user) =>
-      eventsTask.push(...convertTasksToEventArray(user.tasks, user.username))
-    );
-    return eventsTask;
-  }
-
-  /**
-   *
    * @param tasks the tasks from the backend
    * @param username string, a username of a user.
    * @returns Events Array.
    */
-  const convertTasksToEventArray = (tasks, username = "") => {
-    if (tasks && tasks.length > 0) {
-      const eventsTask = [];
-      tasks.forEach((element) =>
-        eventsTask.push(convertTaskElementToEventObject(element, username))
-      );
-      return eventsTask;
-    } else {
-      return [];
-    }
-  };
 
   if (isAdmin) {
     if (UsersDetails.isLoading || !UsersDetails.data) {

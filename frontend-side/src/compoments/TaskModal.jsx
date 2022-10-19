@@ -20,7 +20,7 @@ import { useEffect } from "react";
 import { DayPicker } from "react-day-picker";
 import { format } from "date-fns";
 import "react-day-picker/dist/style.css";
-import { addTask, useAddTasksData } from "../api/taskAPI";
+import { addTask, useAddTasksData, useAdminAddTasksData } from "../api/taskAPI";
 import { Role } from "../Constant";
 import addDays from "date-fns/addDays";
 import he from "date-fns/esm/locale/he";
@@ -67,7 +67,8 @@ const TaskModal = ({ type, events, setEvents, UsersDetails, refetch }) => {
   const [username, setUsername] = useState("");
 
   //the task we want to append to events array.
-  const [newTask, setNewTask] = useState(undefined);
+  const { mutate } = useAddTasksData(isAdmin, setIsError);
+  const { mutate: mutate2 } = useAdminAddTasksData(isAdmin, setIsError);
 
   const {
     isOpen: isTaskModalOpen,
@@ -76,7 +77,7 @@ const TaskModal = ({ type, events, setEvents, UsersDetails, refetch }) => {
   } = useDisclosure();
 
   //Query that will recive information the newTask.
-  const Addtasks = useAddTasksData(newTask, isAdmin);
+  // const Addtasks = useAddTasksData(newTask, isAdmin);
   // const queryClient = useQueryClient();
   // const [mutate, info] = useMutation(addTask, {
   //   onSuccess: (data) => {
@@ -89,33 +90,22 @@ const TaskModal = ({ type, events, setEvents, UsersDetails, refetch }) => {
   //   },
   // });
 
-  function appendTaskToCalandar(data) {
-    if (data.error) {
-      setIsError(true);
-    } else {
-      console.log("here");
-
-      setEvents([...events, convertTaskElementToEventObject(data, username)]);
-    }
-    setUsername("");
-    setUserId("");
-  }
   // whenever the Query recieve new information => update the events
-  useEffect(() => {
-    if (!Addtasks.isLoading && Addtasks.data) {
-      if (Addtasks.data.error) {
-        setIsError(true);
-      } else {
-        setEvents([
-          ...events,
-          convertTaskElementToEventObject(Addtasks.data, username),
-        ]);
-      }
-      setUsername("");
-      setNewTask(undefined);
-      setUserId("");
-    }
-  }, [Addtasks.data, Addtasks.isLoading]);
+  // useEffect(() => {
+  //   if (!Addtasks.isLoading && Addtasks.data) {
+  //     if (Addtasks.data.error) {
+  //       setIsError(true);
+  //     } else {
+  //       setEvents([
+  //         ...events,
+  //         convertTaskElementToEventObject(Addtasks.data, username),
+  //       ]);
+  //     }
+  //     setUsername("");
+  //     setNewTask(undefined);
+  //     setUserId("");
+  //   }
+  // }, [Addtasks.data, Addtasks.isLoading]);
 
   function ChooseUser() {
     return (
@@ -161,6 +151,15 @@ const TaskModal = ({ type, events, setEvents, UsersDetails, refetch }) => {
     };
     if (isAdmin) {
       task.ownerId = userId;
+      mutate2({
+        task: task,
+        isAdmin: isAdmin,
+      });
+    } else {
+      mutate({
+        task: task,
+        isAdmin: isAdmin,
+      });
     }
     // mutate(
     //   { task: task, isAdmin: isAdmin },
@@ -172,7 +171,6 @@ const TaskModal = ({ type, events, setEvents, UsersDetails, refetch }) => {
     //     isAdmin: isAdmin,
     //   });
     // } catch (e) {}
-    setNewTask(task);
     onTaskModalClose();
   }
   /**
