@@ -16,6 +16,7 @@ export class AdminController {
 
     @Get('allUsersTasks')
     allUsersTasks(){
+        console.log( this.AdminService.allUsersTasks());
     return this.AdminService.allUsersTasks()
     }
     @Post('addTask')

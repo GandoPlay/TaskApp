@@ -16,16 +16,14 @@ import {
   MenuItem,
   Menu,
 } from "@chakra-ui/react";
-import { useEffect } from "react";
 import { DayPicker } from "react-day-picker";
 import { format } from "date-fns";
 import "react-day-picker/dist/style.css";
-import { addTask, useAddTasksData, useAdminAddTasksData } from "../api/taskAPI";
+import { useAddTasksData } from "../api/taskAPI";
 import { Role } from "../Constant";
 import addDays from "date-fns/addDays";
 import he from "date-fns/esm/locale/he";
 import { useForm } from "react-hook-form";
-import { useMutation, useQueryClient } from "react-query";
 
 function getKeyByValue(object, value) {
   return Object.keys(object).find((key) => object[key] === value);
@@ -54,7 +52,7 @@ function convertTaskElementToEventObject(element, username = "") {
   };
 }
 
-const TaskModal = ({ type, events, setEvents, UsersDetails, refetch }) => {
+const TaskModal = ({ type, UsersDetails }) => {
   const isAdmin = useStore((state) => state.isAdmin);
   const setIsError = useStore((state) => state.setIsError);
 
@@ -65,47 +63,14 @@ const TaskModal = ({ type, events, setEvents, UsersDetails, refetch }) => {
 
   const [userId, setUserId] = useState("");
   const [username, setUsername] = useState("");
-
   //the task we want to append to events array.
   const { mutate } = useAddTasksData(isAdmin, setIsError);
-  const { mutate: mutate2 } = useAdminAddTasksData(isAdmin, setIsError);
 
   const {
     isOpen: isTaskModalOpen,
     onOpen: onTaskModalOpen,
     onClose: onTaskModalClose,
   } = useDisclosure();
-
-  //Query that will recive information the newTask.
-  // const Addtasks = useAddTasksData(newTask, isAdmin);
-  // const queryClient = useQueryClient();
-  // const [mutate, info] = useMutation(addTask, {
-  //   onSuccess: (data) => {
-  //     queryClient.setQueryData("tasks", (oldQueryData) => {
-  //       return {
-  //         ...oldQueryData,
-  //         data: [...oldQueryData.data, data.data],
-  //       };
-  //     });
-  //   },
-  // });
-
-  // whenever the Query recieve new information => update the events
-  // useEffect(() => {
-  //   if (!Addtasks.isLoading && Addtasks.data) {
-  //     if (Addtasks.data.error) {
-  //       setIsError(true);
-  //     } else {
-  //       setEvents([
-  //         ...events,
-  //         convertTaskElementToEventObject(Addtasks.data, username),
-  //       ]);
-  //     }
-  //     setUsername("");
-  //     setNewTask(undefined);
-  //     setUserId("");
-  //   }
-  // }, [Addtasks.data, Addtasks.isLoading]);
 
   function ChooseUser() {
     return (
@@ -151,26 +116,12 @@ const TaskModal = ({ type, events, setEvents, UsersDetails, refetch }) => {
     };
     if (isAdmin) {
       task.ownerId = userId;
-      mutate2({
-        task: task,
-        isAdmin: isAdmin,
-      });
-    } else {
-      mutate({
-        task: task,
-        isAdmin: isAdmin,
-      });
     }
-    // mutate(
-    //   { task: task, isAdmin: isAdmin },
-    //   { onSuccess: (data) => appendTaskToCalandar(data) }
-    // );
-    // try {
-    //   mutate({
-    //     task: task,
-    //     isAdmin: isAdmin,
-    //   });
-    // } catch (e) {}
+
+    mutate({
+      task: task,
+      isAdmin: isAdmin,
+    });
     onTaskModalClose();
   }
   /**

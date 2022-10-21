@@ -20,7 +20,7 @@ import {
   useTasksData,
   useRemoveTasksData,
   useAdminTasksData,
-  convertTasksToEventArray,
+  useRemoveTasksDataMut,
 } from "../api/taskAPI";
 import { RoleColors } from "../Constant";
 import "moment/locale/he";
@@ -42,10 +42,10 @@ function DateTable() {
 
   //store the isAdmin in a variable.
   const isAdmin = useStore((state) => state.isAdmin);
-  //Query that recvive all the tasks of the user.
-  const tasks = useTasksData(isAdmin, setEvents);
   //Query that recvive all the users data to the admin.
   const Admintasks = useAdminTasksData(isAdmin, setEvents);
+  //Query that recvive all the tasks of the user.
+  const tasks = useTasksData(isAdmin, setEvents);
 
   const UsersDetails = useUsersDetails(isAdmin);
   //selectedId represent the id that the user is selecting right now.
@@ -54,33 +54,16 @@ function DateTable() {
   const [selectedOwner, setSelectedOwner] = useState("");
 
   //Query that will return the id of the task that the user want to delete (also changes the events array.)
-  const removeTasks = useRemoveTasksData(selectedId, selectedOwner, isAdmin);
-
-  // until the user get that proper data => this useEffect is responsible for updating the events array.
-  // useEffect(() => {
-  //   console.log(tasks);
-  //   if (!tasks.isLoading && tasks.data) {
-  //     setEvents(convertTasksToEventArray(tasks.data));
-  //   }
-
-  //   if (!Admintasks.isLoading && Admintasks.data) {
-  //     setEvents(AllUsersToTasksArray(Admintasks.data));
-  //   }
-  // }, [tasks.data, Admintasks.data]);
-
-  //when the user recive from the server an id - that's the id we remove from the events array.
-  useEffect(() => {
-    if (!removeTasks.isLoading && removeTasks.data) {
-      setEvents(events.filter((t) => t.id !== removeTasks.data.id));
-      setSelectedId("");
-      setSelectedOwner("");
-    }
-  }, [removeTasks.data]);
+  const { mutate } = useRemoveTasksDataMut(isAdmin);
 
   //only when the button is Click we want to refatch.
   const removeEvent = () => {
-    if (selectedId !== "") {
-      removeTasks.refetch();
+    if (selectedId !== "" && selectedOwner !== "") {
+      mutate({
+        TaskId: selectedId,
+        ownerId: selectedOwner,
+        isAdmin: isAdmin,
+      });
     }
   };
 
@@ -92,18 +75,25 @@ function DateTable() {
    */
 
   if (isAdmin) {
-    if (UsersDetails.isLoading || !UsersDetails.data) {
+    if (
+      Admintasks.Loading ||
+      !Admintasks.data ||
+      UsersDetails.isLoading ||
+      !UsersDetails.data
+    ) {
       return (
         <>
           <Loading></Loading>
         </>
       );
     }
+  } else if (tasks.isLoading || !tasks.data) {
+    return (
+      <>
+        <Loading></Loading>
+      </>
+    );
   }
-  if (tasks.isLoading || !tasks.data) {
-    return <Loading></Loading>;
-  }
-
   function handleSelect(event) {
     setSelectedId(event.id);
     setSelectedOwner(event.owner);
@@ -148,10 +138,7 @@ function DateTable() {
                 <TaskModal
                   key={index}
                   type={role}
-                  events={events}
-                  setEvents={setEvents}
                   UsersDetails={UsersDetails}
-                  refetch={isAdmin ? tasks.refetch : Admintasks.refetch}
                 />
               ))}
             </MenuList>

@@ -25,7 +25,7 @@ export class AdminService {
         const userPop = []
         for await (const user of users) userPop.push(await user.populate('tasks'))
         const userData = []
-        userPop.forEach(user => userData.push({"username": user.username, "tasks":user.tasks}))
+        userPop.forEach(user => userData.push({"username": user.username, "tasks":user.tasks, "id":user.id}))
         return userData
       }
 
@@ -35,7 +35,11 @@ export class AdminService {
       }
 
       async removeTask(AdminToUserDto: AdminToUserDto, TaskDeleteDto: TaskDeleteDto){
+        console.log(AdminToUserDto);
+        
         const user = await this.userModel.findById(AdminToUserDto.ownerId)
+        console.log(user);
+
         return await this.taskService.removeTask(TaskDeleteDto, user)
       }
 }

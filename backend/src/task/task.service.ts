@@ -19,15 +19,27 @@ export class TaskService {
       TaskCreatedto.owner = owner._id
       let newTask = new this.taskModel(TaskCreatedto);
       let newOwner = await owner.populate('tasks')
+      console.log('#####################');
+      
+      console.log(newOwner.tasks);
+      console.log('#####################');
 
-
+      console.log('#####################');
+      
+      console.log('len is: ',newOwner.tasks.length);
+      console.log('#####################');
+      
+      if(newOwner.tasks.length>=1){
       for await (const task of newOwner.tasks){
         const flag = await this.areRangesOverLapping(newTask, task)        
         if( flag){
+          console.log('hereTheFuck?');
+          
           newTask.error = 'date_collision'
           return newTask
         }
       }
+    }
       
         
       
@@ -55,6 +67,7 @@ export class TaskService {
 
   async removeTask(TaskDeleteDto: TaskDeleteDto, owner){
    const task = await this.taskModel.findById(TaskDeleteDto.id);
+    
    if(task){
    const type = task.type
    const score = owner.score - taskDictionary[type]
@@ -63,7 +76,7 @@ export class TaskService {
    
    await this.taskModel.findByIdAndDelete(TaskDeleteDto.id);
    await owner.save();
-   return {id:TaskDeleteDto.id}
+   return {id:TaskDeleteDto.id, ownerId:owner.id }
    }
    return undefined;
   }
