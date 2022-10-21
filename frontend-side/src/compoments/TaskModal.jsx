@@ -19,7 +19,7 @@ import {
 import { DayPicker } from "react-day-picker";
 import { format } from "date-fns";
 import "react-day-picker/dist/style.css";
-import { useAddTasksData } from "../api/taskAPI";
+import useAddTasksData from "../api/tasks/AddTaskAPI";
 import { Role } from "../Constant";
 import addDays from "date-fns/addDays";
 import he from "date-fns/esm/locale/he";
@@ -52,7 +52,7 @@ function convertTaskElementToEventObject(element, username = "") {
   };
 }
 
-const TaskModal = ({ type, UsersDetails }) => {
+const TaskModal = ({ type, useAdminUsersDetails }) => {
   const isAdmin = useStore((state) => state.isAdmin);
   const setIsError = useStore((state) => state.setIsError);
 
@@ -64,7 +64,7 @@ const TaskModal = ({ type, UsersDetails }) => {
   const [userId, setUserId] = useState("");
   const [username, setUsername] = useState("");
   //the task we want to append to events array.
-  const { mutate } = useAddTasksData(isAdmin, setIsError);
+  const { mutate: addTask } = useAddTasksData(isAdmin, setIsError);
 
   const {
     isOpen: isTaskModalOpen,
@@ -83,7 +83,7 @@ const TaskModal = ({ type, UsersDetails }) => {
               בחר חייל
             </MenuButton>
             <MenuList>
-              {UsersDetails.data.map((key) => {
+              {useAdminUsersDetails.data.map((key) => {
                 return (
                   <MenuItem
                     key={key._id}
@@ -118,7 +118,7 @@ const TaskModal = ({ type, UsersDetails }) => {
       task.ownerId = userId;
     }
 
-    mutate({
+    addTask({
       task: task,
       isAdmin: isAdmin,
     });

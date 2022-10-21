@@ -15,16 +15,12 @@ import {
   MenuButton,
 } from "@chakra-ui/react";
 import { TaskModal, convertTaskElementToEventObject } from "./TaskModal";
-import {
-  useUsersDetails,
-  useTasksData,
-  useRemoveTasksData,
-  useAdminTasksData,
-  useRemoveTasksDataMut,
-} from "../api/taskAPI";
 import { RoleColors } from "../Constant";
 import "moment/locale/he";
 import { ErrorModal } from "./ErrorModal";
+import useRemoveTasksData from "../api/tasks/RemoveTaskAPI";
+import { useAdminUsersDetails } from "../api/usersAPI";
+import { useAdminTasksData, useTasksData } from "../api/tasks/FetchTasksAPI";
 
 //setting The Calendar in hebrew
 moment.locale("he");
@@ -47,19 +43,19 @@ function DateTable() {
   //Query that recvive all the tasks of the user.
   const tasks = useTasksData(isAdmin, setEvents);
 
-  const UsersDetails = useUsersDetails(isAdmin);
+  const UsersDetails = useAdminUsersDetails(isAdmin);
   //selectedId represent the id that the user is selecting right now.
   const [selectedId, setSelectedId] = useState("");
   //selectedId represent the username that the user is selecting right now.
   const [selectedOwner, setSelectedOwner] = useState("");
 
   //Query that will return the id of the task that the user want to delete (also changes the events array.)
-  const { mutate } = useRemoveTasksDataMut(isAdmin);
+  const { mutate: removeTask } = useRemoveTasksData(isAdmin);
 
   //only when the button is Click we want to refatch.
   const removeEvent = () => {
     if (selectedId !== "" && selectedOwner !== "") {
-      mutate({
+      removeTask({
         TaskId: selectedId,
         ownerId: selectedOwner,
         isAdmin: isAdmin,
@@ -138,7 +134,7 @@ function DateTable() {
                 <TaskModal
                   key={index}
                   type={role}
-                  UsersDetails={UsersDetails}
+                  useAdminUsersDetails={useAdminUsersDetails}
                 />
               ))}
             </MenuList>
