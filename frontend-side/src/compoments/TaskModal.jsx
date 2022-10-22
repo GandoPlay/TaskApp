@@ -15,6 +15,8 @@ import {
   MenuList,
   MenuItem,
   Menu,
+  MenuOptionGroup,
+  MenuItemOption,
 } from "@chakra-ui/react";
 import { DayPicker } from "react-day-picker";
 import { format } from "date-fns";
@@ -25,33 +27,6 @@ import addDays from "date-fns/addDays";
 import he from "date-fns/esm/locale/he";
 import { useForm } from "react-hook-form";
 
-function getKeyByValue(object, value) {
-  return Object.keys(object).find((key) => object[key] === value);
-}
-/**
- *
- * @param element a task
- * @param username string, a username of a user.
- * @returns Converted single task from the backend into an item of the Events array
- */
-function convertTaskElementToEventObject(element, username = "") {
-  const startDate = element.startDate;
-  let endDate = element.startDate;
-  if (element.type === Role.AVTASH) {
-    endDate = element.endDate;
-  }
-
-  return {
-    id: element._id,
-    title: `${username} ${element.type}: ${element.comment}`,
-    allDay: true,
-    start: new Date(startDate),
-    end: new Date(endDate),
-    type: getKeyByValue(Role, element.type),
-    owner: element.owner,
-  };
-}
-
 const TaskModal = ({ type, useAdminUsersDetails }) => {
   const isAdmin = useStore((state) => state.isAdmin);
   const setIsError = useStore((state) => state.setIsError);
@@ -60,11 +35,10 @@ const TaskModal = ({ type, useAdminUsersDetails }) => {
 
   //Setting the Range in the dayPicker.
   const [range, setRange] = useState();
-
-  const [userId, setUserId] = useState("");
-  const [username, setUsername] = useState("");
+  //the users {id, username}
+  const [users, setUsers] = useState([]);
   //the task we want to append to events array.
-  const { mutate: addTask } = useAddTasksData(isAdmin, setIsError);
+  const { mutateAsync: addTask } = useAddTasksData(isAdmin, setIsError);
 
   const {
     isOpen: isTaskModalOpen,
@@ -72,31 +46,46 @@ const TaskModal = ({ type, useAdminUsersDetails }) => {
     onClose: onTaskModalClose,
   } = useDisclosure();
 
+  /**
+   * @return A modal of a menu to choose all the users.
+   *  */
   function ChooseUser() {
     return (
       <>
         <ModalBody pb={6}></ModalBody>
 
         <Center>
-          <Menu>
+          <Menu closeOnSelect={false}>
             <MenuButton required={true} as={Button}>
               בחר חייל
             </MenuButton>
             <MenuList>
-              {useAdminUsersDetails.data.map((key) => {
-                return (
-                  <MenuItem
-                    key={key._id}
-                    onClick={() => {
-                      setUserId(key._id);
-                      setUsername(key.username);
-                    }}
-                    minH="48px"
-                  >
-                    <span key={key}>{key.username}</span>
-                  </MenuItem>
-                );
-              })}
+              <MenuOptionGroup type="checkbox">
+                {useAdminUsersDetails.data.map((key) => {
+                  return (
+                    <MenuItemOption
+                      key={key._id}
+                      value={key.username}
+                      onClick={() => {
+                        const index = users.findIndex((user) => {
+                          return user.id === key._id;
+                        });
+                        if (index !== -1) {
+                          users.splice(index, 1);
+                        } else {
+                          setUsers([
+                            ...users,
+                            { id: key._id, username: key.username },
+                          ]);
+                        }
+                      }}
+                      minH="30px"
+                    >
+                      {key.username}
+                    </MenuItemOption>
+                  );
+                })}
+              </MenuOptionGroup>
             </MenuList>
           </Menu>
         </Center>
@@ -107,7 +96,7 @@ const TaskModal = ({ type, useAdminUsersDetails }) => {
    * @param values object thats contain Comment about the task
    * @description this function add the new Task in SetNewTask state and close the modal.
    *  */
-  function handleAddTask(values) {
+  async function handleAddTask(values) {
     const task = {
       comment: values.Comment,
       startDate: type === Role.AVTASH ? range.from.getTime() : range.getTime(),
@@ -115,13 +104,20 @@ const TaskModal = ({ type, useAdminUsersDetails }) => {
       type: type,
     };
     if (isAdmin) {
-      task.ownerId = userId;
+      for await (const user of users) {
+        task.ownerId = user.id;
+        await addTask({
+          task: task,
+          isAdmin: isAdmin,
+        });
+      }
+      setUsers([]);
+    } else {
+      addTask({
+        task: task,
+        isAdmin: isAdmin,
+      });
     }
-
-    addTask({
-      task: task,
-      isAdmin: isAdmin,
-    });
     onTaskModalClose();
   }
   /**
@@ -179,7 +175,7 @@ const TaskModal = ({ type, useAdminUsersDetails }) => {
           <form onSubmit={handleSubmit(handleAddTask)}>
             {isAdmin ? ChooseUser() : ""}
             <Center>
-              {username !== "" ? username + " החייל הנבחר הינו" : ""}
+              {/* {username !== "" ? username + " החייל הנבחר הינו" : ""} */}
             </Center>
 
             <Input
@@ -206,4 +202,4 @@ const TaskModal = ({ type, useAdminUsersDetails }) => {
   );
 };
 
-export { TaskModal, convertTaskElementToEventObject };
+export { TaskModal };

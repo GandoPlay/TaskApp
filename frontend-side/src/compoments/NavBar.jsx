@@ -30,7 +30,6 @@ const NavLink = ({ title, url }) => (
     onClick={url === "/" ? removeTokens : () => {}}
     py={1}
     rounded={"md"}
-    
     _hover={{
       bg: useColorModeValue("gray.200", "gray.700"),
     }}
@@ -49,7 +48,10 @@ export default function NavBar() {
 
   const [color, setColor] = useState(useColorModeValue("gray.100", "gray.900"));
 
-  if (window.location.pathname === "/Rating" || window.location.pathname === "/dateTable") {
+  if (
+    window.location.pathname === "/Rating" ||
+    window.location.pathname === "/dateTable"
+  ) {
     return (
       <>
         <Box bg={color} px={4}>
@@ -92,30 +94,26 @@ export default function NavBar() {
                             האם הנך בטוח שהנך רוצה להתנתק
                           </AlertDialogBody>
                           <AlertDialogFooter justifyContent="space-between">
-                            {/* <NavLink key={key} title={Routes[key]} url={key}> */}
-                              <Link
-                                key={key}
-                                bg="red.500"
-                                fontSize="xl"
-                                py={1}
-                                px = {2}
-                                rounded={"lg"}
-                                _autofill
-                                
-                                _hover={{
-                                  bg: "gray.200",
-                                }}
-                                onClick={removeTokens} 
-                                href = '/'
-                              >
-                                התנתק
-                              </Link>
-                            {/* </NavLink> */}
+                            <Link
+                              key={key}
+                              bg="red.500"
+                              fontSize="xl"
+                              py={1}
+                              px={2}
+                              rounded={"lg"}
+                              _autofill
+                              _hover={{
+                                bg: "gray.200",
+                              }}
+                              onClick={removeTokens}
+                              href="/"
+                            >
+                              התנתק
+                            </Link>
                             <Button
                               ref={cancelRef}
                               onClick={onClose}
                               bg="green.500"
-                              
                             >
                               השאר
                             </Button>

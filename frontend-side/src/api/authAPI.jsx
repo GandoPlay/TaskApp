@@ -3,6 +3,9 @@ import { baseURL } from "../Constant";
 import { NavigateTo } from "./NavigateTo";
 import client from "./axiosInterceptors";
 import { useQuery } from "react-query";
+import useStore from "../appStore";
+import { useState } from "react";
+import { useLocation } from "react-router-dom";
 
 /**
  *
@@ -33,6 +36,40 @@ async function LoginUser(user) {
     user.setAuthFailed(true);
   }
 }
+/**
+ *
+ * @return The response of a get request to see information about the current user.
+ */
+const fetchLogin = () => {
+  return client.get(baseURL + "/users/getUser");
+};
+
+/**
+ *
+ * @return Custom react hook that sends the information about the user. .
+ */
+
+const useLogin = () => {
+  const setUsername = useStore((state) => state.setUsername);
+  const setIsAdmin = useStore((state) => state.setIsAdmin);
+  const setIsLogged = useStore((state) => state.setIsLogged);
+
+  return useQuery("login", fetchLogin, {
+    onSuccess: (response) => {
+      setIsLogged(true);
+      setUsername(response.data.username);
+      if (response.data.isAdmin) {
+        setIsAdmin(response.data.isAdmin);
+      }
+    },
+    onSettled: () => {
+      setIsLogged(true);
+    },
+    onError: () => {
+      setIsLogged(false);
+    },
+  });
+};
 
 async function SignUpUserName(user) {
   const response = await axios.post(baseURL + "/auth/signup", user);
@@ -47,18 +84,5 @@ async function SignUpUserName(user) {
   );
   NavigateTo("/dateTable");
 }
-
-const fetchLogin = () => {
-  return client.get(baseURL + "/users/getUser");
-};
-const useLogin = () => {
-  return useQuery("login", fetchLogin, {
-    select: (response) => {
-      return response.data
-        ? JSON.parse(JSON.stringify(response.data))
-        : undefined;
-    },
-  });
-};
 
 export { SignUpUserName, LoginUser, useLogin };

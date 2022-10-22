@@ -134,7 +134,7 @@ function DateTable() {
                 <TaskModal
                   key={index}
                   type={role}
-                  useAdminUsersDetails={useAdminUsersDetails}
+                  useAdminUsersDetails={UsersDetails}
                 />
               ))}
             </MenuList>

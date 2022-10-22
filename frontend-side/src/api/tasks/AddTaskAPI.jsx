@@ -8,6 +8,7 @@ import client from "../axiosInterceptors";
  * @returns The response from the server to the post request of adding a new task.
  */
 async function addTask(user) {
+  console.log(user);
   if (user.isAdmin) {
     return await client.post(baseURL + "/admin/addTask", user.task);
   }

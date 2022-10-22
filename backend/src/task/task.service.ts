@@ -19,15 +19,7 @@ export class TaskService {
       TaskCreatedto.owner = owner._id
       let newTask = new this.taskModel(TaskCreatedto);
       let newOwner = await owner.populate('tasks')
-      console.log('#####################');
-      
-      console.log(newOwner.tasks);
-      console.log('#####################');
 
-      console.log('#####################');
-      
-      console.log('len is: ',newOwner.tasks.length);
-      console.log('#####################');
       
       if(newOwner.tasks.length>=1){
       for await (const task of newOwner.tasks){
