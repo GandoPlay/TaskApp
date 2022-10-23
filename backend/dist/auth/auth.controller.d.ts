@@ -14,6 +14,7 @@ export declare class AuthController {
         refresh_token: string;
         isAdmin: boolean;
     }>;
+    logout(user: UserDocument): Promise<void>;
     refresh(user: UserDocument): Promise<{
         access_token: string;
     }>;

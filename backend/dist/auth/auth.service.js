@@ -33,8 +33,8 @@ let AuthService = class AuthService {
             const newUser = new this.userModel(userCreatedto);
             const result = await newUser.save();
             if (result.isAdmin)
-                return this.generateAdminTokens(result.id, result.username);
-            return this.generateTokens(result.id, result.username);
+                return this.generateAdminTokens(result.id, result.username, result.key);
+            return this.generateTokens(result.id, result.username, result.key);
         }
         catch (error) {
             console.log(error);
@@ -45,14 +45,18 @@ let AuthService = class AuthService {
         if (!result)
             return undefined;
         const data = result[0];
+        this.jwt.verifyAsync(await this.cacheManager.get(`${data.key}`));
         if (!data)
             return undefined;
         const pwMatches = await argon.verify(data.hash, userLoginDto.password);
         if (!pwMatches)
             return undefined;
         if (data.isAdmin)
-            return this.generateAdminTokens(data.id, data.username);
-        return this.generateTokens(data.id, data.username);
+            return this.generateAdminTokens(data.id, data.username, data.key);
+        return this.generateTokens(data.id, data.username, data.key);
+    }
+    async logout(user) {
+        await this.cacheManager.del(`${user.key}`);
     }
     async refreshTokens(user) {
         const token = this.generateAccessToken(user._id, user.username);
@@ -102,18 +106,20 @@ let AuthService = class AuthService {
             secret: refreshSecret });
         return { refresh_token: refreshToken };
     }
-    async generateTokens(userId, username) {
+    async generateTokens(userId, username, key) {
         const accessToken = (await this.generateAccessToken(userId, username)).access_token;
         const refreshToken = (await this.generateRefreshToken(userId, username)).refresh_token;
+        await this.cacheManager.set(`${key}`, { refreshToken }, { ttl: 100 });
         return {
             access_token: accessToken,
             refresh_token: refreshToken,
             isAdmin: false
         };
     }
-    async generateAdminTokens(userId, username) {
+    async generateAdminTokens(userId, username, key) {
         const accessToken = (await this.generateAdminAccessToken(userId, username)).access_token;
         const refreshToken = (await this.generateAdminRefreshToken(userId, username)).refresh_token;
+        await this.cacheManager.set(`${key}`, { refreshToken }, { ttl: 100 });
         return {
             access_token: accessToken,
             refresh_token: refreshToken,

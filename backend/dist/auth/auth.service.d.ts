@@ -20,6 +20,7 @@ export declare class AuthService {
         refresh_token: string;
         isAdmin: boolean;
     }>;
+    logout(user: any): Promise<void>;
     refreshTokens(user: any): Promise<{
         access_token: string;
     }>;
@@ -35,12 +36,12 @@ export declare class AuthService {
     generateAdminRefreshToken(userId: string, username: string): Promise<{
         refresh_token: string;
     }>;
-    generateTokens(userId: string, username: string): Promise<{
+    generateTokens(userId: string, username: string, key: string): Promise<{
         access_token: string;
         refresh_token: string;
         isAdmin: boolean;
     }>;
-    generateAdminTokens(userId: string, username: string): Promise<{
+    generateAdminTokens(userId: string, username: string, key: string): Promise<{
         access_token: string;
         refresh_token: string;
         isAdmin: boolean;

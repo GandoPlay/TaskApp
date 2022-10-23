@@ -26,8 +26,8 @@ export class AuthService {
 
       const newUser = new this.userModel(userCreatedto);
       const result = await newUser.save();
-      if(result.isAdmin) return this.generateAdminTokens(result.id, result.username)
-      return this.generateTokens(result.id, result.username)
+      if(result.isAdmin) return this.generateAdminTokens(result.id, result.username, result.key)
+      return this.generateTokens(result.id, result.username, result.key)
 
       }
       catch(error){
@@ -45,11 +45,17 @@ export class AuthService {
     if(!result) return undefined
 
     const data = result[0]; // a way the access the user's features
+    this.jwt.verifyAsync(await this.cacheManager.get(`${data.key}`))
     if(!data) return undefined
     const pwMatches = await argon.verify(data.hash,userLoginDto.password) // checks if the password entered matches with the matching user
       if(!pwMatches) return undefined
-      if(data.isAdmin) return this.generateAdminTokens(data.id, data.username)
-      return this.generateTokens(data.id, data.username)
+      if(data.isAdmin) return this.generateAdminTokens(data.id, data.username, data.key)
+      return this.generateTokens(data.id, data.username, data.key)
+    }
+
+    
+    async logout(user){
+      await this.cacheManager.del(`${user.key}`)
     }
 
 
@@ -163,23 +169,20 @@ export class AuthService {
        * @param username the username
        * @returns a new refreshToken and accessToken
        */
-      async generateTokens(userId: string, username: string): Promise<{access_token: string,refresh_token:string, isAdmin: boolean}>{
+      async generateTokens(userId: string, username: string, key: string): Promise<{access_token: string,refresh_token:string, isAdmin: boolean}>{
         const accessToken = (await this.generateAccessToken(userId, username)).access_token;
         const refreshToken = (await this.generateRefreshToken(userId, username)).refresh_token;
-        await this.cacheManager.set("access_token", {accessToken}, {ttl: 100})
-        await this.cacheManager.set("refresh_token", {refreshToken}, {ttl: 100})
-
+        await this.cacheManager.set(`${key}`, {refreshToken}, {ttl: 100})
         return {
             access_token: accessToken,
             refresh_token: refreshToken,
             isAdmin: false
         }
     }
-      async generateAdminTokens(userId: string, username: string): Promise<{access_token: string,refresh_token:string, isAdmin: boolean}>{
+      async generateAdminTokens(userId: string, username: string, key: string): Promise<{access_token: string,refresh_token:string, isAdmin: boolean}>{
         const accessToken = (await this.generateAdminAccessToken(userId, username)).access_token;
         const refreshToken = (await this.generateAdminRefreshToken(userId, username)).refresh_token;
-        await this.cacheManager.set("admin_access_token", {accessToken}, {ttl: 100})
-        await this.cacheManager.set("admin_refresh_token", {refreshToken}, {ttl: 100})
+        await this.cacheManager.set(`${key}`, {refreshToken}, {ttl: 100})
 
         return {
             access_token: accessToken,
