@@ -24,9 +24,7 @@ export class TaskService {
       if(newOwner.tasks.length>=1){
       for await (const task of newOwner.tasks){
         const flag = await this.areRangesOverLapping(newTask, task)        
-        if( flag){
-          console.log('hereTheFuck?');
-          
+        if( flag){          
           newTask.error = 'date_collision'
           return newTask
         }
