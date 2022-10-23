@@ -1,7 +1,7 @@
 import React from "react";
 import {
   Box,
-  Grid,
+  Grid ,
   GridItem,
   FormControl,
   Input,
@@ -14,18 +14,19 @@ import { LoginUser } from "../api/authAPI";
 import { useState } from "react";
 import LoginGuard from "./animationsCompoments/LoginGuardAnimation";
 
+
 /**
  *
  * @description The component that is responsible for the Login of the user.
  */
-function Login() {
+function Login(){
   //use formHook to save the username and password
-  const { handleSubmit, register } = useForm();
+  const { handleSubmit, register }:any = useForm();
   //variable to check if the auth is failed in order to present it to the user.
   const [authFailed, setAuthFailed] = useState(false);
 
   //react query hook
-  const { mutate } = useMutation(LoginUser);
+  const { mutate }:any = useMutation(LoginUser);
 
   /**
    *
@@ -64,9 +65,10 @@ function Login() {
             borderRadius={"10px"}
           >
             <Grid
+    
               alignContent="center"
               justifyContent={"center"}
-              templateRows={3}
+              templateRows={"3"}
               gridGap={"30px"}
             >
               <GridItem gridRow={1}>
