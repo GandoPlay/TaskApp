@@ -7,7 +7,7 @@ import {  useLogin } from "../api/authAPI";
 
 const ProtectedRoutes = () =>{
     const login = useLogin()
-    const isLogged = useStore(state=> state.isLogged)    
+    const isLogged:any = useStore(state=> state.isLogged)    
     return isLogged ? <Outlet/> : <Login /> ; 
 }
 

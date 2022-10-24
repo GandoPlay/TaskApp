@@ -14,7 +14,7 @@ import {
   Menu,
   MenuButton,
 } from "@chakra-ui/react";
-import { TaskModal, convertTaskElementToEventObject } from "./TaskModal";
+import { TaskModal } from "./TaskModal";
 import { RoleColors } from "../Constant";
 import "moment/locale/he";
 import { ErrorModal } from "./ErrorModal";
@@ -37,7 +37,7 @@ function DateTable() {
   const [events, setEvents] = useState([]);
 
   //store the isAdmin in a variable.
-  const isAdmin = useStore((state) => state.isAdmin);
+  const isAdmin = useStore((state:any) => state.isAdmin);
   //Query that recvive all the users data to the admin.
   const Admintasks = useAdminTasksData(isAdmin, setEvents);
   //Query that recvive all the tasks of the user.

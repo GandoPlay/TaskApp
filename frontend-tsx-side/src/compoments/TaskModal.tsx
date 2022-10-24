@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import  React from "react";
 import useStore from "../appStore";
 import {
   Modal,
@@ -13,7 +13,6 @@ import {
   Button,
   MenuButton,
   MenuList,
-  MenuItem,
   Menu,
   MenuOptionGroup,
   MenuItemOption,
@@ -26,15 +25,15 @@ import { Role } from "../Constant";
 import addDays from "date-fns/addDays";
 import he from "date-fns/esm/locale/he";
 import { useForm } from "react-hook-form";
-
+import { useState } from "react";
 const TaskModal = ({ type, useAdminUsersDetails }) => {
-  const isAdmin = useStore((state) => state.isAdmin);
-  const setIsError = useStore((state) => state.setIsError);
+  const isAdmin= useStore((state :any) => state.isAdmin);
+  const setIsError = useStore((state :any) => state.setIsError);
 
   const { handleSubmit, register } = useForm();
 
   //Setting the Range in the dayPicker.
-  const [range, setRange] = useState();
+  const [range, setRange]:any= useState();
   //the users {id, username}
   const [users, setUsers] = useState([]);
   //the task we want to append to events array.
@@ -96,12 +95,13 @@ const TaskModal = ({ type, useAdminUsersDetails }) => {
    * @param values object thats contain Comment about the task
    * @description this function add the new Task in SetNewTask state and close the modal.
    *  */
-  async function handleAddTask(values) {
-    const task = {
+  async function handleAddTask(values:any) {
+    const task:{comment:string ,startDate:number,endDate:number,type:string, ownerId :number} = {
       comment: values.Comment,
       startDate: type === Role.AVTASH ? range.from.getTime() : range.getTime(),
       endDate: type === Role.AVTASH ? range.to.getTime() : range.getTime(),
       type: type,
+      ownerId: values ,
     };
     if (isAdmin) {
       for await (const user of users) {

@@ -18,14 +18,14 @@ function App() {
       <ChakraProvider>
       <NavBar/>
 
-        <Routes  history={history}>
+        {/* <Routes history={history}> */}
         <Route path='*' element={<NotFound />} />
           <Route path="/" element={<Login />} />
           <Route element={<ProtectedRoutes />}>
             <Route path="/rating" element={<FetchRatings />} />
             <Route path="/dateTable" element={<DateTable />} />
           </Route>
-        </Routes>
+        {/* </Routes> */}
       </ChakraProvider>
 
     </BrowserRouter>
