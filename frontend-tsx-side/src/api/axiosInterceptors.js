@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { baseURL } from '../Constant';
+import { baseURL } from '../../../frontend-side/src/Constant';
 import { NavigateTo } from './NavigateTo';
 
 const client = axios.create({ baseURL: baseURL })

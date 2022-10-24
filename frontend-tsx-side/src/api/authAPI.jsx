@@ -1,9 +1,9 @@
 import axios from "axios";
-import { baseURL } from "../Constant";
+import { baseURL } from "../../../frontend-side/src/Constant";
 import { NavigateTo } from "./NavigateTo";
 import client from "./axiosInterceptors";
 import { useQuery } from "react-query";
-import useStore from "../appStore";
+import useStore from "../../../frontend-side/src/appStore";
 import { useState } from "react";
 import { useLocation } from "react-router-dom";
 
