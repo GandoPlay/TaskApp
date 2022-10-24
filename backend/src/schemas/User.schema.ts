@@ -22,6 +22,8 @@ export class UserAuth {
     tasks: TaskDocument[]
     @Prop({default: false})
     isAdmin: boolean
+    @Prop({default: '1'})
+    key: string
 }
 
 export const UserAuthSchema = SchemaFactory.createForClass(UserAuth);
