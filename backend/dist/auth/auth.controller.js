@@ -30,6 +30,9 @@ let AuthController = class AuthController {
     async login(userLoginDto) {
         return this.authService.login(userLoginDto);
     }
+    async logout(user) {
+        return this.authService.logout(user);
+    }
     refresh(user) {
         return this.authService.refreshTokens(user);
     }
@@ -48,6 +51,14 @@ __decorate([
     __metadata("design:paramtypes", [UserLogin_dto_1.UserLoginDto]),
     __metadata("design:returntype", Promise)
 ], AuthController.prototype, "login", null);
+__decorate([
+    (0, common_1.UseGuards)(guard_1.JwtAccessTokenGuard),
+    (0, common_1.Get)('logout'),
+    __param(0, (0, decorator_1.GetUser)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], AuthController.prototype, "logout", null);
 __decorate([
     (0, common_1.UseGuards)(guard_1.JwtRefreshTokenGuard),
     (0, common_1.HttpCode)(201),
