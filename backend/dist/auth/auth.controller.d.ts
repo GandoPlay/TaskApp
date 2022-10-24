@@ -9,11 +9,7 @@ export declare class AuthController {
         access_token: string;
         refresh_token: string;
     }>;
-    login(userLoginDto: UserLoginDto): Promise<{
-        access_token: string;
-        refresh_token: string;
-        isAdmin: boolean;
-    }>;
+    login(userLoginDto: UserLoginDto): Promise<any>;
     logout(user: UserDocument): Promise<void>;
     refresh(user: UserDocument): Promise<{
         access_token: string;

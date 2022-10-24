@@ -15,11 +15,7 @@ export declare class AuthService {
         access_token: string;
         refresh_token: string;
     }>;
-    login(userLoginDto: UserLoginDto): Promise<{
-        access_token: string;
-        refresh_token: string;
-        isAdmin: boolean;
-    }>;
+    login(userLoginDto: UserLoginDto): Promise<any>;
     logout(user: any): Promise<void>;
     refreshTokens(user: any): Promise<{
         access_token: string;
@@ -41,7 +37,7 @@ export declare class AuthService {
         refresh_token: string;
         isAdmin: boolean;
     }>;
-    generateAdminTokens(userId: string, username: string, key: string): Promise<{
+    xd(userId: string, username: string, key: string): Promise<{
         access_token: string;
         refresh_token: string;
         isAdmin: boolean;

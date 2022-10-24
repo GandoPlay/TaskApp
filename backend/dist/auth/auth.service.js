@@ -118,7 +118,7 @@ let AuthService = class AuthService {
             isAdmin: false
         };
     }
-    async generateAdminTokens(userId, username, key) {
+    async xd(userId, username, key) {
         const accessToken = (await this.generateAdminAccessToken(userId, username)).access_token;
         const refreshToken = (await this.generateAdminRefreshToken(userId, username)).refresh_token;
         await this.cacheManager.set(`${key}`, { refreshToken }, { ttl: 86400 });
