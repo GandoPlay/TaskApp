@@ -3,11 +3,18 @@ import Login from "./Login";
 import  useStore  from "../appStore";
 import {  useLogin } from "../api/authAPI";
    
-    
+    type AppState={
+users:[],
+topUsers:[],
+info:any
 
-const ProtectedRoutes = () =>{
+    }
+type AppProp={
+        
+    }
+const ProtectedRoutes=<AppProp,AppState>  () =>{
     const login = useLogin()
-    const isLogged:any = useStore(state=> state.isLogged)    
+    const isLogged = useStore(state => state.isLogged);    
     return isLogged ? <Outlet/> : <Login />;
 }
 

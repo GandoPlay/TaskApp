@@ -17,7 +17,7 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import { Routes } from "../Constant";
-import { useRef, useState } from "react";
+import { useRef, useState,ReactElement  } from "react";
 import useStore from "../appStore";
 import React from "react";
 function removeTokens() {
@@ -71,7 +71,7 @@ export default function NavBar() {
                   <Button onClick={onOpen} fontWeight={"normal"}>
                     התנתק
                   </Button>
-                  {Object.keys(Routes).map((key) =>
+                  {Object.keys(Routes).map((key:any) =>
                     key == "/" ? (
                       <AlertDialog
                         motionPreset="slideInBottom"
@@ -101,7 +101,7 @@ export default function NavBar() {
                               py={1}
                               px={2}
                               rounded={"lg"}
-                              _autofill
+                              // _autofill
                               _hover={{
                                 bg: "gray.200",
                               }}

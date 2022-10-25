@@ -46,7 +46,7 @@ const useRemoveTasksData = (isAdmin) => {
   const queryName = isAdmin ? "Admintasks" : "tasks";
   return useMutation(removeTaskFromBackend, {
     onSuccess: (data) => {
-      queryClient.setQueryData(queryName, (oldQueryData) => {
+      queryClient.setQueryData(queryName, (oldQueryData:any) => {
         return {
           data: isAdmin
             ? RemoveTask(oldQueryData.data, data.data)

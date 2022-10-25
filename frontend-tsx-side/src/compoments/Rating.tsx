@@ -47,7 +47,7 @@ const FetchRatings = () => {
           barSize={50}
         >
           <YAxis
-            enableBackground={<Avatar src={require("./profileHatal.jpg")} />}
+            enableBackground= {<Avatar src={require("./profileHatal.jpg")} />}
           />
           <XAxis dataKey="username" fill="white" />
           <Tooltip />

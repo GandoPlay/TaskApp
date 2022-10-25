@@ -41,7 +41,7 @@ const useAddTasksData = (isAdmin, setIsError) => {
   const queryName = isAdmin ? "Admintasks" : "tasks";
   return useMutation(addTask, {
     onSuccess: (data) => {
-      queryClient.setQueryData(queryName, (oldQueryData) => {
+      queryClient.setQueryData(queryName, (oldQueryData:any) => {
         if (data.data.error) {
           setIsError(true);
           return oldQueryData;
