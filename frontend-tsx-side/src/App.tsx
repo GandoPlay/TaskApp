@@ -1,8 +1,8 @@
 import React from 'react';
 import './App.css';
-import { BrowserRouter as Router, Routes, Route, Link, Navigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Link, Navigate , Router} from "react-router-dom";
 import Login from "./compoments/Login";
-import { BrowserRouter } from "react-router-dom";
+// import { BrowserRouter } from "react-router-dom";
 import { ChakraProvider } from "@chakra-ui/react";
 import FetchRatings from "./compoments/Rating";
 import ProtectedRoutes from "./compoments/protectedRoutes";
@@ -13,22 +13,21 @@ import NotFound from "./compoments/animationsCompoments/NotFound";
 
 function App() {
   return (
-    <BrowserRouter>
-    
+    <Router navigator={history} location={history.location}>
       <ChakraProvider>
-      <NavBar/>
+        <NavBar />
 
-        {/* <Routes history={history}> */}
-        <Route path='*' element={<NotFound />} />
+        <Routes >
+          <Route path='*' element={<NotFound />} />
           <Route path="/" element={<Login />} />
           <Route element={<ProtectedRoutes />}>
             <Route path="/rating" element={<FetchRatings />} />
             <Route path="/dateTable" element={<DateTable />} />
           </Route>
-        {/* </Routes> */}
+        </Routes>
       </ChakraProvider>
 
-    </BrowserRouter>
+    </Router>
   );
 }
 

@@ -47,8 +47,10 @@ const FetchRatings = () => {
           barSize={50}
         >
           <YAxis
-            enableBackground= {<Avatar src={require("./profileHatal.jpg")} />}
-          />
+          >
+            <Avatar src={require("./profileHatal.jpg")} />
+          </YAxis>
+
           <XAxis dataKey="username" fill="white" />
           <Tooltip />
           <Bar dataKey="score" fill="green" />
@@ -68,17 +70,17 @@ const FetchRatings = () => {
           <Tbody textColor={"whatsapp.400"}>
             {users.data
               ? users.data.map((user, index) => {
-                  return (
-                    <Tr key={index}>
-                      <Td>
-                        <Avatar src={require("./profileHatal.jpg")} />
-                      </Td>
-                      <Td>{user.username}</Td>
-                      <Td>{user.score}</Td>
-                      <Td>{user.type}</Td>
-                    </Tr>
-                  );
-                })
+                return (
+                  <Tr key={index}>
+                    <Td>
+                      <Avatar src={require("./profileHatal.jpg")} />
+                    </Td>
+                    <Td>{user.username}</Td>
+                    <Td>{user.score}</Td>
+                    <Td>{user.type}</Td>
+                  </Tr>
+                );
+              })
               : ""}
           </Tbody>
         </Table>

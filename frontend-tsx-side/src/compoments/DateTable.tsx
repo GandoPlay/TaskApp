@@ -39,7 +39,7 @@ function DateTable() {
   //store the isAdmin in a variable.
   const isAdmin = useStore((state:any) => state.isAdmin);
   //Query that recvive all the users data to the admin.
-  const Admintasks = useAdminTasksData(isAdmin, setEvents);
+  const Admintasks:any = useAdminTasksData(isAdmin, setEvents);
   //Query that recvive all the tasks of the user.
   const tasks = useTasksData(isAdmin, setEvents);
 

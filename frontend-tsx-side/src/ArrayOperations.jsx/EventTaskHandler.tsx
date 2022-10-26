@@ -1,4 +1,4 @@
-import { Role } from "../../../frontend-side/src/Constant";
+import { Role } from "../../../frontend-tsx-side/src/Constant";
 
 /**
  *

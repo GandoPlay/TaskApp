@@ -1,9 +1,9 @@
 import axios from "axios";
-import { baseURL } from "../../../frontend-side/src/Constant";
+import { baseURL } from "../Constant";
 import { NavigateTo } from "./NavigateTo";
 import client from "./axiosInterceptors";
 import { useQuery } from "react-query";
-import useStore from "../../../frontend-side/src/appStore";
+import useStore from "../../../frontend-tsx-side/src/appStore";
 import { useState } from "react";
 import { useLocation } from "react-router-dom";
 
@@ -50,9 +50,9 @@ const fetchLogin = () => {
  */
 
 const useLogin = () => {
-  const setUsername = useStore((state) => state.setUsername);
-  const setIsAdmin = useStore((state) => state.setIsAdmin);
-  const setIsLogged = useStore((state) => state.setIsLogged);
+  const setUsername = useStore((state:any) => state.setUsername);
+  const setIsAdmin = useStore((state:any) => state.setIsAdmin);
+  const setIsLogged = useStore((state:any) => state.setIsLogged);
 
   return useQuery("login", fetchLogin, {
     onSuccess: (response) => {
