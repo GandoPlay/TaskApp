@@ -42,11 +42,11 @@ const NavLink = ({ title, url }) => (
 export default function NavBar() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const cancelRef = useRef();
+ 
+  const username = useStore((state) => state.username);
+  const isAdmim = useStore((state) => state.isAdmin);
 
-  const username = useStore((state:any) => state.username);
-  const isAdmim = useStore((state:any) => state.isAdmin);
-
-  const [color, setColor] = useState(useColorModeValue("gray.100", "gray.900"));
+  const [color, setColor] = useState<string>(useColorModeValue("gray.100", "gray.900"));
 
   if (
     window.location.pathname === "/Rating" ||

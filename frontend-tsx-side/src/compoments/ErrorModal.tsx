@@ -17,8 +17,8 @@ const ErrorModal = ({}) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const cancelRef = useRef();
 
-  const isError = useStore((state:any) => state.isError);
-  const setIsError = useStore((state:any) => state.setIsError);
+  const isError = useStore((state) => state.isError);
+  const setIsError = useStore((state) => state.setIsError);
 
   function CloseAlert() {
     setIsError(false);
@@ -54,4 +54,4 @@ const ErrorModal = ({}) => {
   );
 };
 
-export { ErrorModal };
+export default ErrorModal;

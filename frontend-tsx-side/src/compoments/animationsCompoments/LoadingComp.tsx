@@ -1,4 +1,4 @@
-import { Box, Center ,Flex,Text} from '@chakra-ui/react';
+import { Box, Center ,Text} from '@chakra-ui/react';
 import  loading from './animations/loadingAnimation.json';
 import { Player } from '@lottiefiles/react-lottie-player';
 

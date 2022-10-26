@@ -18,7 +18,7 @@ import Loading from "./animationsCompoments/LoadingComp";
  * @description The component that is responsible for the Rating.
  */
 const FetchRatings = () => {
-  const textColor = useColorModeValue("blue.100", "blue");
+  const textColor:string = useColorModeValue("blue.100", "blue");
 
   const users = useUsersData();
   if (users.isLoading || !users.data) {

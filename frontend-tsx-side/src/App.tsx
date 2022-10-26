@@ -1,8 +1,7 @@
 import React from 'react';
 import './App.css';
-import { BrowserRouter, Routes, Route, Link, Navigate , Router} from "react-router-dom";
+import { Routes, Route, Router } from "react-router-dom";
 import Login from "./compoments/Login";
-// import { BrowserRouter } from "react-router-dom";
 import { ChakraProvider } from "@chakra-ui/react";
 import FetchRatings from "./compoments/Rating";
 import ProtectedRoutes from "./compoments/protectedRoutes";

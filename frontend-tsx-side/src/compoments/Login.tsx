@@ -21,12 +21,12 @@ import LoginGuard from "./animationsCompoments/LoginGuardAnimation";
  */
 function Login(){
   //use formHook to save the username and password
-  const { handleSubmit, register }:any = useForm();
+  const { handleSubmit, register } = useForm();
   //variable to check if the auth is failed in order to present it to the user.
   const [authFailed, setAuthFailed] = useState(false);
 
   //react query hook
-  const { mutate }:any = useMutation(LoginUser);
+  const { mutate } = useMutation(LoginUser);
 
   /**
    *

@@ -17,7 +17,7 @@ import {
 import { TaskModal } from "./TaskModal";
 import { RoleColors } from "../Constant";
 import "moment/locale/he";
-import { ErrorModal } from "./ErrorModal";
+import  ErrorModal  from "./ErrorModal";
 import useRemoveTasksData from "../api/tasks/RemoveTaskAPI";
 import { useAdminUsersDetails } from "../api/usersAPI";
 import { useAdminTasksData, useTasksData } from "../api/tasks/FetchTasksAPI";
