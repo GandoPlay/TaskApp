@@ -1,4 +1,3 @@
-import React, { useEffect } from "react";
 import "react-datepicker/dist/react-datepicker.css";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import { useState } from "react";

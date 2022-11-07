@@ -13,7 +13,7 @@ import useStore from "../../../frontend-tsx-side/src/appStore";
  */
 async function LoginUser(user) {
   //making a post request to login into the web application.
-  const response = await axios.post(baseURL + "/auth/login", user);
+  const response = await client.post("/auth/login", user);
   //check if the user got authorization from the server with access and refresh token
   if (response.data.access_token && response.data.refresh_token) {
     //setting the tokens in local storage

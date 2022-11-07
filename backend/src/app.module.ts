@@ -11,7 +11,7 @@ import { AdminModule } from './admin/admin.module';
 @Module({
   imports: [ConfigModule.forRoot({isGlobal: true}),AuthModule,UserModule, TaskModule, MongooseModule.forRootAsync({useClass: MongooseConfigService}), 
   CacheModule.register({store: redisStore,
-    host: 'localhost', //default host
+    host: 'redis', //default host
     port: 6379, //default port
     isGlobal: true 
   }), AdminModule],

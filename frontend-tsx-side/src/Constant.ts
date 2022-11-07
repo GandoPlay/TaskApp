@@ -17,7 +17,7 @@ const RoleColors = {
 	"dateTable": "טבלת תורניות"
   };
 
-const baseURL:string = 'http://localhost:3001'
+const baseURL:string = 'http://localhost:3001/api'
 
 
   export { RoleColors,Routes, Role,baseURL}

@@ -13,8 +13,7 @@ import client from "../axiosInterceptors";
  */
 async function fetchTasks(isAdmin) {
   const link = isAdmin ? "/admin/allUsersTasks" : "/users/getTasks";
-  let url = baseURL + link;
-  return await client.get(url);
+  return await client.get(link);
 }
 
 /**

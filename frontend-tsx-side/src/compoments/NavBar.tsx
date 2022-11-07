@@ -81,6 +81,7 @@ export default function NavBar() {
                         isCentered
                         key={key}
                       >
+                          <>
                         <AlertDialogOverlay />
                         <AlertDialogContent>
                           <AlertDialogHeader
@@ -107,18 +108,19 @@ export default function NavBar() {
                               }}
                               onClick={removeTokens}
                               href="/"
-                            >
+                              >
                               התנתק
                             </Link>
                             <Button
                               ref={cancelRef}
                               onClick={onClose}
                               bg="green.500"
-                            >
+                              >
                               השאר
                             </Button>
                           </AlertDialogFooter>
                         </AlertDialogContent>
+                              </>
                       </AlertDialog>
                     ) : (
                       <NavLink

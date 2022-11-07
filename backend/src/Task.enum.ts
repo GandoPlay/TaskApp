@@ -9,6 +9,7 @@ export enum Role {
     HANFZA = 'הנפצה'
   } 
 
+
 export enum Rank{
   NOTHING = 'שומר שחר',
   YOUNG = 'שומר צעיר',
