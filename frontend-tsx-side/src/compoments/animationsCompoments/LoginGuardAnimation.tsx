@@ -18,7 +18,7 @@ const LoginGuard = () =>{
         />
         <Center>
         <Text fontSize={'3xl'} fontFamily={'monospace'} color={'whiteAlpha.900'}>אתר השמירות של תל השומר</Text>
-
+        <Text>{process.env.REACT_APP_NAME}</Text>
         </Center>
         </Box>
      
