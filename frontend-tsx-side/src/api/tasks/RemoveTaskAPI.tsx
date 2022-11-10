@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from "react-query";
-import { baseURL } from "../../../../frontend-tsx-side/src/Constant";
+import { baseURL } from "../../Constant";
 import client from "../axiosInterceptors";
 
 /**

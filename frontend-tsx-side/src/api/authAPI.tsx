@@ -3,7 +3,7 @@ import { baseURL } from "../Constant";
 import { NavigateTo } from "./NavigateTo";
 import client from "./axiosInterceptors";
 import { useQuery } from "react-query";
-import useStore from "../../../frontend-tsx-side/src/appStore";
+import useStore from "../appStore";
 
 
 /**

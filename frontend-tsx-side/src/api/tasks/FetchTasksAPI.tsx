@@ -1,9 +1,5 @@
 import { useQuery } from "react-query";
-import {
-  AllUsersToTasksArray,
-  convertTasksToEventArray,
-} from "../../ArrayOperations.jsx/EventTaskHandler";
-import { baseURL } from "../../../../frontend-tsx-side/src/Constant";
+import { AllUsersToTasksArray, convertTasksToEventArray } from "../../ArrayOperations.jsx/EventTaskHandler";
 import client from "../axiosInterceptors";
 
 /**

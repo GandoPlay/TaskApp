@@ -1,7 +1,7 @@
 FROM node:15
 WORKDIR /app
 COPY package.json .
-RUN npm --force install
+RUN npm install -g npm@9.1.1
 COPY . . 
 EXPOSE 3000
 CMD ["npm","start"]
