@@ -1,8 +1,8 @@
-FROM node:15
+FROM node:19
 WORKDIR /app
 COPY package.json .
-RUN npm install -g npm@9.1.1
+RUN npm install 
 COPY . . 
 ENV REACT_APP_NAME=myName
 EXPOSE 3000
-CMD ["npm","start"]
+CMD ["npm","start"] 

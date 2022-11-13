@@ -1,13 +1,13 @@
-version: "3"
-services:
-  nginx:
-    ports:
-      - "3001:80"
-  backend-app:
-    image: backend:dev
-    volumes:
-      - ./:/app
-      - /app/node_modules
-    environment:
-      - NODE_ENV=development
-    command: npm run dev
+# version: "3"
+# services:
+#   nginx:
+#     ports:
+#       - "3001:80"
+#   backend-app:
+#     image: backend:dev
+#     volumes:
+#       - ./:/app
+#       - /app/node_modules
+#     environment:
+#       - NODE_ENV=development
+#     command: npm run dev
