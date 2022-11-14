@@ -28,6 +28,8 @@ function AppendTask(users, newTask) {
       return users;
     }
   });
+  console.log(users);
+  
   return users;
 }
 /**

@@ -1,6 +1,6 @@
 import { useQuery } from "react-query"
 import client from "./axiosInterceptors"
-const baseURL:string = 'http://localhost:3001'
+const baseURL:string = 'http://localhost:3001/api'
 
 /**
  *
