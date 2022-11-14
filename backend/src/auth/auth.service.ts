@@ -7,12 +7,12 @@ import { ConfigService } from "@nestjs/config";
 import { UserDocument, UserAuth } from '../schemas/User.schema';
 import { UserCreateDto } from '../dto/User/UserCreate.dto';
 import {UserLoginDto} from '../dto/User/UserLogin.dto';
-import { Cache } from 'cache-manager';
+// import { Cache } from 'cache-manager';
 @Injectable()
 export class AuthService {
     constructor(private jwt: JwtService,
       private config: ConfigService,
-      @Inject(CACHE_MANAGER) private readonly cacheManager: Cache,  
+      // @Inject(CACHE_MANAGER) private readonly cacheManager: Cache,  
       @InjectModel('UserAuth') private readonly userModel: Model<UserDocument>) {}
 
       /**

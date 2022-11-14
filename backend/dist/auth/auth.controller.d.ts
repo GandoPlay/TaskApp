@@ -1,4 +1,4 @@
-import { UserCreateDto } from 'src/dto//User/UserCreate.dto';
+import { UserCreateDto } from 'src/dto/User/UserCreate.dto';
 import { UserLoginDto } from 'src/dto/User/UserLogin.dto';
 import { UserDocument } from 'src/schemas/User.schema';
 import { AuthService } from './auth.service';

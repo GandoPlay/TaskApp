@@ -16,7 +16,7 @@ export const GetUser = createParamDecorator(
     if (data) {
       return request.user[data];
     }
-    console.log(request);
+    console.log(ctx);
 
     return request.user;
   },

@@ -9,11 +9,11 @@ import { MongooseConfigService } from './mongoose.service';
 import { AdminModule } from './admin/admin.module';
 
 @Module({
-  imports: [ConfigModule.forRoot({isGlobal: true}),AuthModule,UserModule, TaskModule, MongooseModule.forRootAsync({useClass: MongooseConfigService}), 
-  CacheModule.register({store: redisStore,
-    host: 'redis', //default host
-    port: 6379, //default port
-    isGlobal: true 
-  }), AdminModule],
+  imports: [ConfigModule.forRoot({isGlobal: true}),AuthModule,UserModule, TaskModule, MongooseModule.forRootAsync({useClass: MongooseConfigService}), AdminModule], 
+  // CacheModule.register({store: redisStore,
+  //   host: 'redis', //default host
+  //   port: 6379, //default port
+  //   isGlobal: true 
+  // }),
 })
 export class AppModule {}
