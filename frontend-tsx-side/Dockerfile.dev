@@ -1,8 +1,11 @@
 FROM node:19
+LABEL version="1.0"
+LABEL description="React Frontend for the task API"
+
 WORKDIR /app
 COPY package.json .
 RUN npm install 
 COPY . . 
 ENV REACT_APP_NAME=myName
-EXPOSE 3000
+
 CMD ["npm","start"] 
