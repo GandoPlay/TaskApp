@@ -9,6 +9,9 @@ RUN if [ "$NODE_ENV" = "development" ]; \
     fi
 
 COPY . ./ 
-ENV PORT 3001
+# use EXPOSE command to have our port mapped by the docker daemon
+
+ENV PORT 5000
 EXPOSE $PORT
+
 CMD ["node","dist/main"]

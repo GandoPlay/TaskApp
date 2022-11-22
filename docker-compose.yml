@@ -1,9 +1,86 @@
-version: "3"
+version: "3.9"
+#(service name)library-api => server-api
+#(container_name)library_mern_nginx=> server_nginx
+#(network?)library-mern-api => server-network-api
+#(container_name) library_mern_frontend=> task_app_frontend
 services:
-  react-app:
-    build:
-      context: .
-      dockerfile: frontend-tsx-side/Dockerfile.dev 
+   server-api:
+      # restart: always
+      build:
+         context: ./backend
+         dockerfile: Dockerfile
+      container_name:  server_nginx
+      # volumes allow sharing of data in run-time between host and container
+      volumes:
+         # don't overwrite this folder in container with the local one
+         - /app/node_modules
+         # map current local directory to the /app inside the container
+         #This is a must for development in order to update our container whenever a change to the source code is made. Without this, you would have to rebuild the image each time you make a change to source code.
+
+         - ./backend:/app
+      # ports:
+      #    - 5000:5000
+      depends_on:
+         - mongodb
+      networks:
+         - server-network-api
+
+   mongodb:
+      image: mongo
+      # restart: always
+      # ports:
+      #    - 27017:27017
+      # environment:
+      #    MONGO_INITDB_ROOT_USERNAME: ${MONGO_ROOT_USERNAME}
+      #    MONGO_INITDB_ROOT_PASSWORD: ${MONGO_ROOT_PASSWORD}
+      volumes:
+         # for persistence storage
+         - mongodb-data:/data/db
+      networks:
+         - server-network-api
+
+   client:
+      # restart: always
+      build:
+         context: ./frontend-tsx-side
+         dockerfile: Dockerfile.dev
+      container_name: task_app_frontend
+      volumes:
+         - ./app/node_modules
+         - ./client:/app
+      # ports:
+      #    - 3000:3000
+      depends_on:
+         - server-api
+      networks:
+         - server-network-api
+
+   nginx:
+      # restart: always
+      depends_on:
+         - server-api
+         - client
+      build:
+         context: ./nginx
+         dockerfile: Dockerfile.dev
+      ports:
+         - 8080:80
+      networks:
+         - server-network-api
+
+networks:
+   server-network-api:
+      driver: bridge
+
+volumes:
+   mongodb-data:
+      driver: local
+# version: "3"
+# services:
+#   react-app:
+#     build:
+#       context: .
+#       dockerfile: frontend-tsx-side/Dockerfile.dev 
    
 #   nginx: 
 #     image: nginx:stable-alpine
