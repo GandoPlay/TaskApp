@@ -8,4 +8,4 @@ RUN npm install
 COPY . . 
 ENV REACT_APP_NAME=myName
 
-CMD ["npm","start"] 
+CMD ["npm", "run", "start"]
