@@ -16,8 +16,8 @@ const RoleColors = {
 	"Rating": "ניקוד",
 	"dateTable": "טבלת תורניות"
   };
-
-const baseURL:string = 'http://localhost:3001/api'
+ const prod = process.env.PRODUCTION === "true"
+const baseURL:string = prod? '/api':'http://localhost:3001/api'
 
 
   export { RoleColors,Routes, Role,baseURL}

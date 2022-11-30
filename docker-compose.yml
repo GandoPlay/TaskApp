@@ -4,73 +4,65 @@ version: "3.9"
 #(network?)library-mern-api => server-network-api
 #(container_name) library_mern_frontend=> task_app_frontend
 services:
+   mongodb:
+         image: mongo
+         container_name: mongodb
+         # restart: always
+         ports:
+            - 27017:27017
+         # environment:
+         #    MONGO_INITDB_ROOT_USERNAME: ${MONGO_ROOT_USERNAME}
+         #    MONGO_INITDB_ROOT_PASSWORD: ${MONGO_ROOT_PASSWORD}
+         volumes:
+            # for persistence storage
+            - mongodb-data:/data/db
+         # networks:
+         #    - server-network-api
    server-api:
       # restart: always
       build:
          context: ./backend
-         dockerfile: Dockerfile
+         dockerfile: Dockerfile.prod
       container_name:  server_nginx
+      environment:
+         - MONGO_URL=mongodb://mongodb:27017/appdb
       # volumes allow sharing of data in run-time between host and container
-      volumes:
-         # don't overwrite this folder in container with the local one
-         - /app/node_modules
-         # map current local directory to the /app inside the container
-         #This is a must for development in order to update our container whenever a change to the source code is made. Without this, you would have to rebuild the image each time you make a change to source code.
-
-         - ./backend:/app
       # ports:
       #    - 5000:5000
       depends_on:
          - mongodb
-      networks:
-         - server-network-api
-
-   mongodb:
-      image: mongo
-      # restart: always
-      # ports:
-      #    - 27017:27017
-      # environment:
-      #    MONGO_INITDB_ROOT_USERNAME: ${MONGO_ROOT_USERNAME}
-      #    MONGO_INITDB_ROOT_PASSWORD: ${MONGO_ROOT_PASSWORD}
-      volumes:
-         # for persistence storage
-         - mongodb-data:/data/db
-      networks:
-         - server-network-api
-
+      # networks:
+      #    - server-network-api
    client:
       # restart: always
+      image: fronte-end:proddoc
       build:
          context: ./frontend-tsx-side
-         dockerfile: Dockerfile.dev
+         dockerfile: Dockerfile.prod
       container_name: task_app_frontend
-      volumes:
-         - ./app/node_modules
-         - ./client:/app
-      # ports:
-      #    - 3000:3000
-      depends_on:
-         - server-api
-      networks:
-         - server-network-api
-
-   nginx:
-      # restart: always
-      depends_on:
-         - server-api
-         - client
-      build:
-         context: ./nginx
-         dockerfile: Dockerfile.dev
       ports:
-         - 8080:80
-      networks:
-         - server-network-api
+         - 80:8080
+      depends_on:
+         - server-api
+      # networks:
+      #    - server-network-api
 
-networks:
-   server-network-api:
-      driver: bridge
+   # nginx:
+   #    # restart: always
+   #    depends_on:
+   #       - server-api
+   #       - client
+   #    build:
+   #       context: ./nginx
+   #       dockerfile: Dockerfile.dev
+   #    ports:
+   #       - 8080:80
+      # networks:
+      #    - server-network-api
+
+# networks:
+#    server-network-api:
+#       driver: bridge
 
 volumes:
    mongodb-data:
