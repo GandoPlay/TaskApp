@@ -3,11 +3,11 @@ WORKDIR /app
 COPY package.json .
 RUN npm install 
 COPY . . 
-ENV PRODUCTION = true
+ENV PRODUCTION=true
 RUN ["npm","run","build"] 
 
 FROM nginx
 WORKDIR /usr/share/nginx/html
 COPY ./nginx.conf /etc/nginx/nginx.conf
-COPY --from=builder . .
+COPY --from=builder ./app/build ./
 EXPOSE 8080

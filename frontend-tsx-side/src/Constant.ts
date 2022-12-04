@@ -17,6 +17,8 @@ const RoleColors = {
 	"dateTable": "טבלת תורניות"
   };
  const prod = process.env.PRODUCTION === "true"
+ console.log(process.env.PRODUCTION);
+ 
 const baseURL:string = prod? '/api':'http://localhost:3001/api'
 
 
