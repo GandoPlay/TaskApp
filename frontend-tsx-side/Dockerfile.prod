@@ -3,7 +3,7 @@ WORKDIR /app
 COPY package.json .
 RUN npm install 
 COPY . . 
-ENV PRODUCTION=true
+ENV REACT_APP_PRODUCTION=true
 RUN ["npm","run","build"] 
 
 FROM nginx
