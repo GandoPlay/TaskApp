@@ -9,13 +9,13 @@ import client from "../axiosInterceptors";
  */
 async function removeTaskFromBackend(user) {
   if (user.isAdmin) {
-    const data = await client.post(baseURL + "/admin/removeTask", {
+    const data = await client.post( "/admin/removeTask", {
       ownerId: user.ownerId,
       id: user.TaskId,
     });
     return data;
   }
-  const data = await client.post(baseURL + "/task/RemoveTask", {
+  const data = await client.post( "/task/RemoveTask", {
     id: user.TaskId,
   });
   return data;

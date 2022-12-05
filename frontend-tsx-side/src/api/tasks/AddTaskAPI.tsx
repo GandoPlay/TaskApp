@@ -10,10 +10,10 @@ import client from "../axiosInterceptors";
 async function addTask(user) {
   console.log(user);
   if (user.isAdmin) {
-    return await client.post(baseURL + "/admin/addTask", user.task);
+    return await client.post( "/admin/addTask", user.task);
   }
 
-  return await client.post(baseURL + "/task/addTask", user.task);
+  return await client.post( "/task/addTask", user.task);
 }
 /**
  *

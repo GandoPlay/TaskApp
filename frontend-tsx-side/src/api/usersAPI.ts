@@ -1,13 +1,12 @@
 import { useQuery } from "react-query"
 import client from "./axiosInterceptors"
-const baseURL:string = 'http://localhost:3001/api'
 
 /**
  *
  * @returns Response from the server that gets an array of{username, tasks, id}
  */
 const fetchAdminUsers = () => {
-    return client.get(baseURL + "/admin/userDetails");
+    return client.get( "/admin/userDetails");
   };
 
 /**
@@ -31,7 +30,7 @@ const useAdminUsersDetails = (isAdmin) => {
  * @returns Response from the server that gets an array of{username, score, rank }
  */
 const fetchUsers = () => {
-    return client.get(baseURL+'/users/getUsers')
+    return client.get('/users/getUsers')
 }
 
 /**
