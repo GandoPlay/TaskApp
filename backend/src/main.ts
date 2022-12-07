@@ -9,6 +9,7 @@ async function bootstrap() {
   
   app.enableCors({
     origin: [
+      
       `http://${configService.get('CLIENT_URL')}:${configService.get('CLIENT_PORT')}`
     ],
     methods: ["GET", "POST"],
