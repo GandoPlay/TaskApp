@@ -6,7 +6,7 @@ import { AuthService } from './auth.service';
 import { GetUser } from './decorator';
 import { JwtRefreshTokenGuard , JwtRefreshAdminTokenGuard} from '../guard';
 
-@Controller('api/auth')
+@Controller('auth')
 export class AuthController {
     constructor(private readonly authService: AuthService){}
 

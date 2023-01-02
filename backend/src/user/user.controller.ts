@@ -9,7 +9,7 @@ import { JwtAccessTokenGuard } from '../guard';
 import { UserService } from './user.service';
 
 @UseGuards(JwtAccessTokenGuard)
-@Controller('api/users')
+@Controller('users')
 export class UserController {
   constructor(private readonly userService: UserService) {}
   @Get('me')

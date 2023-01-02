@@ -6,7 +6,7 @@ import { JwtAdminAccessTokenGuard } from 'src/guard/AdminAccessToken.guard';
 import { AdminService } from './admin.service';
 
 @UseGuards(JwtAdminAccessTokenGuard)
-@Controller('api/admin')
+@Controller('admin')
 export class AdminController {
     constructor(private readonly  AdminService:  AdminService){} 
     @Get('userDetails')

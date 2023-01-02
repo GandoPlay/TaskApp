@@ -7,7 +7,7 @@ import {TaskCreateDto} from 'src/dto/Task/TaskCreate.dto'
 import { UserDocument } from 'src/schemas/User.schema';
 import { TaskDeleteDto } from 'src/dto/Task/TaskDelete.dto';
 @UseGuards(JwtAccessTokenGuard)
-@Controller('api/task')
+@Controller('task')
 export class TaskController {
     constructor(private readonly taskService: TaskService){}    
         @Post('addTask')
