@@ -40,7 +40,7 @@ async function LoginUser(user) {
  * @return The response of a get request to see information about the current user.
  */
 const fetchLogin = () => {
-  return client.get(baseURL + "/users/getUser");
+  return client.get("/users/getUser");
 };
 
 /**
@@ -71,7 +71,7 @@ const useLogin = () => {
 };
 
 async function SignUpUserName(user) {
-  const response = await axios.post(baseURL + "/auth/signup", user);
+  const response = await axios.post("/auth/signup", user);
 
   localStorage.setItem(
     "accessToken",
