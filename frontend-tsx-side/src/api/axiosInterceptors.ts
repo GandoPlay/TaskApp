@@ -2,6 +2,8 @@ import  axios from 'axios'
 import { baseURL } from '../Constant';
 import { NavigateTo } from './NavigateTo';
 
+console.log(baseURL);
+
 const client = axios.create({ baseURL: baseURL })
 
  /**
@@ -14,6 +16,7 @@ const client = axios.create({ baseURL: baseURL })
     let token = JSON.parse(localStorage.getItem(tokenType))
     if (token) {
       if(config.defaults){
+        
         config.defaults.headers.common['Authorization'] = 'Bearer ' + token
       }
 

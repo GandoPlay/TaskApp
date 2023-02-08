@@ -57,7 +57,8 @@ const TaskModal= ({ type, useAdminUsersDetails }) => {
 
         <Center>
           <Menu closeOnSelect={false}>
-            <MenuButton required={true} as={Button}>
+            <MenuButton required={true} as={Button} 
+            >
               בחר חייל
             </MenuButton>
             <MenuList>

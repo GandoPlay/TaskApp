@@ -40,7 +40,7 @@ async function LoginUser(user) {
  * @return The response of a get request to see information about the current user.
  */
 const fetchLogin = () => {
-  return client.get(baseURL + "/users/getUser");
+  return client.get("/users/getUser");
 };
 
 /**

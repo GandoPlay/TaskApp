@@ -4,7 +4,7 @@ import  useStore  from "../appStore";
 import {  useLogin } from "../api/authAPI";
 import Loading from "./animationsCompoments/LoadingComp";
    
-  
+    
 const ProtectedRoutes=  () =>{
     const login = useLogin()
     const isLogged = useStore(state => state.isLogged);    
